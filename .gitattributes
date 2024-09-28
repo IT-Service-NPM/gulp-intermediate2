@@ -1,0 +1,6 @@
+*.md    text  merge=text diff=text eol=crlf
+
+*.json  text  merge=json diff=text eol=crlf
+*.js    text  merge=text diff=text eol=crlf
+*.cjs   text  merge=text diff=text eol=crlf
+*.mjs   text  merge=text diff=text eol=crlf
