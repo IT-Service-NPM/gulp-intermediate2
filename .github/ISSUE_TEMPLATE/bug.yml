@@ -1,0 +1,57 @@
+name: Bug
+description: File a bug report
+title: "[BUG]: "
+labels: ["Type: Bug", "Status: Triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: current-behavior
+    attributes:
+      label: Current behavior
+      description: What did you do? What happened?
+      placeholder: Put your description of the bug here.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+      placeholder: Put your description of the bug here.
+    validations:
+      required: true
+  - type: input
+    id: packageVersion
+    attributes:
+      label: Package version
+      description: What versions of package are you running?
+      placeholder: v1.0.0
+    validations:
+      required: true
+  - type: input
+    id: NodeVersion
+    attributes:
+      label: Node version
+      description: What versions of Node are you running?
+      placeholder: v20.0.0
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: |
+        Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+        Please check your logs before submission to ensure sensitive information is redacted.
+      render: shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

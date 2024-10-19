@@ -18,10 +18,10 @@
 		"streetsidesoftware.code-spell-checker",
 		"streetsidesoftware.code-spell-checker-russian",
 		"vivaxy.vscode-conventional-commits",
-		"eg2.vscode-npm-script",
 		"usernamehw.errorlens",
 		"serhioromano.vscode-gitflow",
 		"dbaeumer.vscode-eslint",
-		"vitest.explorer"
+		"vitest.explorer",
+		"joshbolduc.commitlint"
 	]
 }

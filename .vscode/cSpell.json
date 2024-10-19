@@ -24,6 +24,7 @@
 		"gulpfile",
 		"gulplog",
 		"gulpplugin",
+		"MAINT",
 		"markdownlint",
 		"sergey",
 		"tsup",
