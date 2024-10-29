@@ -21,13 +21,18 @@
 		"distclean",
 		"editorconfig",
 		"endregion",
+		"findit",
 		"gulpfile",
 		"gulplog",
 		"gulpplugin",
+		"gutil",
 		"MAINT",
 		"markdownlint",
 		"sergey",
+		"streamx",
+		"testfile",
 		"tsup",
+		"typecheck",
 		"winget"
 	],
 	"ignoreRegExpList": [

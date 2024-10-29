@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`intermediate2 > must be pushes all result files to output stream 1`] = `
+[
+  "testfile1.txt",
+  "testfile2.json",
+  "testfile3.png",
+  "testfile4.svg",
+  "subfolder\\testfile5.windows1251.txt",
+]
+`;
+
+exports[`intermediate2 > must be support streaming files processing 1`] = `
+[
+  "testfile1.txt",
+  "testfile2.json",
+  "testfile3.png",
+  "testfile4.svg",
+  "subfolder\\testfile5.windows1251.txt",
+]
+`;

@@ -31,5 +31,8 @@
 	"conventionalCommits.promptBody": true,
 	"conventionalCommits.promptFooter": true,
 	"conventionalCommits.promptScopes": true,
-	"conventionalCommits.showEditor": true
+	"conventionalCommits.showEditor": true,
+	"conventionalCommits.scopes": [
+		"plugin"
+	]
 }

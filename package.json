@@ -51,12 +51,17 @@
 		"changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
 	},
 	"dependencies": {
+		"nanoid": "^5.0.7",
 		"plugin-error": "^1.0.1",
-		"through2": "^3.0.1"
+		"stream": "^0.0.3",
+		"vinyl": "^3.0.0",
+		"vinyl-fs": "^4.0.0"
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "^0.16.4",
 		"@commitlint/config-conventional": "^19.5.0",
+		"@types/plugin-error": "^0.1.1",
+		"@types/vinyl-fs": "^3.0.5",
 		"conventional-changelog-cli": "^5.0.0",
 		"tsup": "^8.3.0",
 		"typescript": "^5.6.2",
