@@ -65,7 +65,7 @@ describe('intermediate2', () => {
 		const testDestFiles = (await fs.promises.readdir(testDestFilesPath, { recursive: true }))
 			.filter((testPath: string) => fs.statSync(path.join(testDestFilesPath, testPath)).isFile());
 
-		expect(testDestFiles).toMatchSnapshot();
+		expect(testDestFiles).toEqual(testSrcFiles);
 
 		for (const testFilePath of testDestFiles) {
 			const srcContent = await fs.promises.readFile(path.join(testSrcFilesPath, testFilePath), { encoding: null });
@@ -102,7 +102,7 @@ describe('intermediate2', () => {
 		const testDestFiles = (await fs.promises.readdir(testDestFilesPath, { recursive: true }))
 			.filter((testPath: string) => fs.statSync(path.join(testDestFilesPath, testPath)).isFile());
 
-		expect(testDestFiles).toMatchSnapshot();
+		expect(testDestFiles).toEqual(testSrcFiles);
 
 		for (const testFilePath of testDestFiles) {
 			const srcContent = await fs.promises.readFile(path.join(testSrcFilesPath, testFilePath), { encoding: null });
@@ -134,7 +134,7 @@ describe('intermediate2', () => {
 			expect.unreachable('All exceptions must be handled in test');
 		}
 
-		expect(pluginDirsProcessor.mock.calls.length).toBe(2);
+		expect(pluginDirsProcessor.mock.calls.length).toEqual(2);
 		const tempDirPath = (pluginDirsProcessor.mock.calls[0] as any[])[0];
 
 		await timers.scheduler.wait(1000);
@@ -164,7 +164,7 @@ describe('intermediate2', () => {
 			expect.unreachable('All exceptions must be handled in test');
 		}
 
-		expect(pluginDirsProcessor.mock.calls.length).toBe(2);
+		expect(pluginDirsProcessor.mock.calls.length).toEqual(2);
 		const tempDirPath = (pluginDirsProcessor.mock.calls[0] as any[])[0];
 
 		const relative = path.relative(tmpdir(), tempDirPath);
@@ -194,7 +194,7 @@ describe('intermediate2', () => {
 				testStream
 					.on('error', (err) => {
 						expect(err).toBeInstanceOf(PluginError);
-						expect(err.message).toBe(testErrorMessage);
+						expect(err.message).toEqual(testErrorMessage);
 						resolve();
 					})
 					.on('finish', resolve);
