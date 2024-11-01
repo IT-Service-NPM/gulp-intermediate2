@@ -181,7 +181,7 @@ describe('intermediate2', () => {
 
 		const testErrorMessage = 'test error message';
 
-		function errorTestProcess(srcDirPath: string, callback: plugin.ProcessCallback, destDirPath: string): void {
+		function errorTestProcess(srcDirPath: string, destDirPath: string, callback: plugin.ProcessCallback): void {
 			callback(new Error(testErrorMessage));
 		};
 
