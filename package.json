@@ -46,11 +46,12 @@
 		"build": "tsup",
 		"CI": "npm run build && npm run lint && npm run check-exports && npm run test",
 		"check-exports": "attw --pack .",
-		"lint": "tsc",
+		"lint": "tsc && eslint",
 		"test": "vitest run",
 		"changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
 	},
 	"dependencies": {
+		"gulplog": "^2.2.0",
 		"nanoid": "^5.0.7",
 		"plugin-error": "^1.0.1",
 		"stream": "^0.0.3",
@@ -60,9 +61,15 @@
 	"devDependencies": {
 		"@arethetypeswrong/cli": "^0.16.4",
 		"@commitlint/config-conventional": "^19.5.0",
+		"@eslint/eslintrc": "^3.1.0",
+		"@eslint/js": "^9.13.0",
 		"@types/plugin-error": "^0.1.1",
 		"@types/vinyl-fs": "^3.0.5",
+		"@typescript-eslint/eslint-plugin": "^8.12.2",
+		"@typescript-eslint/parser": "^8.12.2",
 		"conventional-changelog-cli": "^5.0.0",
+		"eslint": "^9.13.0",
+		"eslint-plugin-tsdoc": "^0.3.0",
 		"tsup": "^8.3.0",
 		"typescript": "^5.6.2",
 		"vitest": "^2.1.1"

@@ -2,7 +2,7 @@
 /*jshint nomen:true */
 "use strict";
 
-import { vi, assert, describe, expect, it, beforeEach, beforeAll, test } from "vitest";
+import { vi, describe, expect, it, beforeEach, beforeAll } from "vitest";
 import * as plugin from "../dist/index";
 import path from "node:path";
 import streams from "node:stream/promises";
@@ -25,8 +25,8 @@ describe('intermediate2', () => {
 			.filter((testPath: string) => fs.statSync(path.join(testSrcFilesPath, testPath)).isFile());
 	});
 
-	function copyAllFilesTestProcess(srcDirPath: string, callback: plugin.ProcessCallback, destDirPath: string): void {
-		fs.cp(testSrcFilesPath, testDestFilesPath, { recursive: true }, callback);
+	function copyAllFilesTestProcess(srcDirPath: string, destDirPath: string, callback: plugin.ProcessCallback): void {
+		fs.cp(srcDirPath, destDirPath, { recursive: true }, callback);
 	};
 
 	it('must be defined named plugin export intermediate2', () => {
@@ -48,7 +48,7 @@ describe('intermediate2', () => {
 
 		try {
 			await streams.finished(
-				vfs.src('*.*', { cwd: testSrcFilesPath, encoding: false })
+				vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false })
 					.pipe(plugin.intermediate2(
 						{ srcOptions: { encoding: false } },
 						copyAllFilesTestProcess
@@ -81,16 +81,17 @@ describe('intermediate2', () => {
 
 		try {
 			await streams.finished(
-				vfs.src('*.*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
+				vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
 					.pipe(plugin.intermediate2(
 						{
+							destOptions: { encoding: false },
 							srcOptions: { encoding: false, buffer: false },
 							container: 'test-container',
 							output: 'test-output'
 						},
 						copyAllFilesTestProcess
 					))
-					.pipe(vfs.dest(testDestFilesPath))
+					.pipe(vfs.dest(testDestFilesPath, { encoding: false }))
 			);
 		}
 		catch (err: any) {
@@ -117,18 +118,20 @@ describe('intermediate2', () => {
 		const pluginDirsProcessor = vi.spyOn(vfs, 'dest');
 
 		try {
-			await streams.finished(
-				vfs.src('*.*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
-					.pipe(plugin.intermediate2(
-						{
-							srcOptions: { encoding: false, buffer: false },
-							container: 'test-container',
-							output: 'test-output'
-						},
-						copyAllFilesTestProcess
-					))
-					.pipe(vfs.dest(testDestFilesPath))
+			const pluginStream = plugin.intermediate2(
+				{
+					destOptions: { encoding: false },
+					srcOptions: { encoding: false, buffer: false },
+					container: 'test-container',
+					output: 'test-output'
+				},
+				copyAllFilesTestProcess
 			);
+			const testPipeline = vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
+				.pipe(pluginStream)
+				.pipe(vfs.dest(testDestFilesPath, { encoding: false }));
+			await streams.finished(testPipeline);
+			await streams.finished(pluginStream);
 		}
 		catch (err: any) {
 			expect.unreachable('All exceptions must be handled in test');
@@ -148,16 +151,17 @@ describe('intermediate2', () => {
 
 		try {
 			await streams.finished(
-				vfs.src('*.*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
+				vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
 					.pipe(plugin.intermediate2(
 						{
+							destOptions: { encoding: false },
 							srcOptions: { encoding: false, buffer: false },
 							container: 'test-container',
 							output: 'test-output'
 						},
 						copyAllFilesTestProcess
 					))
-					.pipe(vfs.dest(testDestFilesPath))
+					.pipe(vfs.dest(testDestFilesPath, { encoding: false }))
 			);
 		}
 		catch (err: any) {
@@ -183,12 +187,15 @@ describe('intermediate2', () => {
 
 		try {
 			const testStream = plugin.intermediate2(
-				{ srcOptions: { encoding: false } },
+				{
+					destOptions: { encoding: false },
+					srcOptions: { encoding: false }
+				},
 				errorTestProcess
 			);
-			vfs.src('*.*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
+			vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
 				.pipe(testStream)
-				.pipe(vfs.dest(testDestFilesPath));
+				.pipe(vfs.dest(testDestFilesPath, { encoding: false }));
 
 			await new Promise<void>((resolve, reject) => {
 				testStream

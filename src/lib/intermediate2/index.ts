@@ -2,6 +2,7 @@
 /*jshint nomen:true */
 "use strict";
 
+import { promisify } from "node:util";
 import streams from "node:stream";
 import path from "node:path";
 import fs from "node:fs/promises";
@@ -10,6 +11,7 @@ import { nanoid } from "nanoid";
 import PluginError from "plugin-error";
 import vfs from "vinyl-fs";
 import GulpFile from "vinyl";
+import gulplog from "gulplog";
 
 const PLUGIN_NAME = 'gulp-intermediate2';
 
@@ -38,8 +40,8 @@ export interface Intermediate2Options {
 	/**
 	 *  Globs for filter output files from output directory.
 	 *
-	 * @defaultValue `'*.*'`
-	 */
+	 * @defaultValue `'**//*'`
+*/
 	srcGlobs?: string | string[];
 
 	/**
@@ -50,9 +52,7 @@ export interface Intermediate2Options {
 
 export type ProcessCallback = (Error?: Error | null) => void;
 
-type Process1 = (srcDirPath: string, callback: ProcessCallback) => void;
-type Process2 = (srcDirPath: string, callback: ProcessCallback, destDirPath: string) => void;
-export type Process = Process1 | Process2;
+export type Process = (srcDirPath: string, destDirPath: string, callback: ProcessCallback) => void;
 
 function isProcess(process: any): process is Process {
 	return (typeof process === 'function');
@@ -60,16 +60,16 @@ function isProcess(process: any): process is Process {
 
 /**
  * Plugin fabric function, it returns transformation stream for gulp task with default options
- * @param {ProcessCallback} [process] contains the process callback for files processing.
- * @returns {Intermediate2ProcessStream}
+ * @param process - contains the process callback for files processing
+ * @returns Gulp plugin stream
  */
 export function intermediate2(process: Process): NodeJS.ReadWriteStream;
 
 /**
  * Plugin fabric function, it returns transformation stream for gulp task with specified options
- * @param {Intermediate2Options} [pluginOptions] contains the options for gulp plugin.
- * @param {ProcessCallback} [process] contains the process callback for files processing.
- * @returns {Intermediate2ProcessStream}
+ * @param pluginOptions - contains the options for gulp plugin.
+ * @param process - contains the process callback for files processing
+ * @returns Gulp plugin stream
  */
 export function intermediate2(pluginOptions: Intermediate2Options, process: Process): NodeJS.ReadWriteStream;
 
@@ -77,10 +77,10 @@ export function intermediate2(processOrPluginOptions: Intermediate2Options | Pro
 
 	const optionsDefaults: Required<Intermediate2Options> = {
 		destOptions: {},
-		srcGlobs: '*.*',
+		srcGlobs: '**/*',
 		srcOptions: {},
-		output: '',
-		container: ''
+		output: 'dest',
+		container: 'src'
 	};
 	let _options: Required<Intermediate2Options>;
 	let _process: Process;
@@ -103,7 +103,9 @@ export function intermediate2(processOrPluginOptions: Intermediate2Options | Pro
 		_options.srcOptions.cwd = outputDirectoryPath;
 	};
 
-	var srcFilesStreamsFinishes: Promise<void>[] = [];
+	gulplog.debug(`plugin ${PLUGIN_NAME} used temp directory ${tempDirectoryPath}`);
+
+	const srcFilesStreamsFinishes: Promise<void>[] = [];
 	const readable: streams.Duplex = new streams.PassThrough({ objectMode: true, emitClose: true });
 	const writable: NodeJS.WritableStream = vfs.dest(containerDirectoryPath, _options.destOptions);
 
@@ -119,47 +121,36 @@ export function intermediate2(processOrPluginOptions: Intermediate2Options | Pro
 	writable.on('close', async (): Promise<void> => {
 		try {
 			await fs.mkdir(outputDirectoryPath, { recursive: true });
-			await (async (): Promise<void> => {
-				return new Promise((resolve: (value: void | PromiseLike<void>) => void, reject: (reason?: any) => void): void => {
-					try {
-						_process(
-							containerDirectoryPath,
-							(Error?: Error | null): void => {
-								if (Error) {
-									reject(new PluginError(PLUGIN_NAME, Error));
-								} else {
-									return resolve();
-								};
-							},
-							outputDirectoryPath
-						);
-					} catch (error) {
-						reject(new PluginError(PLUGIN_NAME, `exception in temp files processing handler: ${error}`));
-					}
-				});
-			})();
+			await promisify(_process)(containerDirectoryPath, outputDirectoryPath)
+				.catch((error: any) => error instanceof PluginError ? error :
+					new PluginError(PLUGIN_NAME, `exception in temp files processing handler: ${error}`));
 
 			const outputTempFilesStream = vfs.src(_options.srcGlobs, _options.srcOptions)
 				.on('data', (file: GulpFile) => {
 					if (file.isStream()) {
-						srcFilesStreamsFinishes.push(streams.promises.finished(file.contents, { error: true }));
+						// streamx doesn't emit 'close' event. Use 'end' event.
+						// srcFilesStreamsFinishes.push(streams.promises.finished(file.contents));
+						srcFilesStreamsFinishes.push(new Promise<void>((resolve, reject) => {
+							file.contents
+								.on('close', resolve)
+								.on('end', resolve)
+								.on('error', reject);
+						}));
 					};
 				})
 				.pipe(readable);
-
-			srcFilesStreamsFinishes.push(streams.promises.finished(outputTempFilesStream, { error: true }));
+			await streams.promises.finished(outputTempFilesStream).finally(async () => {
+				await Promise.all(srcFilesStreamsFinishes)
+					.finally(async () => {
+						gulplog.debug(`plugin ${PLUGIN_NAME} deleted ${tempDirectoryPath}`);
+						await fs.rm(tempDirectoryPath, { force: true, recursive: true });
+					});
+			});
 		} catch (error) {
 			const err = error instanceof PluginError ? error :
 				new PluginError(PLUGIN_NAME, error as Error);
 			pluginStream.destroy(err);
 		};
-	});
-
-	pluginStream.on('close', async (): Promise<void> => {
-		await Promise.all(srcFilesStreamsFinishes)
-			.finally(async () => {
-				return fs.rm(tempDirectoryPath, { force: true, recursive: true });
-			});
 	});
 
 	return pluginStream;
