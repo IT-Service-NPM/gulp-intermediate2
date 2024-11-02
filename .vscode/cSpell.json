@@ -26,6 +26,7 @@
 		"gulplog",
 		"gulpplugin",
 		"gutil",
+		"lcov",
 		"MAINT",
 		"markdownlint",
 		"sergey",

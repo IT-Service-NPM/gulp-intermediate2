@@ -22,6 +22,7 @@
 		"serhioromano.vscode-gitflow",
 		"dbaeumer.vscode-eslint",
 		"vitest.explorer",
-		"joshbolduc.commitlint"
+		"joshbolduc.commitlint",
+		"ryanluker.vscode-coverage-gutters"
 	]
 }

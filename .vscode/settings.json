@@ -34,5 +34,13 @@
 	"conventionalCommits.showEditor": true,
 	"conventionalCommits.scopes": [
 		"plugin"
-	]
+	],
+	"coverage-gutters.coverageBaseDir": "test/coverage",
+	"coverage-gutters.coverageFileNames": [
+		"lcov.info"
+	],
+	"coverage-gutters.showGutterCoverage": true,
+	"coverage-gutters.showLineCoverage": true,
+	"coverage-gutters.showRulerCoverage": true,
+	"coverage-gutters.customizable.status-bar-toggler-watchCoverageAndVisibleEditors-enabled": true
 }
