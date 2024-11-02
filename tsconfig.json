@@ -22,7 +22,7 @@
 		"module": "Preserve",
 		// "outDir": "dist",
 		// "rootDir": "src",
-		// "sourceMap": true,
+		"sourceMap": true,
 		/* AND if you're building for a library: */
 		// "declaration": true
 	}

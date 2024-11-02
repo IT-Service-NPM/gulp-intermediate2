@@ -43,6 +43,19 @@
 				"reveal": "always",
 				"clear": true
 			}
+		},
+		{
+			"label": "test",
+			"group": {
+				"kind": "test",
+				"isDefault": false
+			},
+			// "dependsOn": "CI",
+			"command": "npm run test",
+			"presentation": {
+				"reveal": "always",
+				"clear": true
+			}
 		}
 	]
 }

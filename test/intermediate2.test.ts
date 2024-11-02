@@ -3,7 +3,7 @@
 "use strict";
 
 import { vi, describe, expect, it, beforeEach, beforeAll } from "vitest";
-import * as plugin from "../dist/index";
+import * as plugin from "../src/index";
 import path from "node:path";
 import streams from "node:stream/promises";
 import fs from "node:fs";
@@ -14,6 +14,7 @@ import PluginError from "plugin-error";
 
 const cwd: string = path.relative(process.cwd(), __dirname);
 const testSrcFilesPath: string = path.join(cwd, 'test-files');
+const testSrcFilesPath2: string = path.join(cwd, 'test-files-2');
 const testDestFilesPath: string = path.join(cwd, 'output');
 
 let testSrcFiles: string[];
@@ -69,6 +70,39 @@ describe('intermediate2', () => {
 
 		for (const testFilePath of testDestFiles) {
 			const srcContent = await fs.promises.readFile(path.join(testSrcFilesPath, testFilePath), { encoding: null });
+			const destContent = await fs.promises.readFile(path.join(testDestFilesPath, testFilePath), { encoding: null });
+			expect(destContent.equals(srcContent), `content of ${testFilePath} test file must be the same as content of source file`).toBeTruthy();
+		};
+
+	});
+
+	it('must be copies all utf-8 files without options', async () => {
+
+		const testSrcFiles2 = (await fs.promises.readdir(testSrcFilesPath2, { recursive: true }))
+			.filter((testPath: string) => fs.statSync(path.join(testSrcFilesPath2, testPath)).isFile());
+
+		expect.hasAssertions();
+
+		try {
+			await streams.finished(
+				vfs.src('**/*', { cwd: testSrcFilesPath2 })
+					.pipe(plugin.intermediate2(copyAllFilesTestProcess))
+					.pipe(vfs.dest(testDestFilesPath))
+			);
+		}
+		catch (err: any) {
+			expect.unreachable('All exceptions must be handled in test');
+		}
+
+		expect(fs.existsSync(testDestFilesPath), 'output dir must be exists').toBeTruthy();
+
+		const testDestFiles = (await fs.promises.readdir(testDestFilesPath, { recursive: true }))
+			.filter((testPath: string) => fs.statSync(path.join(testDestFilesPath, testPath)).isFile());
+
+		expect(testDestFiles).toEqual(testSrcFiles2);
+
+		for (const testFilePath of testDestFiles) {
+			const srcContent = await fs.promises.readFile(path.join(testSrcFilesPath2, testFilePath), { encoding: null });
 			const destContent = await fs.promises.readFile(path.join(testDestFilesPath, testFilePath), { encoding: null });
 			expect(destContent.equals(srcContent), `content of ${testFilePath} test file must be the same as content of source file`).toBeTruthy();
 		};
@@ -185,32 +219,48 @@ describe('intermediate2', () => {
 			callback(new Error(testErrorMessage));
 		};
 
-		try {
-			const testStream = plugin.intermediate2(
-				{
-					destOptions: { encoding: false },
-					srcOptions: { encoding: false }
-				},
-				errorTestProcess
-			);
-			vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
-				.pipe(testStream)
-				.pipe(vfs.dest(testDestFilesPath, { encoding: false }));
+		const testStream = plugin.intermediate2(
+			{
+				destOptions: { encoding: false },
+				srcOptions: { encoding: false }
+			},
+			errorTestProcess
+		);
+		vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
+			.pipe(testStream)
+			.pipe(vfs.dest(testDestFilesPath, { encoding: false }));
 
-			await new Promise<void>((resolve, reject) => {
-				testStream
-					.on('error', (err) => {
-						expect(err).toBeInstanceOf(PluginError);
-						expect(err.message).toEqual(testErrorMessage);
-						resolve();
-					})
-					.on('finish', resolve);
-			});
-		}
-		catch (err: any) {
-			expect.unreachable('All exceptions must be handled in test');
-		};
+		const err = await new Promise<any>((resolve, reject) => {
+			testStream
+				.on('error', (err) => resolve(err))
+		});
+		expect(err).toBeInstanceOf(PluginError);
+		expect(err.message).toEqual(`exception in temp files processing handler: Error: ${testErrorMessage}`);
 
+	});
+
+	it('must emit an error when after-processing failed', async () => {
+
+		const testErrorMessage = 'test error message';
+
+		const testStream = plugin.intermediate2(
+			{
+				destOptions: { encoding: false },
+				srcOptions: { encoding: false },
+				srcGlobs: 'nonExistingFile'
+			},
+			copyAllFilesTestProcess
+		);
+		const testPipeline = vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false })
+			.pipe(testStream)
+			.pipe(vfs.dest(testDestFilesPath, { encoding: false }));
+
+		const err = await new Promise<any>((resolve, reject) => {
+			testStream
+				.on('error', (err) => resolve(err))
+				.on('end', () => resolve(null))
+		});
+		expect(err).toBeInstanceOf(Error);
 	});
 
 });

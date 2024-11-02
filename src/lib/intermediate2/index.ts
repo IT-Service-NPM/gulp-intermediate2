@@ -118,40 +118,45 @@ export function intermediate2(processOrPluginOptions: Intermediate2Options | Pro
 
 	const pluginStream = streams.Duplex.from({ writable, readable });
 
-	writable.on('close', async (): Promise<void> => {
-		try {
-			await fs.mkdir(outputDirectoryPath, { recursive: true });
-			await promisify(_process)(containerDirectoryPath, outputDirectoryPath)
-				.catch((error: any) => error instanceof PluginError ? error :
-					new PluginError(PLUGIN_NAME, `exception in temp files processing handler: ${error}`));
-
-			const outputTempFilesStream = vfs.src(_options.srcGlobs, _options.srcOptions)
-				.on('data', (file: GulpFile) => {
-					if (file.isStream()) {
-						// streamx doesn't emit 'close' event. Use 'end' event.
-						// srcFilesStreamsFinishes.push(streams.promises.finished(file.contents));
-						srcFilesStreamsFinishes.push(new Promise<void>((resolve, reject) => {
-							file.contents
-								.on('close', resolve)
-								.on('end', resolve)
-								.on('error', reject);
-						}));
-					};
-				})
-				.pipe(readable);
-			await streams.promises.finished(outputTempFilesStream).finally(async () => {
-				await Promise.all(srcFilesStreamsFinishes)
-					.finally(async () => {
-						gulplog.debug(`plugin ${PLUGIN_NAME} deleted ${tempDirectoryPath}`);
-						await fs.rm(tempDirectoryPath, { force: true, recursive: true });
+	writable
+		.on('close', async (): Promise<void> => {
+			try {
+				await fs.mkdir(outputDirectoryPath, { recursive: true });
+				await promisify(_process)(containerDirectoryPath, outputDirectoryPath)
+					.catch((error: any) => {
+						throw (error instanceof PluginError ? (error) :
+							new PluginError(PLUGIN_NAME, `exception in temp files processing handler: ${error}`));
 					});
-			});
-		} catch (error) {
-			const err = error instanceof PluginError ? error :
-				new PluginError(PLUGIN_NAME, error as Error);
-			pluginStream.destroy(err);
-		};
-	});
+
+				const outputTempFilesStream = vfs.src(_options.srcGlobs, _options.srcOptions)
+					.on('error', (error) => { })
+					.on('data', (file: GulpFile) => {
+						if (file.isStream()) {
+							// streamx doesn't emit 'close' event. Use 'end' event.
+							// srcFilesStreamsFinishes.push(streams.promises.finished(file.contents));
+							srcFilesStreamsFinishes.push(new Promise<void>((resolve, reject) => {
+								file.contents
+									.on('close', resolve)
+									.on('end', resolve)
+									.on('error', reject);
+							}));
+						};
+					})
+					.pipe(readable);
+				await streams.promises.finished(outputTempFilesStream)
+					.finally(async () => {
+						await Promise.all(srcFilesStreamsFinishes)
+							.finally(async () => {
+								gulplog.debug(`plugin ${PLUGIN_NAME} deleted ${tempDirectoryPath}`);
+								await fs.rm(tempDirectoryPath, { force: true, recursive: true });
+							});
+					});
+			} catch (error) {
+				const err = error instanceof PluginError ? error :
+					new PluginError(PLUGIN_NAME, error as Error);
+				pluginStream.destroy(err);
+			};
+		});
 
 	return pluginStream;
 };
