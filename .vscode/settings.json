@@ -35,7 +35,6 @@
 	"conventionalCommits.scopes": [
 		"plugin"
 	],
-	"coverage-gutters.coverageBaseDir": "test/coverage",
 	"coverage-gutters.coverageFileNames": [
 		"lcov.info"
 	],

@@ -27,3 +27,9 @@ jobs:
 
       - name: Run CI
         run: npm run CI
+
+      - name: Report Coverage
+        if: always()
+        uses:  davelosert/vitest-coverage-report-action@v2
+        with:
+          file-coverage-mode: all
