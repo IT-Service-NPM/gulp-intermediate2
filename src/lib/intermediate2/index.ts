@@ -40,7 +40,7 @@ export interface Intermediate2Options {
 	/**
 	 *  Globs for filter output files from output directory.
 	 *
-	 * @defaultValue `'**//*'`
+	 * @defaultValue `'**\/*'`
 */
 	srcGlobs?: string | string[];
 
