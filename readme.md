@@ -1,7 +1,7 @@
 # gulp-intermediate2
 
 [![GitHub release](https://img.shields.io/github/v/release/IT-Service/gulp-intermediate2.svg?sort=semver&logo=github)](https://github.com/IT-Service/gulp-intermediate2/releases)
-[![Build and Test Status](https://github.com/IT-Service/gulp-intermediate2/workflows/Tests/badge.svg?branch=master)](https://github.com/IT-Service/gulp-intermediate2/actions/workflows/tests.yml)
+[![Build and Test Status](https://github.com/IT-Service/gulp-intermediate2/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/IT-Service/gulp-intermediate2/actions/workflows/ci.yml)
 
 [![Semantic Versioning](https://img.shields.io/static/v1?label=Semantic%20Versioning&message=v2.0.0&color=green&logo=semver)](https://semver.org/lang/ru/spec/v2.0.0.html)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-v1.0.0-yellow.svg?logo=git)](https://conventionalcommits.org)
