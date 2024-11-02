@@ -213,6 +213,7 @@ describe('intermediate2', () => {
 
 	it('must emit an error passed to the process callback', async () => {
 
+		const pluginDirsProcessor = vi.spyOn(vfs, 'dest');
 		const testErrorMessage = 'test error message';
 
 		function errorTestProcess(srcDirPath: string, destDirPath: string, callback: plugin.ProcessCallback): void {
@@ -237,10 +238,17 @@ describe('intermediate2', () => {
 		expect(err).toBeInstanceOf(PluginError);
 		expect(err.message).toEqual(`exception in temp files processing handler: Error: ${testErrorMessage}`);
 
+		expect(pluginDirsProcessor.mock.calls.length).toEqual(2);
+		const tempDirPath = (pluginDirsProcessor.mock.calls[0] as any[])[0];
+
+		await timers.scheduler.wait(1000);
+		expect(fs.existsSync(tempDirPath), 'temp dir must be deleted').toBeFalsy();
+
 	});
 
 	it('must emit an error when after-processing failed', async () => {
 
+		const pluginDirsProcessor = vi.spyOn(vfs, 'dest');
 		const testErrorMessage = 'test error message';
 
 		const testStream = plugin.intermediate2(
@@ -261,6 +269,13 @@ describe('intermediate2', () => {
 				.on('end', () => resolve(null))
 		});
 		expect(err).toBeInstanceOf(Error);
+
+		expect(pluginDirsProcessor.mock.calls.length).toEqual(2);
+		const tempDirPath = (pluginDirsProcessor.mock.calls[0] as any[])[0];
+
+		await timers.scheduler.wait(1000);
+		expect(fs.existsSync(tempDirPath), 'temp dir must be deleted').toBeFalsy();
+
 	});
 
 });

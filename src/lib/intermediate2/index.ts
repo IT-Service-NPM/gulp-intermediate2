@@ -143,18 +143,15 @@ export function intermediate2(processOrPluginOptions: Intermediate2Options | Pro
 						};
 					})
 					.pipe(readable);
-				await streams.promises.finished(outputTempFilesStream)
-					.finally(async () => {
-						await Promise.all(srcFilesStreamsFinishes)
-							.finally(async () => {
-								gulplog.debug(`plugin ${PLUGIN_NAME} deleted ${tempDirectoryPath}`);
-								await fs.rm(tempDirectoryPath, { force: true, recursive: true });
-							});
-					});
+				await streams.promises.finished(outputTempFilesStream);
+				await Promise.all(srcFilesStreamsFinishes);
 			} catch (error) {
 				const err = error instanceof PluginError ? error :
 					new PluginError(PLUGIN_NAME, error as Error);
 				pluginStream.destroy(err);
+			} finally {
+				gulplog.debug(`plugin ${PLUGIN_NAME} deleted ${tempDirectoryPath}`);
+				await fs.rm(tempDirectoryPath, { force: true, recursive: true });
 			};
 		});
 
