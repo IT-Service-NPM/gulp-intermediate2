@@ -27,3 +27,6 @@ end_of_line = lf
 [*.{json,js,mjs,cjs,ts}]
 indent_style = tab
 indent_size = 2
+
+[{package-lock,package}.json]
+end_of_line = lf

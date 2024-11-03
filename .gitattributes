@@ -7,3 +7,6 @@
 *.ts    text  merge=text diff=text eol=crlf
 
 *.yml   text  merge=text diff=text eol=crlf
+
+package.json text merge=json diff=text eol=lf
+package-lock.json text merge=json diff=text eol=lf
