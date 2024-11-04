@@ -42,13 +42,15 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         with:
           # preset: "angular"
+          # https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular
+          # https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit-message-footer
           # branches: ["main"]
           additional-packages: |
             [ '@semantic-release/git', '@semantic-release/changelog' ]
           plugins: |
             [
               ["@semantic-release/commit-analyzer", {
-                "preset": "conventionalcommits"
+                "preset": "angular"
               }],
               [
                 "@semantic-release/release-notes-generator",
