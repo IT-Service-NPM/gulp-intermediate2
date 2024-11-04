@@ -10,6 +10,15 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  actions: read
+  deployments: write
+  # https://github.com/semantic-release/npm
+  contents: write # to be able to publish a GitHub release
+  issues: write # to be able to comment on released issues
+  pull-requests: write # to be able to comment on released pull requests
+  id-token: write  # to enable use of OIDC for npm provenance
+
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -29,7 +38,12 @@ jobs:
         run: npm run CI
 
       - name: Report Coverage
-        if: always()
+        # if: always()
         uses:  davelosert/vitest-coverage-report-action@v2
         with:
           file-coverage-mode: all
+
+      - uses: codfish/semantic-release-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
