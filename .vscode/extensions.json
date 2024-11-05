@@ -17,12 +17,12 @@
 		"bierner.markdown-preview-github-styles",
 		"streetsidesoftware.code-spell-checker",
 		"streetsidesoftware.code-spell-checker-russian",
-		"vivaxy.vscode-conventional-commits",
 		"usernamehw.errorlens",
 		"serhioromano.vscode-gitflow",
 		"dbaeumer.vscode-eslint",
 		"vitest.explorer",
 		"joshbolduc.commitlint",
-		"ryanluker.vscode-coverage-gutters"
+		"ryanluker.vscode-coverage-gutters",
+		"adam-bender.commit-message-editor"
 	]
 }
