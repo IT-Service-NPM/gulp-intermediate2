@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/IT-Service/gulp-intermediate2/compare/v1.0.1...v1.0.2) (2024-11-05)
+
+
+### Bug Fixes
+
+* fix package version ([936e371](https://github.com/IT-Service/gulp-intermediate2/commit/936e3713bd270d4cda46bad88f4eb73cc7903dc7))
+
 ## 1.0.0 (2024-11-05)
 
 
