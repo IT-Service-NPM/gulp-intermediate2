@@ -6,6 +6,9 @@
 [![Semantic Versioning](https://img.shields.io/static/v1?label=Semantic%20Versioning&message=v2.0.0&color=green&logo=semver)](https://semver.org/lang/ru/spec/v2.0.0.html)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-v1.0.0-yellow.svg?logo=git)](https://conventionalcommits.org)
 
+This plugin is a modern version of `gulp-intermediate`.
+Fully support various encodings and streaming mode.
+
 A gulp helper for tools that need files on disk.
 
 Some tools require access to files on disk instead of working with `stdin` and `stdout`
@@ -29,28 +32,78 @@ npm install --save-dev gulp-intermediate2
 ```js
 var gulp = require('gulp');
 var spawn = require('child-process').spawn;
-var intermediate = require('gulp-intermediate2');
+var intermediate2 = require('gulp-intermediate2');
 
 gulp.task('default', function () {
-  return gulp.src('app/**/*.jade')
-    .pipe(intermediate({ output: '_site' }, function (tempDir, cb) {
-      // Run a command on the files in tempDir and write the results to
-      // the specified output directory.
-      var command = spawn('a_command', ['--dest', '_site'], {cwd: tempDir});
-      command.on('close', cb);
-    }))
-    .pipe(gulp.dest('dist'));
+  return gulp.src('**/*', { encoding: false })
+    .pipe(intermediate2(
+      {
+        destOptions: { encoding: false },
+        srcOptions: { encoding: false }
+      },
+      function (srcDirPath, destDirPath, callback) {
+        // Run a command on the files in tempDir and write the results to
+        // the specified output directory.
+        spawn('a_command', ['--dest', '_site'], {cwd: tempDir});
+          .on('close', cb);
+      }
+    ))
+    .pipe(gulp.dest(testDestFilesPath))
+});
+```
+
+With streaming mode:
+
+```js
+var gulp = require('gulp');
+var spawn = require('child-process').spawn;
+var intermediate2 = require('gulp-intermediate2');
+
+gulp.task('default', function () {
+  return gulp.src('**/*', { encoding: false, buffer: false })
+    .pipe(plugin.intermediate2(
+      {
+        destOptions: { encoding: false },
+        srcOptions: { encoding: false, buffer: false },
+        container: 'test-container',
+        output: 'test-output'
+      },
+      function (srcDirPath, destDirPath, callback) {
+        // Run a command on the files in tempDir and write the results to
+        // the specified output directory.
+        spawn('a_command', ['--dest', '_site'], {cwd: tempDir});
+          .on('close', cb);
+      }
+    ))
+    .pipe(gulp.dest(testDestFilesPath, { encoding: false }))
 });
 ```
 
 ## API
 
-### intermediate([options], [process])
+### intermediate2([options], [process])
 
 #### options
 
 Type: `object`
 Optional
+
+##### destOptions
+
+Type: `object`
+Optional
+
+All options, supported by `gulp.dest`.
+Options for writing input Vinyl files to temp directory.
+
+##### srcOptions
+
+Type: `object`
+Optional
+
+All options, supported by `gulp.src`.
+Options for reading output files from the temp output directory
+after the process is completed.
 
 ##### output
 
@@ -58,44 +111,33 @@ Type: `string`
 Default: `'.'`
 
 The directory read back into the stream when processing is finished.
-Relative to `tempDir`.
+Relative to `tempDir\<uniqueID>`.
 
 ##### container
 
 Type: `string`
 Default: random uuid
 
-The directory that files are written to, relative to
-the operating system's temporary directory.
-Defaults to a unique random directory on every run.
+The directory that input files are written to.
+Relative to `tempDir\<uniqueID>`.
 
 The container is emptied before every run.
 
-#### process(tempDir, cb, [fileProps])
+#### process(srcDirPath, destDirPath, cb)
 
 Type: `function`
-Optional
 
-Run your commands inside the `process` callback.
+Run your commands.
 `process` comes with three arguments:
 
-- `tempDir`: The absolute path to the directory containing your temporary files.
-  If using `spawn` you may want to set the `cwd` option to `tempDir`.
+- `srcDirPath`: The absolute path to the directory
+  containing your input temporary files.
+- `destDirPath`: The absolute path to the directory
+  containing your output temporary files.
 - `cb`: A callback function to call when the processing is finished.
-  It pushes the output files back into the gulp stream.
-- `fileProps`: An object with some information about the files
-  that have been written to the temp directory.
-  - `fileProps.cwd`: The original vinyl CWD.
+  It pushes the output files (from destDirPath) back into the gulp stream.
 
 #### Notes
 
 The files are written to `tempDir` using the vinyl file object's relative path,
-just like `gulp.dest()` writes to the output directory.
-Make sure you understand how globbing works to avoid unexpected errors:
-for example, the files in `gulp.src(['files/*.json', config.yml])`
-will all be output at the root of `tempDir`.
-
-Consider passing the
-[`{ base: '.' }` option to `glob.src`](https://github.com/wearefractal/glob-stream#options)
-if you need to output a src glob as it exists on disk.
-When in doubt, log `tempDir` to the console and open it to see what's going on.
+with `gulp.dest()`.
