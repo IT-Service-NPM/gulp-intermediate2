@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v1.0.2...v1.0.3) (2024-11-05)
+
+
+### Bug Fixes
+
+* **plugin:** fix package repository links and readme ([600171b](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/600171b813c70013e1ab0ec3d259109cdcd4b9b7))
+
 ## [1.0.2](https://github.com/IT-Service/gulp-intermediate2/compare/v1.0.1...v1.0.2) (2024-11-05)
 
 
