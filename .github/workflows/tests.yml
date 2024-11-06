@@ -6,6 +6,14 @@ on:
     branches:
       - main
   push:
+    paths:
+      - 'src/**'
+      - 'package.json'
+      - 'tsconfig.json'
+      - 'tsup.config.ts'
+      - 'test/**'
+      - 'vitest.config.ts'
+      - 'eslint.config.mjs'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
