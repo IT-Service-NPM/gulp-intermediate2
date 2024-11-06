@@ -1,0 +1,46 @@
+name: Preparing readme
+
+on:
+
+  pull_request:
+    branches-ignore:
+      - main
+  push:
+    paths:
+      - 'src/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  prepare-readme:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Prepare readme.md
+        run: npm run update-readme
+
+      # - name: Commit docs
+      #   uses: EndBug/add-and-commit@v9
+      #   # We don't want to commit documentation changes to main
+      #   if: ${{ github.ref != 'refs/heads/main' }}
+      #   with:
+      #     add: .
+      #     default_author: github_actions
+      #     message: '🤖 Documentation auto-update'

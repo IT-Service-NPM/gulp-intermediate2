@@ -43,6 +43,7 @@
 		"check-exports": "attw --pack .",
 		"lint": "tsc && eslint",
 		"test": "vitest run --coverage",
+		"update-readme": "tsdoc --src=src/lib/intermediate2/* --types --repo=https://github.com/IT-Service-NPM/gulp-intermediate2",
 		"changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
 	},
 	"dependencies": {
@@ -76,6 +77,7 @@
 		"eslint-plugin-tsdoc": "^0.3.0",
 		"gulp-intermediate2": "file:",
 		"semantic-release": "^24.2.0",
+		"tsdoc-markdown": "^0.6.3",
 		"tsup": "^8.3.5",
 		"typescript": "^5.6.3",
 		"vitest": "^2.1.1"

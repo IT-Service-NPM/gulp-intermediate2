@@ -59,11 +59,19 @@ function isProcess(process: any): process is Process {
 };
 
 /**
- * Plugin fabric function, it returns transformation stream for gulp task with default options
+ * @overload
  * @param process - contains the process callback for files processing
  * @returns Gulp plugin stream
  */
 export function intermediate2(process: Process): NodeJS.ReadWriteStream;
+
+/**
+ * @overload
+ * @param pluginOptions - contains the options for gulp plugin.
+ * @param process - contains the process callback for files processing
+ * @returns Gulp plugin stream
+ */
+export function intermediate2(pluginOptions: Intermediate2Options, process: Process): NodeJS.ReadWriteStream;
 
 /**
  * Plugin fabric function, it returns transformation stream for gulp task with specified options
@@ -71,8 +79,6 @@ export function intermediate2(process: Process): NodeJS.ReadWriteStream;
  * @param process - contains the process callback for files processing
  * @returns Gulp plugin stream
  */
-export function intermediate2(pluginOptions: Intermediate2Options, process: Process): NodeJS.ReadWriteStream;
-
 export function intermediate2(processOrPluginOptions: Intermediate2Options | Process, process?: Process): NodeJS.ReadWriteStream {
 
 	const optionsDefaults: Required<Intermediate2Options> = {
