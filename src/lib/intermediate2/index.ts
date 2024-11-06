@@ -1,3 +1,17 @@
+/**
+ * A gulp helper for tools that need files on disk
+ *
+ * @remarks
+ *
+ * Some tools require access to files on disk instead of working with `stdin` and `stdout`
+ * (e.g., [Jekyll](http://jekyllrb.com/), [Ruby Sass](http://sass-lang.com/)).
+ * `gulp-intermediate2` is a convenience plugin
+ * that writes the current vinyl stream to a temporary directory,
+ * lets you run commands on the file system, and pushes the results back into the pipe.
+ *
+ * @packageDocumentation
+ */
+
 /*jshint node:true */
 /*jshint nomen:true */
 "use strict";
@@ -17,69 +31,127 @@ const PLUGIN_NAME = 'gulp-intermediate2';
 
 /**
  * gulp-intermediate2 plugin options
+ *
+ * @remarks
+ *
+ * See {@link intermediate2} for more details.
+ *
+ * @public
  */
 export interface Intermediate2Options {
+
 	/**
-	 * The directory read back into the stream when processing is finished. Relative to tempDir.
+	 * Process output dir relative path
+	 *
+	 * @remarks
+	 *
+	 * The directory read back into the stream when processing is finished.
+	 * Relative to tempDir.
+	 *
+	 * See {@link intermediate2} for more details.
 	 *
 	 * @defaultValue `'.'`
 	 */
 	output?: string;
 
 	/**
-	 *  The directory that files are written to, relative to the operating system's temporary directory.
-	 *	The container is emptied before every run.
+	 * Process input temp directory relative path
+	 *
+	 * @remarks
+	 *
+	 * The directory that files are written to,
+	 * relative to the operating system's temporary directory.
+	 * The container is emptied before every run.
+	 *
+	 * See {@link intermediate2} for more details.
+	 *
+	 * @defaultValue `''`
 	 */
 	container?: string;
 
 	/**
-	 *  Options for gulp dest() for writing files to temp directory for processing.
+	 * `gulp.dest` options
+	 *
+	 * @remarks
+	 *
+	 * Options for `gulp.dest`
+	 * for writing files to {@link Intermediate2Options.container| container}
+	 * temp directory before processing.
+	 *
+	 * See {@link vfs.dest| `gulp.dest()`} for more details.
 	 */
 	destOptions?: vfs.DestOptions;
 
 	/**
-	 *  Globs for filter output files from output directory.
+	 * Process output files glob
 	 *
-	 * @defaultValue `'**\/*'`
-*/
+	 * @remarks
+	 *
+	 * Glob for `gulp.src`
+	 * for reading files from {@link Intermediate2Options.output| output} temp directory after processing.
+	 *
+	 * See {@link vfs.src | `gulp.src()`} for more details.
+	 *
+	 * @defaultValue `'**\*'`
+	 */
 	srcGlobs?: string | string[];
 
 	/**
-	 *  Options for gulp src() for reading files after processing.
+	 * `gulp.src` options for process output files
+	 *
+	 * @remarks
+	 *
+	 * Options for `gulp.src`
+	 * for reading files from {@link Intermediate2Options.output| output} temp directory after processing.
+	 *
+	 * See {@link vfs.src | `gulp.src()`} for more details.
 	 */
 	srcOptions?: vfs.SrcOptions;
 };
 
 export type ProcessCallback = (Error?: Error | null) => void;
 
+/**
+ * intermediate2 Process function type
+ *
+ * @remarks
+ *
+ * Process started after input files written to
+ * `srcDirPath` directory
+ * ({@link Intermediate2Options.container| pluginOptions.container} temp directory).
+ *
+ * Process must write output files to `destDirPath`
+ * ({@link Intermediate2Options.output| pluginOptions.output} temp directory).
+ *
+ * After process finished, result files pushed to output stream.
+ *
+ * See {@link intermediate2} for more details.
+ *
+ * @param srcDirPath - {@link Intermediate2Options.container| pluginOptions.container} temp directory path
+ * @param destDirPath - {@link Intermediate2Options.output| pluginOptions.output} temp directory path
+ * @param callback - process first-error callback
+ */
 export type Process = (srcDirPath: string, destDirPath: string, callback: ProcessCallback) => void;
 
-function isProcess(process: any): process is Process {
-	return (typeof process === 'function');
-};
-
 /**
- * @overload
- * @param process - contains the process callback for files processing
+ * Plugin fabric function
+ *
+ * @remarks
+ *
+ * A gulp helper for tools that need files on disk.
+ *
+ * Some tools require access to files on disk instead of working with `stdin` and `stdout`
+ * (e.g., [Jekyll](http://jekyllrb.com/), [Ruby Sass](http://sass-lang.com/)).
+ * `gulp-intermediate2` is a convenience plugin
+ * that writes the current vinyl stream to a temporary directory,
+ * lets you run commands on the file system, and pushes the results back into the pipe.
+ *
+ * @param process - contains the {@link Process| process} for files processing
+ * @param pluginOptions - contains the {@link Intermediate2Options| options} for gulp plugin.
  * @returns Gulp plugin stream
+ * @public
  */
-export function intermediate2(process: Process): NodeJS.ReadWriteStream;
-
-/**
- * @overload
- * @param pluginOptions - contains the options for gulp plugin.
- * @param process - contains the process callback for files processing
- * @returns Gulp plugin stream
- */
-export function intermediate2(pluginOptions: Intermediate2Options, process: Process): NodeJS.ReadWriteStream;
-
-/**
- * Plugin fabric function, it returns transformation stream for gulp task with specified options
- * @param pluginOptions - contains the options for gulp plugin.
- * @param process - contains the process callback for files processing
- * @returns Gulp plugin stream
- */
-export function intermediate2(processOrPluginOptions: Intermediate2Options | Process, process?: Process): NodeJS.ReadWriteStream {
+export function intermediate2(process: Process, pluginOptions?: Intermediate2Options): streams.Duplex {
 
 	const optionsDefaults: Required<Intermediate2Options> = {
 		destOptions: {},
@@ -88,15 +160,8 @@ export function intermediate2(processOrPluginOptions: Intermediate2Options | Pro
 		output: 'dest',
 		container: 'src'
 	};
-	let _options: Required<Intermediate2Options>;
-	let _process: Process;
-	if (isProcess(processOrPluginOptions)) {
-		_options = optionsDefaults;
-		_process = processOrPluginOptions;
-	} else {
-		_options = { ...optionsDefaults, ...processOrPluginOptions };
-		_process = process as Process;
-	};
+	const _options: Required<Intermediate2Options> = { ...optionsDefaults, ...pluginOptions };
+	const _process: Process = process;
 
 	const tempDirectoryPath: string = path.join(tmpdir(), nanoid());
 	const containerDirectoryPath: string = (_options.container) ?
@@ -163,5 +228,3 @@ export function intermediate2(processOrPluginOptions: Intermediate2Options | Pro
 
 	return pluginStream;
 };
-
-export default intermediate2;
