@@ -34,11 +34,6 @@ describe('intermediate2', () => {
 		expect(plugin.intermediate2, 'named plugin export intermediate2').toBeDefined();
 	});
 
-	// TODO: To enable typechecking, don't forget to pass down --typecheck flag.
-	// it('must be defined default plugin export', () => {
-	// 	expectTypeOf(require("../dist/index")).toBeFunction();
-	// });
-
 	beforeEach(async () => {
 		await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
 	});
@@ -51,8 +46,8 @@ describe('intermediate2', () => {
 			await streams.finished(
 				vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false })
 					.pipe(plugin.intermediate2(
-						{ srcOptions: { encoding: false } },
-						copyAllFilesTestProcess
+						copyAllFilesTestProcess,
+						{ srcOptions: { encoding: false } }
 					))
 					.pipe(vfs.dest(testDestFilesPath))
 			);
@@ -117,13 +112,13 @@ describe('intermediate2', () => {
 			await streams.finished(
 				vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
 					.pipe(plugin.intermediate2(
+						copyAllFilesTestProcess,
 						{
 							destOptions: { encoding: false },
 							srcOptions: { encoding: false, buffer: false },
 							container: 'test-container',
 							output: 'test-output'
-						},
-						copyAllFilesTestProcess
+						}
 					))
 					.pipe(vfs.dest(testDestFilesPath, { encoding: false }))
 			);
@@ -153,13 +148,13 @@ describe('intermediate2', () => {
 
 		try {
 			const pluginStream = plugin.intermediate2(
+				copyAllFilesTestProcess,
 				{
 					destOptions: { encoding: false },
 					srcOptions: { encoding: false, buffer: false },
 					container: 'test-container',
 					output: 'test-output'
-				},
-				copyAllFilesTestProcess
+				}
 			);
 			const testPipeline = vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
 				.pipe(pluginStream)
@@ -187,13 +182,13 @@ describe('intermediate2', () => {
 			await streams.finished(
 				vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
 					.pipe(plugin.intermediate2(
+						copyAllFilesTestProcess,
 						{
 							destOptions: { encoding: false },
 							srcOptions: { encoding: false, buffer: false },
 							container: 'test-container',
 							output: 'test-output'
-						},
-						copyAllFilesTestProcess
+						}
 					))
 					.pipe(vfs.dest(testDestFilesPath, { encoding: false }))
 			);
@@ -221,11 +216,11 @@ describe('intermediate2', () => {
 		};
 
 		const testStream = plugin.intermediate2(
+			errorTestProcess,
 			{
 				destOptions: { encoding: false },
 				srcOptions: { encoding: false }
-			},
-			errorTestProcess
+			}
 		);
 		vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
 			.pipe(testStream)
@@ -252,12 +247,12 @@ describe('intermediate2', () => {
 		const testErrorMessage = 'test error message';
 
 		const testStream = plugin.intermediate2(
+			copyAllFilesTestProcess,
 			{
 				destOptions: { encoding: false },
 				srcOptions: { encoding: false },
 				srcGlobs: 'nonExistingFile'
-			},
-			copyAllFilesTestProcess
+			}
 		);
 		const testPipeline = vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false })
 			.pipe(testStream)
