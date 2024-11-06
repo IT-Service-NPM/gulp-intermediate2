@@ -83,6 +83,105 @@ gulp.task('default', function () {
 
 ## API
 
+<!-- TSDOC_START -->
+
+## :toolbox: Functions
+
+- [intermediate2](#gear-intermediate2)
+- [intermediate2](#gear-intermediate2)
+- [intermediate2](#gear-intermediate2)
+
+### :gear: intermediate2
+
+Plugin fabric function, it returns transformation stream for gulp task with specified options
+
+| Function | Type |
+| ---------- | ---------- |
+| `intermediate2` | `{ (process: Process): ReadWriteStream; (pluginOptions: Intermediate2Options, process: Process): ReadWriteStream; }` |
+
+Parameters:
+
+* `pluginOptions`: - contains the options for gulp plugin.
+* `process`: - contains the process callback for files processing
+
+
+[:link: Source](https://github.com/IT-Service-NPM/gulp-intermediate2/tree/main/src/lib/intermediate2/index.ts#L66)
+
+### :gear: intermediate2
+
+Plugin fabric function, it returns transformation stream for gulp task with specified options
+
+| Function | Type |
+| ---------- | ---------- |
+| `intermediate2` | `{ (process: Process): ReadWriteStream; (pluginOptions: Intermediate2Options, process: Process): ReadWriteStream; }` |
+
+Parameters:
+
+* `pluginOptions`: - contains the options for gulp plugin.
+* `process`: - contains the process callback for files processing
+
+
+[:link: Source](https://github.com/IT-Service-NPM/gulp-intermediate2/tree/main/src/lib/intermediate2/index.ts#L74)
+
+### :gear: intermediate2
+
+Plugin fabric function, it returns transformation stream for gulp task with specified options
+
+| Function | Type |
+| ---------- | ---------- |
+| `intermediate2` | `{ (process: Process): ReadWriteStream; (pluginOptions: Intermediate2Options, process: Process): ReadWriteStream; }` |
+
+Parameters:
+
+* `pluginOptions`: - contains the options for gulp plugin.
+* `process`: - contains the process callback for files processing
+
+
+[:link: Source](https://github.com/IT-Service-NPM/gulp-intermediate2/tree/main/src/lib/intermediate2/index.ts#L82)
+
+
+
+## :tropical_drink: Interfaces
+
+- [Intermediate2Options](#gear-intermediate2options)
+
+### :gear: Intermediate2Options
+
+gulp-intermediate2 plugin options
+
+| Property | Type | Description |
+| ---------- | ---------- | ---------- |
+| `output` | `string or undefined` | The directory read back into the stream when processing is finished. Relative to tempDir. defaultValue: `'.'` |
+| `container` | `string or undefined` | The directory that files are written to, relative to the operating system's temporary directory. The container is emptied before every run. |
+| `destOptions` | `any` | Options for gulp dest() for writing files to temp directory for processing. |
+| `srcGlobs` | `string or string[] or undefined` | Globs for filter output files from output directory. defaultValue: `'**\/*'` |
+| `srcOptions` | `any` | Options for gulp src() for reading files after processing. |
+
+
+## :cocktail: Types
+
+- [ProcessCallback](#gear-processcallback)
+- [Process](#gear-process)
+
+### :gear: ProcessCallback
+
+| Type | Type |
+| ---------- | ---------- |
+| `ProcessCallback` | `(Error?: Error or null) => void` |
+
+[:link: Source](https://github.com/IT-Service-NPM/gulp-intermediate2/tree/main/src/lib/intermediate2/index.ts#L53)
+
+### :gear: Process
+
+| Type | Type |
+| ---------- | ---------- |
+| `Process` | `(srcDirPath: string, destDirPath: string, callback: ProcessCallback) => void` |
+
+[:link: Source](https://github.com/IT-Service-NPM/gulp-intermediate2/tree/main/src/lib/intermediate2/index.ts#L55)
+
+
+<!-- TSDOC_END -->
+
 ### intermediate2([options], [process])
 
 #### options
