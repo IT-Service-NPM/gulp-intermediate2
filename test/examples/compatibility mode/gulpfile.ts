@@ -1,13 +1,14 @@
+import * as intermediate2 from "../../../src/index";
+// import * as intermediate2 from "gulp-intermediate2";
 import * as gulp from "gulp";
-import * as plugin from "../../../src/index";
 import path from "node:path";
 import fs from "node:fs";
 
 function build(cb: gulp.TaskFunctionCallback): void {
 	gulp.src('**/*', { cwd: path.resolve(__dirname, '../../test-files-2') })
-		.pipe(plugin.intermediate(
+		.pipe(intermediate2.intermediate(
 			{ output: 'output' },
-			function (tempDir: string, callback: plugin.ProcessCallback): void {
+			function (tempDir: string, callback: intermediate2.ProcessCallback): void {
 				// Files processing...
 				// For example, copy sources files to output directory
 				fs.cp(
