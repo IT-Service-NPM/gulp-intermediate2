@@ -17,7 +17,7 @@ function build(cb: gulp.TaskFunctionCallback): void {
 					callback
 				);
 			}))
-		.pipe(gulp.dest('../../output'))
+		.pipe(gulp.dest('../output'))
 	cb();
 };
 build.description = 'Test gulp task which uses old gulp-intermediate interface';

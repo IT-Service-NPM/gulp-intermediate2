@@ -2,7 +2,7 @@
 /*jshint nomen:true */
 "use strict";
 
-import { describe, expect, it, beforeEach, beforeAll } from "vitest";
+import { describe, expect, it, beforeEach, beforeAll, afterAll } from "vitest";
 import path from "node:path";
 import fs from "node:fs";
 import { execSync } from "node:child_process";
@@ -11,7 +11,7 @@ const cwd: string = path.relative(process.cwd(), __dirname);
 const rootPath: string = path.join(cwd, '../../');
 const testFilesRootPath: string = path.join(rootPath, 'test');
 const testSrcFilesPath2: string = path.join(testFilesRootPath, 'test-files-2');
-const testDestFilesPath: string = path.join(testFilesRootPath, 'output');
+const testDestFilesPath: string = path.join(cwd, 'output');
 
 let testSrcFiles: string[];
 
@@ -30,6 +30,10 @@ describe('intermediate2', () => {
 	});
 
 	beforeEach(async () => {
+		await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
+	});
+
+	afterAll(async () => {
 		await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
 	});
 
