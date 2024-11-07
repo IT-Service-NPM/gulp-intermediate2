@@ -2,7 +2,7 @@
 /*jshint nomen:true */
 "use strict";
 
-import { describe, expect, it, beforeEach, beforeAll } from "vitest";
+import { describe, expect, it, beforeEach, beforeAll, afterAll } from "vitest";
 import * as plugin from "../src/index";
 import path from "node:path";
 import streams from "node:stream/promises";
@@ -11,11 +11,11 @@ import vfs from "vinyl-fs";
 
 const cwd: string = path.relative(process.cwd(), __dirname);
 const testSrcFilesPath2: string = path.join(cwd, 'test-files-2');
-const testDestFilesPath: string = path.join(cwd, 'output');
+const testDestFilesPath: string = path.join(cwd, 'output.intermediate');
 
 let testSrcFiles: string[];
 
-describe('intermediate2', () => {
+describe('intermediate2.intermediate', () => {
 
 	beforeAll(async () => {
 		testSrcFiles = (await fs.promises.readdir(testSrcFilesPath2, { recursive: true }))
@@ -32,6 +32,9 @@ describe('intermediate2', () => {
 	});
 
 	beforeEach(async () => {
+		await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
+	});
+	afterAll(async () => {
 		await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
 	});
 
