@@ -39,11 +39,13 @@
 	],
 	"scripts": {
 		"build": "tsup",
-		"CI": "npm run build && npm run lint && npm run check-exports && npm run test",
+		"CI": "npm run build && npm run lint && npm run check-exports && npm run test && npm run update-readme",
 		"check-exports": "attw --pack .",
 		"lint": "tsc && eslint",
 		"test": "vitest run --coverage",
-		"update-readme": "tsdoc --src=src/lib/intermediate2/* --types --repo=https://github.com/IT-Service-NPM/gulp-intermediate2",
+		"update-readme-API": "tsdoc --src=src/lib/intermediate2/* --types --repo=https://github.com/IT-Service-NPM/gulp-intermediate2",
+		"update-readme-examples": "md-code ./readme.md",
+		"update-readme": "npm run update-readme-examples",
 		"changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
 	},
 	"dependencies": {
@@ -79,6 +81,7 @@
 		"gulp": "^5.0.0",
 		"gulp-cli": "^3.0.0",
 		"gulp-intermediate2": "file:",
+		"markdown-code-example-inserter": "^3.0.0",
 		"semantic-release": "^24.2.0",
 		"ts-node": "^10.9.2",
 		"tsdoc-markdown": "^0.6.3",
