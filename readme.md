@@ -33,6 +33,13 @@ npm install --save-dev gulp-intermediate2
 
 ## Usage
 
+Old syntax (for `gulp-intermediate` compatibility) now supported,
+but deprecated:
+
+<!-- example-link: test/examples/compatibility mode/gulpfile.ts -->
+
+You must rewrite Your gulpfile for modern `intermediate2` interface.
+
 ```js
 var gulp = require('gulp');
 var spawn = require('child-process').spawn;
