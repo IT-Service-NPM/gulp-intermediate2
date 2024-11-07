@@ -1,1 +1,1 @@
-export * from "./lib/intermediate2/index.js";
+export * from "./lib/intermediate2/index";
