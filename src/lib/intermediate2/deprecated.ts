@@ -4,6 +4,7 @@
 
 import streams from "node:stream";
 import * as intermediate2 from "./intermediate2";
+import path from "node:path";
 
 const PLUGIN_NAME = 'gulp-intermediate2';
 
@@ -128,10 +129,15 @@ export function intermediate(optionsOrProcess: IntermediateOptions | Process, pr
 		_process = process as Process;
 		_options = optionsOrProcess;
 	};
+	const _container: string = _options.container ?? '';
+	const _options2: intermediate2.Intermediate2Options = {
+		container: _container,
+		output: _options.output ? path.join(_container, _options.output) : _container
+	};
 
 	function proxy(srcDirPath: string, destDirPath: string, callback: intermediate2.ProcessCallback): void {
 		_process(srcDirPath, callback);
 	};
 
-	return intermediate2.intermediate2(proxy, _options);
+	return intermediate2.intermediate2(proxy, _options2);
 };
