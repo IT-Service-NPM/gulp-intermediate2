@@ -36,7 +36,7 @@ npm install --save-dev gulp-intermediate2
 Old syntax (for `gulp-intermediate` compatibility) now supported,
 but deprecated:
 
-<!-- example-link: test/examples/compatibility mode/gulpfile.ts -->
+<!-- example-link: test/examples/01 compatibility mode/gulpfile.ts -->
 
 ```TypeScript
 import * as intermediate2 from "../../../src/index";
@@ -45,28 +45,40 @@ import * as gulp from "gulp";
 import path from "node:path";
 import fs from "node:fs";
 
-function build(cb: gulp.TaskFunctionCallback): void {
-	gulp.src('**/*', { cwd: path.resolve(__dirname, '../../test-files-2') })
+function task1(cb: gulp.TaskFunctionCallback): void {
+	gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
 		.pipe(intermediate2.intermediate(
-			{ output: 'output' },
+			{ output: 'out-sub-dir-in-temp' },
 			function (tempDir: string, callback: intermediate2.ProcessCallback): void {
 				// Files processing...
 				// For example, copy sources files to output directory
-				fs.cp(
-					tempDir,
-					path.join(tempDir, '../output'),
-					{ recursive: true },
+				fs.copyFile(
+					path.join(tempDir, 'testfile1.txt'),
+					path.join(tempDir, 'out-sub-dir-in-temp/testfile1.txt'),
 					callback
 				);
 			}))
-		.pipe(gulp.dest('../output'))
+		.pipe(gulp.dest('output'))
 	cb();
 };
-build.description = 'Test gulp task which uses old gulp-intermediate interface';
-build.flags = {
+task1.description = 'Test gulp task which uses old gulp-intermediate interface';
+task1.flags = {
 	'--test': 'Test task option'
 };
-gulp.task(build);
+gulp.task(task1);
+
+function task2(cb: gulp.TaskFunctionCallback): void {
+	gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+		.pipe(intermediate2.intermediate(
+			function (tempDir: string, callback: intermediate2.ProcessCallback): void {
+				// Files processing on place
+				callback();
+			}))
+		.pipe(gulp.dest('output'))
+	cb();
+};
+task2.description = 'Second test task';
+gulp.task(task2);
 ```
 
 You must rewrite Your gulpfile for modern `intermediate2` interface.

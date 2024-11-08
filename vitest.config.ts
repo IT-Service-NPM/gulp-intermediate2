@@ -7,7 +7,8 @@ export default defineConfig({
 		coverage: {
 			provider: 'istanbul',
 			reporter: ['text', 'json-summary', 'json', 'lcov'],
-			reportOnFailure: true
+			reportOnFailure: true,
+			include: ['src/**']
 		},
 	},
 })

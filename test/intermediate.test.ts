@@ -38,14 +38,47 @@ describe('intermediate2.intermediate', () => {
 		await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
 	});
 
-	it('must be copies all utf-8 files without options', async () => {
+	it('must be copies utf-8 files', async () => {
 
 		expect.hasAssertions();
 
 		try {
 			await streams.finished(
 				vfs.src('**/*', { cwd: testSrcFilesPath2 })
-					.pipe(plugin.intermediate({ output: 'output' }, copyAllFilesTestProcess))
+					.pipe(plugin.intermediate({ output: '../output' }, copyAllFilesTestProcess))
+					.pipe(vfs.dest(testDestFilesPath))
+			);
+		}
+		catch (err: any) {
+			expect.unreachable('All exceptions must be handled in test');
+		}
+
+		expect(fs.existsSync(testDestFilesPath), 'output dir must be exists').toBeTruthy();
+
+		const testDestFiles = (await fs.promises.readdir(testDestFilesPath, { recursive: true }))
+			.filter((testPath: string) => fs.statSync(path.join(testDestFilesPath, testPath)).isFile());
+
+		expect(testDestFiles).toEqual(testSrcFiles);
+
+		for (const testFilePath of testDestFiles) {
+			const srcContent = await fs.promises.readFile(path.join(testSrcFilesPath2, testFilePath), { encoding: null });
+			const destContent = await fs.promises.readFile(path.join(testDestFilesPath, testFilePath), { encoding: null });
+			expect(destContent.equals(srcContent), `content of ${testFilePath} test file must be the same as content of source file`).toBeTruthy();
+		};
+
+	});
+
+	it('must be copies all files for on place processing without options', async () => {
+
+		expect.hasAssertions();
+
+		try {
+			await streams.finished(
+				vfs.src('**/*', { cwd: testSrcFilesPath2 })
+					.pipe(plugin.intermediate(function (srcDirPath: string, callback: plugin.ProcessCallback): void {
+						callback();
+					}
+					))
 					.pipe(vfs.dest(testDestFilesPath))
 			);
 		}
