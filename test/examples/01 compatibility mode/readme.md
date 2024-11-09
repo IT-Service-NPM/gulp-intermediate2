@@ -1,0 +1,55 @@
+### Compatibility mode
+
+Old syntax (for `gulp-intermediate` compatibility) now supported,
+but deprecated.
+
+You must refactor Your code for using new `intermediate2` interface.
+
+> [!WARNING]
+> New `intermediate2` process have 3 parameters!
+> And `output` directory now not `container` subdirectory.
+
+<!-- example-link: gulpfile.ts -->
+
+```TypeScript
+import * as intermediate2 from "../../../src/index";
+// import * as intermediate2 from "gulp-intermediate2";
+import * as gulp from "gulp";
+import path from "node:path";
+import fs from "node:fs";
+
+function task1(cb: gulp.TaskFunctionCallback): void {
+	gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+		.pipe(intermediate2.intermediate(
+			{ output: 'out-sub-dir-in-temp' },
+			function (tempDir: string, callback: intermediate2.ProcessCallback): void {
+				// Files processing...
+				// For example, copy sources files to output directory
+				fs.copyFile(
+					path.join(tempDir, 'testfile1.txt'),
+					path.join(tempDir, 'out-sub-dir-in-temp/testfile1.txt'),
+					callback
+				);
+			}))
+		.pipe(gulp.dest('output'))
+	cb();
+};
+task1.description = 'Test gulp task which uses old gulp-intermediate interface';
+task1.flags = {
+	'--test': 'Test task option'
+};
+gulp.task(task1);
+
+function task2(cb: gulp.TaskFunctionCallback): void {
+	gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+		.pipe(intermediate2.intermediate(
+			function (tempDir: string, callback: intermediate2.ProcessCallback): void {
+				// Files processing on place
+				callback();
+			}))
+		.pipe(gulp.dest('output'))
+	cb();
+};
+task2.description = 'Second test task';
+gulp.task(task2);
+```
