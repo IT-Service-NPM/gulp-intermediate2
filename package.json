@@ -43,9 +43,10 @@
 		"check-exports": "attw --pack .",
 		"lint": "tsc && eslint",
 		"test": "vitest run --coverage",
+		"update-examples-readme": "md-code test/examples/**/readme.md",
+		"update-readme-examples": "md-magic ./readme.md",
 		"update-readme-API": "tsdoc --src=src/lib/intermediate2/* --types --repo=https://github.com/IT-Service-NPM/gulp-intermediate2",
-		"update-readme-examples": "md-code ./readme.md",
-		"update-readme": "npm run update-readme-examples",
+		"update-readme": "npm run update-examples-readme && npm run update-readme-examples",
 		"changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
 	},
 	"dependencies": {
@@ -82,6 +83,7 @@
 		"gulp-cli": "^3.0.0",
 		"gulp-intermediate2": "file:",
 		"markdown-code-example-inserter": "^3.0.0",
+		"markdown-magic": "^3.3.0",
 		"semantic-release": "^24.2.0",
 		"ts-node": "^10.9.2",
 		"tsdoc-markdown": "^0.6.3",
