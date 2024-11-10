@@ -28,13 +28,76 @@ Writing intermediate files to disk is counter to the gulp philosophy.
 If possible, use a tool that works with streams.
 Use `gulp-intermediate2` only if other (better) options aren’t available.
 
+## Contents
+
+* [Install](#install)
+* [Examples](#examples)
+  * [Using old `intermediate` interface](#using-old-intermediate-interface)
+  * [Examples with new interface](#examples-with-newinterface)
+* [API](#api)
+  * [intermediate2(\[process\], \[options\])](#intermediate2process-options)
+    * [options](#options)
+      * [destOptions](#destoptions)
+      * [srcOptions](#srcoptions)
+      * [output](#output)
+      * [container](#container)
+    * [process(srcDirPath, destDirPath, cb)](#processsrcdirpath-destdirpath-cb)
+    * [Notes](#notes)
+* [License](#license)
+
 ## Install
 
 ```sh
 npm install --save-dev gulp-intermediate2
 ```
 
-## Usage
+## Examples
+
+### Using old `intermediate` interface
+
+Old `intermediate` interface is supported now,
+but deprecated.
+
+```typescript file=test/examples/01\ compatibility\ mode/gulpfile.ts
+import * as intermediate2 from "../../../src/index";
+// import * as intermediate2 from "gulp-intermediate2";
+import * as gulp from "gulp";
+import path from "node:path";
+import fs from "node:fs";
+
+function task1() {
+	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+		.pipe(intermediate2.intermediate(
+			{ output: 'out-sub-dir-in-temp' },
+			function (tempDir: string, callback: intermediate2.ProcessCallback): void {
+				// Files processing...
+				// For example, copy sources files to output directory
+				fs.copyFile(
+					path.join(tempDir, 'testfile1.txt'),
+					path.join(tempDir, 'out-sub-dir-in-temp/testfile1.txt'),
+					callback
+				);
+			}))
+		.pipe(gulp.dest('output', { cwd: __dirname }))
+};
+task1.description = 'Test gulp task which uses old gulp-intermediate interface';
+task1.flags = {
+	'--test': 'Test task option'
+};
+gulp.task(task1);
+
+function task2() {
+	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+		.pipe(intermediate2.intermediate(
+			function (tempDir: string, callback: intermediate2.ProcessCallback): void {
+				// Files processing on place
+				callback();
+			}))
+		.pipe(gulp.dest(path.join(__dirname, 'output')))
+};
+task2.description = 'Second test task';
+gulp.task(task2);
+```
 
 ### Examples with new interface
 
