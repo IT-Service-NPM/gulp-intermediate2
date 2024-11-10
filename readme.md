@@ -2,28 +2,26 @@
 
 [![Build and Test Status](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml)
 
-[![GitHub release](https://img.shields.io/github/v/release/IT-Service/gulp-intermediate2.svg?sort=semver&logo=github)](https://github.com/IT-Service/gulp-intermediate2/releases)
+[![GitHub release](https://img.shields.io/github/v/release/IT-Service-NPM/gulp-intermediate2.svg?sort=semver\&logo=github)](https://github.com/IT-Service-NPM/gulp-intermediate2/releases)
 [![NPM release](https://img.shields.io/npm/v/gulp-intermediate2.svg?logo=npm)](https://www.npmjs.com/package/gulp-intermediate2)
 
-[![Semantic Versioning](https://img.shields.io/static/v1?label=Semantic%20Versioning&message=v2.0.0&color=green&logo=semver)](https://semver.org/lang/ru/spec/v2.0.0.html)
+[![Semantic Versioning](https://img.shields.io/badge/Semantic%20Versioning-v2.0.0-green.svg?logo=semver)](https://semver.org/lang/ru/spec/v2.0.0.html)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-v1.0.0-yellow.svg?logo=git)](https://conventionalcommits.org)
 
-> [!NOTE]
-> This plugin is a modern version of `gulp-intermediate`.
-> Fully support various encodings and streaming mode.
+This plugin is a modern version of `gulp-intermediate`.
+Fully support various encodings and streaming mode.
 
-A gulp helper for tools that need files on disk.
+A gulp helper for tools that need files on disk.
 
-Some tools require access to files on disk instead of working with `stdin` and `stdout`
+Some tools require access to files on disk instead of working with `stdin` and `stdout`
 (e.g., [Jekyll](http://jekyllrb.com/), [Ruby Sass](http://sass-lang.com/)).
-`gulp-intermediate2` is a convenience plugin
-that writes the current vinyl stream to a temporary directory,
-lets you run commands on the file system, and pushes the results back into the pipe.
+`gulp-intermediate2` is a convenience plugin
+that writes the current vinyl stream to a temporary directory,
+lets you run commands on the file system, and pushes the results back into the pipe.
 
-> [!TIP]
-> Writing intermediate files to disk is counter to the gulp philosophy.
-> If possible, use a tool that works with streams.
-> Use `gulp-intermediate2` only if other (better) options aren't available.
+Writing intermediate files to disk is counter to the gulp philosophy.
+If possible, use a tool that works with streams.
+Use `gulp-intermediate2` only if other (better) options aren’t available.
 
 ## Install
 
@@ -33,13 +31,9 @@ npm install --save-dev gulp-intermediate2
 
 ## Usage
 
-<!-- doc-gen FILE src="test/examples/01 compatibility mode/readme.md" -->
+### Examples with new interface
 
-<!-- end-doc-gen -->
-
-### Examples with new interface
-
-You must rewrite Your gulpfile for modern `intermediate2` interface.
+You must rewrite Your gulpfile for modern `intermediate2` interface.
 
 ```js
 var gulp = require('gulp');
@@ -94,9 +88,10 @@ gulp.task('default', function () {
 ## API
 
 <!-- TSDOC_START -->
+
 <!-- TSDOC_END -->
 
-### intermediate2([process], [options])
+### intermediate2(\[process], \[options])
 
 #### options
 
@@ -108,24 +103,24 @@ Optional
 Type: `object`
 Optional
 
-All options, supported by `gulp.dest`.
-Options for writing input Vinyl files to temp directory.
+All options, supported by `gulp.dest`.
+Options for writing input Vinyl files to temp directory.
 
 ##### srcOptions
 
 Type: `object`
 Optional
 
-All options, supported by `gulp.src`.
-Options for reading output files from the temp output directory
-after the process is completed.
+All options, supported by `gulp.src`.
+Options for reading output files from the temp output directory
+after the process is completed.
 
 ##### output
 
 Type: `string`
 Default: `'.'`
 
-The directory read back into the stream when processing is finished.
+The directory read back into the stream when processing is finished.
 Relative to `tempDir\<uniqueID>`.
 
 ##### container
@@ -133,26 +128,30 @@ Relative to `tempDir\<uniqueID>`.
 Type: `string`
 Default: random uuid
 
-The directory that input files are written to.
+The directory that input files are written to.
 Relative to `tempDir\<uniqueID>`.
 
-The container is emptied before every run.
+The container is emptied before every run.
 
 #### process(srcDirPath, destDirPath, cb)
 
 Type: `function`
 
 Run your commands.
-`process` comes with three arguments:
+`process` comes with three arguments:
 
-- `srcDirPath`: The absolute path to the directory
-  containing your input temporary files.
-- `destDirPath`: The absolute path to the directory
-  containing your output temporary files.
-- `cb`: A callback function to call when the processing is finished.
-  It pushes the output files (from destDirPath) back into the gulp stream.
+* `srcDirPath`: The absolute path to the directory
+  containing your input temporary files.
+* `destDirPath`: The absolute path to the directory
+  containing your output temporary files.
+* `cb`: A callback function to call when the processing is finished.
+  It pushes the output files (from destDirPath) back into the gulp stream.
 
 #### Notes
 
-The files are written to `tempDir` using the vinyl file object's relative path,
+The files are written to `tempDir` using the vinyl file object’s relative path,
 with `gulp.dest()`.
+
+## License
+
+[MIT](LICENSE) © [Sergei S. Betke](https://github.com/sergey-s-betke)
