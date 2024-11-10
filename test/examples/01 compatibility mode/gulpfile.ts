@@ -4,8 +4,8 @@ import * as gulp from "gulp";
 import path from "node:path";
 import fs from "node:fs";
 
-function task1(cb: gulp.TaskFunctionCallback): void {
-	gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+function task1() {
+	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
 		.pipe(intermediate2.intermediate(
 			{ output: 'out-sub-dir-in-temp' },
 			function (tempDir: string, callback: intermediate2.ProcessCallback): void {
@@ -17,8 +17,7 @@ function task1(cb: gulp.TaskFunctionCallback): void {
 					callback
 				);
 			}))
-		.pipe(gulp.dest('output'))
-	cb();
+		.pipe(gulp.dest('output', { cwd: __dirname }))
 };
 task1.description = 'Test gulp task which uses old gulp-intermediate interface';
 task1.flags = {
@@ -26,15 +25,14 @@ task1.flags = {
 };
 gulp.task(task1);
 
-function task2(cb: gulp.TaskFunctionCallback): void {
-	gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+function task2() {
+	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
 		.pipe(intermediate2.intermediate(
 			function (tempDir: string, callback: intermediate2.ProcessCallback): void {
 				// Files processing on place
 				callback();
 			}))
-		.pipe(gulp.dest('output'))
-	cb();
+		.pipe(gulp.dest('output', { cwd: __dirname }))
 };
 task2.description = 'Second test task';
 gulp.task(task2);
