@@ -1,7 +1,10 @@
 import { describe, expect, it, beforeEach, beforeAll, afterAll } from "vitest";
+import { promisify } from "node:util";
 import path from "node:path";
 import fs from "node:fs";
-import { gulpSync } from "../../lib/index";
+import gulp from "gulp";
+// import { gulpSync } from "../../lib/index";
+import "./gulpfile";
 
 const testSrcFilesPath: string = path.join(__dirname, 'test-files');
 const testDestFilesPath: string = path.join(__dirname, 'output');
@@ -25,7 +28,7 @@ describe('intermediate2', () => {
 
 	it('must be copies all utf-8 files without options', async () => {
 
-		gulpSync(path.join(__dirname, 'gulpfile.ts'), 'task1');
+		await promisify(gulp.series('task1'))();
 
 		expect(fs.existsSync(testDestFilesPath), 'output dir must be exists').toBeTruthy();
 
@@ -44,7 +47,7 @@ describe('intermediate2', () => {
 
 	it('must be copies utf-8 files without options', async () => {
 
-		gulpSync(path.join(__dirname, 'gulpfile.ts'), 'task2');
+		await promisify(gulp.series('task2'))();
 
 		expect(fs.existsSync(testDestFilesPath), 'output dir must be exists').toBeTruthy();
 
