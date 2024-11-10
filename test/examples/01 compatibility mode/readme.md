@@ -1,3 +1,9 @@
+### Using old `intermediate` interface
+
+Old `intermediate` interface is supported now,
+but deprecated.
+
+```typescript file=./gulpfile.ts
 import * as intermediate2 from "../../../src/index";
 // import * as intermediate2 from "gulp-intermediate2";
 import * as gulp from "gulp";
@@ -36,3 +42,4 @@ function task2() {
 };
 task2.description = 'Second test task';
 gulp.task(task2);
+```
