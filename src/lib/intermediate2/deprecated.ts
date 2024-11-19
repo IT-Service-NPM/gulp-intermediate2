@@ -2,9 +2,9 @@
 /*jshint nomen:true */
 "use strict";
 
-import streams from "node:stream";
-import * as intermediate2 from "./intermediate2";
-import path from "node:path";
+import * as streams from "node:stream";
+import * as intermediate2 from "./intermediate2.ts";
+import * as path from "node:path";
 
 const PLUGIN_NAME = 'gulp-intermediate2';
 

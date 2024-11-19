@@ -24,6 +24,10 @@
 		// "rootDir": "src",
 		"sourceMap": true,
 		/* AND if you're building for a library: */
-		// "declaration": true
+		"declaration": true,
+		"declarationMap": true,
+		// "emitDeclarationOnly": true,
+		// "exactOptionalPropertyTypes": true,
+		"allowImportingTsExtensions": true,
 	}
 }

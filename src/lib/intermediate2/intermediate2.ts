@@ -17,9 +17,9 @@
 "use strict";
 
 import { promisify } from "node:util";
-import streams from "node:stream";
-import path from "node:path";
-import fs from "node:fs/promises";
+import * as streams from "node:stream";
+import * as path from "node:path";
+import * as fs from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { nanoid } from "nanoid";
 import PluginError from "plugin-error";

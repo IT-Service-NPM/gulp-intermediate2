@@ -30,20 +30,22 @@ Use `gulp-intermediate2` only if other (better) options aren’t available.
 
 ## Contents
 
-* [Install](#install)
-* [Examples](#examples)
-  * [Using old `intermediate` interface](#using-old-intermediate-interface)
-  * [Examples with new interface](#examples-with-newinterface)
-* [API](#api)
-  * [intermediate2(\[process\], \[options\])](#intermediate2process-options)
-    * [options](#options)
-      * [destOptions](#destoptions)
-      * [srcOptions](#srcoptions)
-      * [output](#output)
-      * [container](#container)
-    * [process(srcDirPath, destDirPath, cb)](#processsrcdirpath-destdirpath-cb)
-    * [Notes](#notes)
-* [License](#license)
+- [gulp-intermediate2](#gulp-intermediate2)
+  - [Contents](#contents)
+  - [Install](#install)
+  - [Examples](#examples)
+    - [Using old `intermediate` interface](#using-old-intermediate-interface)
+    - [Examples with new interface](#examples-with-newinterface)
+  - [API](#api)
+    - [intermediate2(\[process\], \[options\])](#intermediate2process-options)
+      - [options](#options)
+        - [destOptions](#destoptions)
+        - [srcOptions](#srcoptions)
+        - [output](#output)
+        - [container](#container)
+      - [process(srcDirPath, destDirPath, cb)](#processsrcdirpath-destdirpath-cb)
+      - [Notes](#notes)
+  - [License](#license)
 
 ## Install
 
@@ -57,6 +59,10 @@ npm install --save-dev gulp-intermediate2
 
 Old `intermediate` interface is supported now,
 but deprecated.
+
+In new `intermediate2` interface `process` has 3 parameters, not 2!
+And options must be second parameter, not first
+(as for `intermediate` interface).
 
 ```typescript file=test/examples/01\ compatibility\ mode/gulpfile.ts
 import * as intermediate2 from "../../../src/index";
