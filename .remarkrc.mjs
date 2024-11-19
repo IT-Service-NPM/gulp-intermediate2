@@ -15,9 +15,9 @@ export default {
 	plugins: [
 		codeImport,
 		remarkToc,
+		remarkLicense,
 		remarkGfm,
 		remarkAlert,
-		remarkLicense,
 		remarkValidateLinks,
 		remarkTypography,
 		remarkPresetLintConsistent,

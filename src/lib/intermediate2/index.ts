@@ -1,2 +1,2 @@
-export * from "./deprecated";
-export * from "./intermediate2";
+export * from "./deprecated.ts";
+export * from "./intermediate2.ts";

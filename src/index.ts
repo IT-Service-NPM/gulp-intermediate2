@@ -1,1 +1,1 @@
-export * from "./lib/intermediate2/index";
+export * from "./lib/intermediate2/index.ts";
