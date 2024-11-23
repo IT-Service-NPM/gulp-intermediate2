@@ -3,6 +3,7 @@
 import eslint from '@eslint/js';
 import tsEslint from 'typescript-eslint';
 import tsdoc from "eslint-plugin-tsdoc";
+import vitest from "@vitest/eslint-plugin";
 
 export default [
 	eslint.configs.recommended,
@@ -43,5 +44,20 @@ export default [
 				'argsIgnorePattern': '^(resolve|reject|err)$'
 			}]
 		},
-	}
+	},
+	{
+		files: ["tests/**/*.test.ts"],
+		plugins: {
+			vitest
+		},
+		rules: {
+			// ...vitest.configs.all.rules,
+			...vitest.configs.recommended.rules
+		},
+		settings: {
+			vitest: {
+				typecheck: true
+			}
+		},
+	},
 ];
