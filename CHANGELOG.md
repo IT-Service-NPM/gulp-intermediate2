@@ -1,3 +1,44 @@
+## [2.0.0](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v1.0.3...v2.0.0) (2024-11-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **plugin:** changed argument positions
+
+### Features
+
+* **plugin:** add `intermediate` old interface ([d65df3c](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/d65df3c1d3f93d29cb4d9defd60adcb389a6df6f))
+* **plugin:** move deprecated interface to intermediate namespace ([711b1be](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/711b1be4a5284bcc9262965f33fa697bd2b8ab2c))
+
+
+### Bug Fixes
+
+* **plugin:** fix eslint config, errors and warnings ([0096f46](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/0096f46bbc78609690335cc9ef76d8061d9d4461))
+* **plugin:** fix gulp-intermediate incompatibility ([953bd43](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/953bd43587b0b4bf982913fafe0884b4463d5ea6)), closes [#21](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/21)
+
+
+### Other Updates
+
+* add binary files copying example ([8493c66](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/8493c66fef0bc2bbb1b5e652912204a63d77cb97)), closes [#15](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/15)
+* add eslint plugin for vitest ([bcaacdb](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/bcaacdb5317aa6ed6c73a21f6455306a638d8046))
+* add example gulpfile.ts for deprecated interface ([758f033](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/758f033c2ea0dbc3c712dc00509582fe57509167)), closes [#15](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/15)
+* add simple copy files example without options ([b5670bb](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/b5670bb204aae386809f3bccaf794d5bca946b81)), closes [#15](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/15)
+* add streaming mode support example ([e280007](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/e280007269a98e2bb033cababe5bf94fcc66b73c)), closes [#15](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/15)
+* add temp dirs cleanup assertions ([02565f8](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/02565f8ad5697d4ebd4865cad5d8b4ee5c447087)), closes [#15](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/15)
+* enable TSDoc eslint plugin ([0dfaa38](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/0dfaa3893b02de7c5d9d49fce80e03d186dc8413))
+* fix examples testing with gulp tasks execution ([e508ef8](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/e508ef8ea14e3ff0a323409274906ea1905dc9b5)), closes [#15](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/15)
+* fix tests for parallel execution ([a6b0a23](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/a6b0a234247ade014761bf43241a570dc553628b)), closes [#15](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/15)
+* **github-actions:** add GitHub action reporter for Vitest ([fa8cbb9](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/fa8cbb968427eb9038188e46080b8d2592f517c3))
+* **github-actions:** fix deployment workflow ([16c3dcb](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/16c3dcb6098d6f772460f758be2686760b8494b5))
+* **github-actions:** rename commitlint workflow ([8b4059a](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/8b4059a4aafe85aacf5acbbdc49a0ba1c8a6f5d5))
+* **github-actions:** run tests workflow just if sources changed ([afe017b](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/afe017b726a54b8f41f6b1d557e58dc517828688))
+* **plugin:** rewrite TSDoc comments ([aa399bc](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/aa399bc2d526619b02720bf0929986656d77e25a))
+* refactor test for old interface ([2bb1a02](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/2bb1a023928aed00a6d00e1b346f90dd8ddec062)), closes [#15](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/15)
+* refactor to more readable compatible mode examples ([f76d8b6](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/f76d8b6867e8b4d9504ede4f33d0ff8a3ebd4193)), closes [#15](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/15)
+* remove unexpected tests ([e241b08](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/e241b088c19fd11056b25048bd98db68cc7c9064)), closes [#15](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/15)
+* update code examples in readme from .ts files ([bc33623](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/bc33623f604586ad200d2c2c1f6f941322e28c2b)), closes [#15](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/15)
+* use remark for readme.md updating ([c5f0f1a](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/c5f0f1a03420f830bed9845da765ed111420777d)), closes [#15](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/15)
+
 ## [1.0.3](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v1.0.2...v1.0.3) (2024-11-05)
 
 
