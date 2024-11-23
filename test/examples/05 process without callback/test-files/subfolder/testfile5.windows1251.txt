@@ -1,0 +1,5 @@
+test
+file
+one
+context
+Это кириллица в кодировке windows-1251

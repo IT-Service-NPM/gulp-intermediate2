@@ -58,6 +58,7 @@
 		"changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
 	},
 	"dependencies": {
+		"async-done": "^2.0.0",
 		"gulplog": "^2.2.0",
 		"nanoid": "^5.0.8",
 		"plugin-error": "^2.0.1",

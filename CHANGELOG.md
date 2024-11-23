@@ -3,7 +3,8 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **plugin:** changed argument positions
+* **plugin:** change `intermediate2` arguments positions
+  (process - first, options - second)
 
 ### Features
 
