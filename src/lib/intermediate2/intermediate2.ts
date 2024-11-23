@@ -16,13 +16,16 @@
 
 import { promisify } from "node:util";
 import * as streams from "node:stream";
+import type { EventEmitter } from "node:stream";
 import * as path from "node:path";
 import * as fs from "node:fs/promises";
 import { tmpdir } from "node:os";
+import { ChildProcess } from "node:child_process";
 import { nanoid } from "nanoid";
 import PluginError from "plugin-error";
 import vfs from "vinyl-fs";
 import GulpFile from "vinyl";
+import asyncDone from "async-done";
 import gulplog from "gulplog";
 
 const PLUGIN_NAME = 'gulp-intermediate2';
@@ -110,7 +113,7 @@ export interface Intermediate2Options {
 export type ProcessCallback = (Error?: Error | null) => void;
 
 /**
- * intermediate2 Process function type
+ * intermediate2 Process function
  *
  * @remarks
  *
@@ -123,13 +126,21 @@ export type ProcessCallback = (Error?: Error | null) => void;
  *
  * After process finished, result files pushed to output stream.
  *
- * See {@link intermediate2} for more details.
+ * @see {@link intermediate2}
  *
  * @param srcDirPath - {@link Intermediate2Options.container| pluginOptions.container} temp directory path
  * @param destDirPath - {@link Intermediate2Options.output| pluginOptions.output} temp directory path
  * @param callback - process first-error callback
  */
-export type Process = (srcDirPath: string, destDirPath: string, callback: ProcessCallback) => void;
+export type Process<R = any> =
+	((srcDirPath: string, destDirPath: string, callback: ProcessCallback) => void) |
+	((srcDirPath: string, destDirPath: string) =>
+		ChildProcess |
+		EventEmitter |
+		asyncDone.Observable<R> |
+		PromiseLike<R> |
+		streams.Stream
+	);
 
 /**
  * Plugin fabric function
@@ -192,7 +203,10 @@ export function intermediate2(process: Process, pluginOptions?: Intermediate2Opt
 			void (async () => {
 				try {
 					await fs.mkdir(outputDirectoryPath, { recursive: true });
-					await promisify(_process)(containerDirectoryPath, outputDirectoryPath)
+
+					await promisify(asyncDone)((done: ProcessCallback) => {
+						return _process(containerDirectoryPath, outputDirectoryPath, done);
+					})
 						.catch((error: unknown) => {
 							throw (error instanceof PluginError ? (error) :
 								new PluginError(PLUGIN_NAME, `exception in temp files processing handler: ${error as string}`));

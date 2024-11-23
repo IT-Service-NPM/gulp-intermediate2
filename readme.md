@@ -36,7 +36,7 @@ Use `gulp-intermediate2` only if other (better) options aren’t available.
   * [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
   * [Copy binary files](#copy-binary-files)
   * [Streaming mode support](#streaming-mode-support)
-  * [Examples with new interface](#examples-with-newinterface)
+  * [Process without callback](#process-without-callback)
 * [API](#api)
   * [intermediate2(\[process\], \[options\])](#intermediate2process-options)
     * [options](#options)
@@ -213,58 +213,47 @@ task1.description = 'Copy utf-8 and binary files';
 gulp.task(task1);
 ```
 
-### Examples with new interface
+### Process without callback
 
-You must rewrite Your gulpfile for modern `intermediate2` interface.
+In this example `intermediate2` uses async process
+without callback.
+Supported all process type, supported by `async-done` module.
 
-```js
-var gulp = require('gulp');
-var spawn = require('child-process').spawn;
-var { intermediate2 } = require('gulp-intermediate2');
+```typescript file=test/examples/05\ process\ without\ callback/gulpfile.ts
+import { intermediate2 } from "../../../src";
+// import { intermediate2 } from "gulp-intermediate2";
+import * as gulp from "gulp";
+import path from "node:path";
+import fs from "node:fs";
 
-gulp.task('default', function () {
-  return gulp.src('**/*', { encoding: false })
-    .pipe(intermediate2(
-      function (srcDirPath, destDirPath, callback) {
-        // Run a command on the files in tempDir and write the results to
-        // the specified output directory.
-        spawn('a_command', ['--dest', '_site'], {cwd: tempDir});
-          .on('close', cb);
-      },
-      {
-        destOptions: { encoding: false },
-        srcOptions: { encoding: false }
-      }
-    ))
-    .pipe(gulp.dest(testDestFilesPath))
-});
-```
-
-With streaming mode:
-
-```js
-var gulp = require('gulp');
-var spawn = require('child-process').spawn;
-var { intermediate2 } = require('gulp-intermediate2');
-
-gulp.task('default', function () {
-  return gulp.src('**/*', { encoding: false, buffer: false })
-    .pipe(plugin.intermediate2(
-      function (srcDirPath, destDirPath, callback) {
-        // Run a command on the files in tempDir and write the results to
-        // the specified output directory.
-        spawn('a_command', ['--dest', '_site'], {cwd: tempDir});
-          .on('close', cb);
-      },
-      {
-        destOptions: { encoding: false },
-        srcOptions: { encoding: false, buffer: false },
-        container: 'test-container',
-        output: 'test-output'
-      }
-    ))
-    .pipe(gulp.dest(testDestFilesPath, { encoding: false }))
-});
+function task1() {
+	return gulp.src('**/*', {
+		cwd: path.resolve(__dirname, 'test-files'),
+		encoding: false,
+		buffer: false
+	})
+		.pipe(intermediate2(
+			function (srcDirPath: string, destDirPath: string) {
+				// For example, copy sources files to output directory
+				// or
+				// return spawn('a_command', ['--dest', '_site'], {cwd: tempDir});
+				return fs.promises.cp(srcDirPath, destDirPath, { recursive: true });
+			},
+			{
+				destOptions: { encoding: false },
+				srcOptions: { encoding: false, buffer: false },
+				container: 'test-container',
+				output: 'test-output'
+			}
+		))
+		// processing output files in gulp style
+		.pipe(gulp.dest('output', {
+			cwd: __dirname,
+			encoding: false
+		}))
+};
+task1.description = 'Copy utf-8 and binary files';
+gulp.task(task1);
 ```
 
 ## API
