@@ -29,7 +29,9 @@ const Configuration: UserConfig = {
 			"github",
 			"github-actions",
 			"deps",
-			"devtools"
+			"devtools",
+			"readme",
+			"release"
 		]],
 		"scope-empty": [RuleConfigSeverity.Disabled]
 	},
