@@ -34,7 +34,7 @@ export default [
 			"src/**/*.tsx"
 		],
 		plugins: {
-			// tsdoc,
+			tsdoc,
 		},
 		rules: {
 			"@typescript-eslint/no-explicit-any": "off",
