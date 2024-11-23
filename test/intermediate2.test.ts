@@ -2,7 +2,7 @@
 /*jshint nomen:true */
 "use strict";
 
-import { vi, describe, expect, it, beforeEach, beforeAll } from "vitest";
+import { vi, describe, expect, it, beforeEach } from "vitest";
 import * as plugin from "../src";
 import path from "node:path";
 import streams from "node:stream/promises";
@@ -16,14 +16,7 @@ const cwd: string = path.relative(process.cwd(), __dirname);
 const testSrcFilesPath: string = path.join(cwd, 'test-files');
 const testDestFilesPath: string = path.join(cwd, 'output');
 
-let testSrcFiles: string[];
-
 describe('intermediate2', () => {
-
-	beforeAll(async () => {
-		testSrcFiles = (await fs.promises.readdir(testSrcFilesPath, { recursive: true }))
-			.filter((testPath: string) => fs.statSync(path.join(testSrcFilesPath, testPath)).isFile());
-	});
 
 	function copyAllFilesTestProcess(srcDirPath: string, destDirPath: string, callback: plugin.ProcessCallback): void {
 		fs.cp(srcDirPath, destDirPath, { recursive: true }, callback);
@@ -35,44 +28,6 @@ describe('intermediate2', () => {
 
 	beforeEach(async () => {
 		await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
-	});
-
-	it('must be support streaming files processing', async () => {
-
-		expect.hasAssertions();
-
-		try {
-			await streams.finished(
-				vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
-					.pipe(plugin.intermediate2(
-						copyAllFilesTestProcess,
-						{
-							destOptions: { encoding: false },
-							srcOptions: { encoding: false, buffer: false },
-							container: 'test-container',
-							output: 'test-output'
-						}
-					))
-					.pipe(vfs.dest(testDestFilesPath, { encoding: false }))
-			);
-		}
-		catch {
-			expect.unreachable('All exceptions must be handled in test');
-		}
-
-		expect(fs.existsSync(testDestFilesPath), 'output dir must be exists').toBeTruthy();
-
-		const testDestFiles = (await fs.promises.readdir(testDestFilesPath, { recursive: true }))
-			.filter((testPath: string) => fs.statSync(path.join(testDestFilesPath, testPath)).isFile());
-
-		expect(testDestFiles).toEqual(testSrcFiles);
-
-		for (const testFilePath of testDestFiles) {
-			const srcContent = await fs.promises.readFile(path.join(testSrcFilesPath, testFilePath), { encoding: null });
-			const destContent = await fs.promises.readFile(path.join(testDestFilesPath, testFilePath), { encoding: null });
-			expect(destContent.equals(srcContent), `content of ${testFilePath} test file must be the same as content of source file`).toBeTruthy();
-		};
-
 	});
 
 	it('temp dir must be deleted after stream finished', async () => {

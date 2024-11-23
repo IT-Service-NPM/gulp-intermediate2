@@ -35,6 +35,7 @@ Use `gulp-intermediate2` only if other (better) options aren’t available.
   * [Using old `intermediate` interface](#using-old-intermediate-interface)
   * [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
   * [Copy binary files](#copy-binary-files)
+  * [Streaming mode support](#streaming-mode-support)
   * [Examples with new interface](#examples-with-newinterface)
 * [API](#api)
   * [intermediate2(\[process\], \[options\])](#intermediate2process-options)
@@ -166,6 +167,47 @@ function task1() {
 		))
 		// processing output files in gulp style
 		.pipe(gulp.dest('output', { cwd: __dirname }))
+};
+task1.description = 'Copy utf-8 and binary files';
+gulp.task(task1);
+```
+
+### Streaming mode support
+
+In this example `intermediate2` copy binary files to
+container temp directory in streaming mode.
+
+```typescript file=test/examples/04\ streaming\ mode/gulpfile.ts
+import { intermediate2 } from "../../../src";
+import type { ProcessCallback } from "../../../src";
+// import { intermediate2 } from "gulp-intermediate2";
+import * as gulp from "gulp";
+import path from "node:path";
+import fs from "node:fs";
+
+function task1() {
+	return gulp.src('**/*', {
+		cwd: path.resolve(__dirname, 'test-files'),
+		encoding: false,
+		buffer: false
+	})
+		.pipe(intermediate2(
+			function (srcDirPath: string, destDirPath: string, callback: ProcessCallback): void {
+				// For example, copy sources files to output directory
+				fs.cp(srcDirPath, destDirPath, { recursive: true }, callback);
+			},
+			{
+				destOptions: { encoding: false },
+				srcOptions: { encoding: false, buffer: false },
+				container: 'test-container',
+				output: 'test-output'
+			}
+		))
+		// processing output files in gulp style
+		.pipe(gulp.dest('output', {
+			cwd: __dirname,
+			encoding: false
+		}))
 };
 task1.description = 'Copy utf-8 and binary files';
 gulp.task(task1);
