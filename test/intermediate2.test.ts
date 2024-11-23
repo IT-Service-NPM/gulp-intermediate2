@@ -14,7 +14,6 @@ import PluginError from "plugin-error";
 
 const cwd: string = path.relative(process.cwd(), __dirname);
 const testSrcFilesPath: string = path.join(cwd, 'test-files');
-const testSrcFilesPath2: string = path.join(cwd, 'test-files-2');
 const testDestFilesPath: string = path.join(cwd, 'output');
 
 let testSrcFiles: string[];
@@ -36,72 +35,6 @@ describe('intermediate2', () => {
 
 	beforeEach(async () => {
 		await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
-	});
-
-	it('must be pushes all result files to output stream', async () => {
-
-		expect.hasAssertions();
-
-		try {
-			await streams.finished(
-				vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false })
-					.pipe(plugin.intermediate2(
-						copyAllFilesTestProcess,
-						{ srcOptions: { encoding: false } }
-					))
-					.pipe(vfs.dest(testDestFilesPath))
-			);
-		}
-		catch {
-			expect.unreachable('All exceptions must be handled in test');
-		}
-
-		expect(fs.existsSync(testDestFilesPath), 'output dir must be exists').toBeTruthy();
-
-		const testDestFiles = (await fs.promises.readdir(testDestFilesPath, { recursive: true }))
-			.filter((testPath: string) => fs.statSync(path.join(testDestFilesPath, testPath)).isFile());
-
-		expect(testDestFiles).toEqual(testSrcFiles);
-
-		for (const testFilePath of testDestFiles) {
-			const srcContent = await fs.promises.readFile(path.join(testSrcFilesPath, testFilePath), { encoding: null });
-			const destContent = await fs.promises.readFile(path.join(testDestFilesPath, testFilePath), { encoding: null });
-			expect(destContent.equals(srcContent), `content of ${testFilePath} test file must be the same as content of source file`).toBeTruthy();
-		};
-
-	});
-
-	it('must be copies all utf-8 files without options', async () => {
-
-		const testSrcFiles2 = (await fs.promises.readdir(testSrcFilesPath2, { recursive: true }))
-			.filter((testPath: string) => fs.statSync(path.join(testSrcFilesPath2, testPath)).isFile());
-
-		expect.hasAssertions();
-
-		try {
-			await streams.finished(
-				vfs.src('**/*', { cwd: testSrcFilesPath2 })
-					.pipe(plugin.intermediate2(copyAllFilesTestProcess))
-					.pipe(vfs.dest(testDestFilesPath))
-			);
-		}
-		catch {
-			expect.unreachable('All exceptions must be handled in test');
-		}
-
-		expect(fs.existsSync(testDestFilesPath), 'output dir must be exists').toBeTruthy();
-
-		const testDestFiles = (await fs.promises.readdir(testDestFilesPath, { recursive: true }))
-			.filter((testPath: string) => fs.statSync(path.join(testDestFilesPath, testPath)).isFile());
-
-		expect(testDestFiles).toEqual(testSrcFiles2);
-
-		for (const testFilePath of testDestFiles) {
-			const srcContent = await fs.promises.readFile(path.join(testSrcFilesPath2, testFilePath), { encoding: null });
-			const destContent = await fs.promises.readFile(path.join(testDestFilesPath, testFilePath), { encoding: null });
-			expect(destContent.equals(srcContent), `content of ${testFilePath} test file must be the same as content of source file`).toBeTruthy();
-		};
-
 	});
 
 	it('must be support streaming files processing', async () => {

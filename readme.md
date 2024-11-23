@@ -34,6 +34,7 @@ Use `gulp-intermediate2` only if other (better) options aren’t available.
 * [Examples](#examples)
   * [Using old `intermediate` interface](#using-old-intermediate-interface)
   * [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
+  * [Copy binary files](#copy-binary-files)
   * [Examples with new interface](#examples-with-newinterface)
 * [API](#api)
   * [intermediate2(\[process\], \[options\])](#intermediate2process-options)
@@ -109,7 +110,7 @@ gulp.task(task2);
 ### Copy UTF-8 files without options
 
 In this example `intermediate2` copy source UTF-8 files to
-container temp directory, invokes examples process function,
+container temp directory, invokes example process function,
 and put UTF-8 files from output temp directory
 to files pipe.
 
@@ -133,6 +134,40 @@ function task1() {
 		.pipe(gulp.dest('output', { cwd: __dirname }))
 };
 task1.description = 'Copy utf-8 files without options';
+gulp.task(task1);
+```
+
+### Copy binary files
+
+In this example `intermediate2` copy binary files to
+container temp directory, invokes example process function,
+and put all files from output temp directory
+to files pipe.
+
+```typescript file=test/examples/03\ copy\ binary\ files/gulpfile.ts
+import { intermediate2 } from "../../../src";
+import type { ProcessCallback } from "../../../src";
+// import { intermediate2 } from "gulp-intermediate2";
+import * as gulp from "gulp";
+import path from "node:path";
+import fs from "node:fs";
+
+function task1() {
+	return gulp.src('**/*', {
+		cwd: path.resolve(__dirname, 'test-files'),
+		encoding: false
+	})
+		.pipe(intermediate2(
+			function (srcDirPath: string, destDirPath: string, callback: ProcessCallback): void {
+				// For example, copy sources files to output directory
+				fs.cp(srcDirPath, destDirPath, { recursive: true }, callback);
+			},
+			{ srcOptions: { encoding: false } }
+		))
+		// processing output files in gulp style
+		.pipe(gulp.dest('output', { cwd: __dirname }))
+};
+task1.description = 'Copy utf-8 and binary files';
 gulp.task(task1);
 ```
 
