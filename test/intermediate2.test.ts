@@ -3,7 +3,7 @@
 "use strict";
 
 import { vi, describe, expect, it, beforeEach, beforeAll } from "vitest";
-import * as plugin from "../src/index";
+import * as plugin from "../src";
 import path from "node:path";
 import streams from "node:stream/promises";
 import fs from "node:fs";

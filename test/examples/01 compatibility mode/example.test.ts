@@ -3,7 +3,7 @@ import { promisify } from "node:util";
 import path from "node:path";
 import fs from "node:fs";
 import gulp from "gulp";
-// import { gulpSync } from "../../lib/index";
+import * as testLib from "../../lib";
 import "./gulpfile";
 
 const testSrcFilesPath: string = path.join(__dirname, 'test-files');
@@ -11,11 +11,10 @@ const testDestFilesPath: string = path.join(__dirname, 'output');
 
 let testSrcFiles: string[];
 
-describe('intermediate2', () => {
+describe('intermediate', () => {
 
 	beforeAll(async () => {
-		testSrcFiles = (await fs.promises.readdir(testSrcFilesPath, { recursive: true }))
-			.filter((testPath: string) => fs.statSync(path.join(testSrcFilesPath, testPath)).isFile());
+		testSrcFiles = await testLib.getFilesRelativePath(testSrcFilesPath);
 	});
 
 	beforeEach(async () => {
@@ -33,8 +32,7 @@ describe('intermediate2', () => {
 
 			expect(fs.existsSync(testDestFilesPath), 'output dir must be exists').toBeTruthy();
 
-			const testDestFiles = (await fs.promises.readdir(testDestFilesPath, { recursive: true }))
-				.filter((testPath: string) => fs.statSync(path.join(testDestFilesPath, testPath)).isFile());
+			const testDestFiles = await testLib.getFilesRelativePath(testDestFilesPath);
 
 			expect(testDestFiles).toEqual(testSrcFiles);
 
@@ -53,8 +51,7 @@ describe('intermediate2', () => {
 
 			expect(fs.existsSync(testDestFilesPath), 'output dir must be exists').toBeTruthy();
 
-			const testDestFiles = (await fs.promises.readdir(testDestFilesPath, { recursive: true }))
-				.filter((testPath: string) => fs.statSync(path.join(testDestFilesPath, testPath)).isFile());
+			const testDestFiles = await testLib.getFilesRelativePath(testDestFilesPath);
 
 			expect(testDestFiles).toEqual(testSrcFiles);
 
