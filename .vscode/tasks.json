@@ -24,7 +24,7 @@
 			"label": "build",
 			"group": {
 				"kind": "build",
-				"isDefault": true
+				"isDefault": false
 			},
 			"command": "npm run build",
 			"presentation": {
@@ -36,7 +36,7 @@
 			"label": "CI",
 			"group": {
 				"kind": "build",
-				"isDefault": false
+				"isDefault": true
 			},
 			"command": "npm run CI",
 			"presentation": {
@@ -48,9 +48,9 @@
 			"label": "test",
 			"group": {
 				"kind": "test",
-				"isDefault": false
+				"isDefault": true
 			},
-			// "dependsOn": "CI",
+			// "dependsOn": "build",
 			"command": "npm run test",
 			"presentation": {
 				"reveal": "always",
