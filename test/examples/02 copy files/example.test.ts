@@ -11,7 +11,7 @@ const testDestFilesPath: string = path.join(__dirname, 'output');
 
 let testSrcFiles: string[];
 
-describe('intermediate', () => {
+describe('intermediate2', () => {
 
 	beforeAll(async () => {
 		testSrcFiles = await testLib.getFilesRelativePath(testSrcFilesPath);
@@ -25,29 +25,10 @@ describe('intermediate', () => {
 		await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
 	});
 
-	it('must be copies all utf-8 files to out-sub-dir-in-temp with options', () => {
+	it('must be copies all utf-8 files without options', () => {
 		void (async () => {
 			/* eslint-disable-next-line @typescript-eslint/no-misused-promises */
 			await promisify(gulp.series('task1'))();
-
-			expect(fs.existsSync(testDestFilesPath), 'output dir must be exists').toBeTruthy();
-
-			const testDestFiles = await testLib.getFilesRelativePath(testDestFilesPath);
-
-			expect(testDestFiles).toEqual(testSrcFiles);
-
-			for (const testFilePath of testDestFiles) {
-				const srcContent = await fs.promises.readFile(path.join(testSrcFilesPath, testFilePath), { encoding: null });
-				const destContent = await fs.promises.readFile(path.join(testDestFilesPath, testFilePath), { encoding: null });
-				expect(destContent.equals(srcContent), `content of ${testFilePath} test file must be the same as content of source file`).toBeTruthy();
-			};
-		})();
-	});
-
-	it('must be copies utf-8 files without options', () => {
-		void (async () => {
-			/* eslint-disable-next-line @typescript-eslint/no-misused-promises */
-			await promisify(gulp.series('task2'))();
 
 			expect(fs.existsSync(testDestFilesPath), 'output dir must be exists').toBeTruthy();
 

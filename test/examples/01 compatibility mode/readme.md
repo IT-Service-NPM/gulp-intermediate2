@@ -6,7 +6,7 @@ but deprecated.
 ```typescript file=./gulpfile.ts
 /* eslint-disable @typescript-eslint/no-deprecated */
 
-import { intermediate } from "../../../src/index";
+import { intermediate } from "../../../src";
 // import { intermediate } from "gulp-intermediate2";
 import * as gulp from "gulp";
 import path from "node:path";
@@ -14,7 +14,7 @@ import fs from "node:fs";
 
 function task1() {
 	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
-		.pipe(intermediate(
+		.pipe(intermediate.intermediate(
 			{ output: 'out-sub-dir-in-temp' },
 			function (tempDir: string, callback): void {
 				// Files processing...
@@ -35,7 +35,7 @@ gulp.task(task1);
 
 function task2() {
 	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
-		.pipe(intermediate(
+		.pipe(intermediate.intermediate(
 			function (tempDir: string, callback): void {
 				// Files processing on place
 				callback();
