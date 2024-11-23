@@ -1,3 +1,10 @@
+## [2.1.0](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v2.0.0...v2.1.0) (2024-11-23)
+
+
+### Features
+
+* **plugin:** add support for PromiseLike process ([386d905](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/386d90502bd71de8f10f32056b407ec12443dd86)), closes [#22](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/22)
+
 ## [2.0.0](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v1.0.3...v2.0.0) (2024-11-23)
 
 
