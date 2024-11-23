@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-deprecated */
 
-import * as intermediate2 from "../../../src/index";
-// import * as intermediate2 from "gulp-intermediate2";
+import { intermediate } from "../../../src/index";
+// import { intermediate } from "gulp-intermediate2";
 import * as gulp from "gulp";
 import path from "node:path";
 import fs from "node:fs";
 
 function task1() {
 	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
-		.pipe(intermediate2.intermediate(
+		.pipe(intermediate(
 			{ output: 'out-sub-dir-in-temp' },
-			function (tempDir: string, callback: intermediate2.ProcessCallback): void {
+			function (tempDir: string, callback): void {
 				// Files processing...
 				// For example, copy sources files to output directory
 				fs.copyFile(
@@ -29,8 +29,8 @@ gulp.task(task1);
 
 function task2() {
 	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
-		.pipe(intermediate2.intermediate(
-			function (tempDir: string, callback: intermediate2.ProcessCallback): void {
+		.pipe(intermediate(
+			function (tempDir: string, callback): void {
 				// Files processing on place
 				callback();
 			}))
