@@ -54,6 +54,20 @@ export interface IntermediateOptions {
 };
 
 /**
+ * Old `intermediate` Process callback function type
+ *
+ * @internal
+ * @public
+ * @deprecated
+ *
+ * Use new {@link intermediate2.intermediate2| intermediate2} interface
+ * and new process type.
+ *
+ * @see {@link intermediate2.ProcessCallback}
+ */
+export type ProcessCallback = intermediate2.ProcessCallback;
+
+/**
  * Old `intermediate` Process function type
  *
  * @internal
@@ -66,7 +80,7 @@ export interface IntermediateOptions {
  * In new {@link intermediate2.intermediate2| intermediate2} interface
  * {@link intermediate2.Process| process} has 3 parameters!
  */
-type Process = (tempDir: string, callback: intermediate2.ProcessCallback) => void;
+export type Process = (tempDir: string, callback: ProcessCallback) => void;
 
 /**
  * @internal
