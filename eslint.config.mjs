@@ -1,46 +1,47 @@
-import typescriptEslintEslintPlugin from "@typescript-eslint/eslint-plugin";
-import tsdoc from "eslint-plugin-tsdoc";
-import tsParser from "@typescript-eslint/parser";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
+// @ts-check
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-	baseDirectory: __dirname,
-	recommendedConfig: js.configs.recommended,
-	allConfig: js.configs.all
-});
+import eslint from '@eslint/js';
+import tsEslint from 'typescript-eslint';
+import tsdoc from "eslint-plugin-tsdoc";
 
 export default [
-	// ...compat.extends("plugin:@typescript-eslint/recommended"),
+	eslint.configs.recommended,
+	// tsEslint.configs.recommendedTypeChecked,
+	...tsEslint.configs.strictTypeChecked,
+	...tsEslint.configs.stylisticTypeChecked,
+	{
+		languageOptions: {
+			ecmaVersion: 2022,
+			sourceType: "module",
+			parserOptions: {
+				projectService: true,
+				tsconfigRootDir: import.meta.dirname,
+			},
+		},
+	},
+	{
+		ignores: [
+			'**/*.js',
+			'**/*.mjs',
+			'node_modules',
+			'dist',
+			'coverage'
+		]
+	},
 	{
 		files: [
 			"src/**/*.ts",
 			"src/**/*.tsx"
 		],
-
 		plugins: {
-			"@typescript-eslint": typescriptEslintEslintPlugin,
-			tsdoc,
+			// tsdoc,
 		},
-
-		languageOptions: {
-			parser: tsParser,
-			ecmaVersion: 2022,
-			sourceType: "module",
-
-			parserOptions: {
-				project: "./tsconfig.json",
-				tsconfigRootDir: __dirname,
-			},
-		},
-
 		rules: {
-			"tsdoc/syntax": "warn",
-			"@typescript-eslint/no-explicit-any": "off"
+			"@typescript-eslint/no-explicit-any": "off",
+			"no-unused-vars": "off",
+			"@typescript-eslint/no-unused-vars": ['error', {
+				'argsIgnorePattern': '^(resolve|reject|err)$'
+			}]
 		},
 	}
 ];

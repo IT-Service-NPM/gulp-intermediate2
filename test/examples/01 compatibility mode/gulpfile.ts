@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-deprecated */
+
 import * as intermediate2 from "../../../src/index";
 // import * as intermediate2 from "gulp-intermediate2";
 import * as gulp from "gulp";

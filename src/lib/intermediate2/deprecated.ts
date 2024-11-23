@@ -1,10 +1,10 @@
-/*jshint node:true */
-/*jshint nomen:true */
+/* eslint-disable @typescript-eslint/no-deprecated */
 "use strict";
 
 import * as streams from "node:stream";
 import * as intermediate2 from "./intermediate2.ts";
 import * as path from "node:path";
+import PluginError from "plugin-error";
 
 const PLUGIN_NAME = 'gulp-intermediate2';
 
@@ -71,9 +71,18 @@ type Process = (tempDir: string, callback: intermediate2.ProcessCallback) => voi
 /**
  * @internal
  */
-function isProcess(process: any): process is Process {
+function isProcess(process: unknown): process is Process {
 	return (typeof process === 'function');
 };
+
+/**
+ * @internal
+ */
+function assertIsProcess(process: unknown): asserts process is Process {
+	if (!isProcess(process)) {
+		throw (new PluginError(PLUGIN_NAME, `process expected`));
+	};
+}
 
 /**
  * Old `intermediate` plugin function
@@ -126,7 +135,8 @@ export function intermediate(optionsOrProcess: IntermediateOptions | Process, pr
 		_process = optionsOrProcess;
 		_options = {};
 	} else {
-		_process = process as Process;
+		assertIsProcess(process);
+		_process = process;
 		_options = optionsOrProcess;
 	};
 	const _container: string = _options.container ?? '';
