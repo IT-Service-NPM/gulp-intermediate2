@@ -52,7 +52,7 @@ describe('intermediate2', () => {
 					.pipe(vfs.dest(testDestFilesPath))
 			);
 		}
-		catch (err: any) {
+		catch {
 			expect.unreachable('All exceptions must be handled in test');
 		}
 
@@ -85,7 +85,7 @@ describe('intermediate2', () => {
 					.pipe(vfs.dest(testDestFilesPath))
 			);
 		}
-		catch (err: any) {
+		catch {
 			expect.unreachable('All exceptions must be handled in test');
 		}
 
@@ -123,7 +123,7 @@ describe('intermediate2', () => {
 					.pipe(vfs.dest(testDestFilesPath, { encoding: false }))
 			);
 		}
-		catch (err: any) {
+		catch {
 			expect.unreachable('All exceptions must be handled in test');
 		}
 
@@ -162,12 +162,12 @@ describe('intermediate2', () => {
 			await streams.finished(testPipeline);
 			await streams.finished(pluginStream);
 		}
-		catch (err: any) {
+		catch {
 			expect.unreachable('All exceptions must be handled in test');
 		}
 
 		expect(pluginDirsProcessor.mock.calls.length).toEqual(2);
-		const tempDirPath = (pluginDirsProcessor.mock.calls[0] as any[])[0];
+		const tempDirPath = pluginDirsProcessor.mock.calls[0]?.[0] as string;
 
 		await timers.scheduler.wait(1000);
 		expect(fs.existsSync(tempDirPath), 'temp dir must be deleted').toBeFalsy();
@@ -193,12 +193,12 @@ describe('intermediate2', () => {
 					.pipe(vfs.dest(testDestFilesPath, { encoding: false }))
 			);
 		}
-		catch (err: any) {
+		catch {
 			expect.unreachable('All exceptions must be handled in test');
 		}
 
 		expect(pluginDirsProcessor.mock.calls.length).toEqual(2);
-		const tempDirPath = (pluginDirsProcessor.mock.calls[0] as any[])[0];
+		const tempDirPath = pluginDirsProcessor.mock.calls[0]?.[0] as string;
 
 		const relative = path.relative(tmpdir(), tempDirPath);
 		expect(relative && !relative.startsWith('..') && !path.isAbsolute(relative),
@@ -226,15 +226,15 @@ describe('intermediate2', () => {
 			.pipe(testStream)
 			.pipe(vfs.dest(testDestFilesPath, { encoding: false }));
 
-		const err = await new Promise<any>((resolve, reject) => {
+		const err = await new Promise((resolve) => {
 			testStream
-				.on('error', (err) => resolve(err))
+				.on('error', (err) => { resolve(err) })
 		});
 		expect(err).toBeInstanceOf(PluginError);
-		expect(err.message).toEqual(`exception in temp files processing handler: Error: ${testErrorMessage}`);
+		expect((err as PluginError).message).toEqual(`exception in temp files processing handler: Error: ${testErrorMessage}`);
 
 		expect(pluginDirsProcessor.mock.calls.length).toEqual(2);
-		const tempDirPath = (pluginDirsProcessor.mock.calls[0] as any[])[0];
+		const tempDirPath = pluginDirsProcessor.mock.calls[0]?.[0] as string;
 
 		await timers.scheduler.wait(1000);
 		expect(fs.existsSync(tempDirPath), 'temp dir must be deleted').toBeFalsy();
@@ -244,7 +244,6 @@ describe('intermediate2', () => {
 	it('must emit an error when after-processing failed', async () => {
 
 		const pluginDirsProcessor = vi.spyOn(vfs, 'dest');
-		const testErrorMessage = 'test error message';
 
 		const testStream = plugin.intermediate2(
 			copyAllFilesTestProcess,
@@ -254,19 +253,19 @@ describe('intermediate2', () => {
 				srcGlobs: 'nonExistingFile'
 			}
 		);
-		const testPipeline = vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false })
+		vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false })
 			.pipe(testStream)
 			.pipe(vfs.dest(testDestFilesPath, { encoding: false }));
 
-		const err = await new Promise<any>((resolve, reject) => {
+		const err = await new Promise((resolve) => {
 			testStream
-				.on('error', (err) => resolve(err))
-				.on('end', () => resolve(null))
+				.on('error', (err) => { resolve(err) })
+				.on('end', () => { resolve(null) })
 		});
 		expect(err).toBeInstanceOf(Error);
 
 		expect(pluginDirsProcessor.mock.calls.length).toEqual(2);
-		const tempDirPath = (pluginDirsProcessor.mock.calls[0] as any[])[0];
+		const tempDirPath = pluginDirsProcessor.mock.calls[0]?.[0] as string;
 
 		await timers.scheduler.wait(1000);
 		expect(fs.existsSync(tempDirPath), 'temp dir must be deleted').toBeFalsy();
