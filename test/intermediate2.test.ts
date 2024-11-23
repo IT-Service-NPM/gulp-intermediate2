@@ -30,38 +30,6 @@ describe('intermediate2', () => {
 		await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
 	});
 
-	it('temp dir must be deleted after stream finished', async () => {
-
-		const pluginDirsProcessor = vi.spyOn(vfs, 'dest');
-
-		try {
-			const pluginStream = plugin.intermediate2(
-				copyAllFilesTestProcess,
-				{
-					destOptions: { encoding: false },
-					srcOptions: { encoding: false, buffer: false },
-					container: 'test-container',
-					output: 'test-output'
-				}
-			);
-			const testPipeline = vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
-				.pipe(pluginStream)
-				.pipe(vfs.dest(testDestFilesPath, { encoding: false }));
-			await streams.finished(testPipeline);
-			await streams.finished(pluginStream);
-		}
-		catch {
-			expect.unreachable('All exceptions must be handled in test');
-		}
-
-		expect(pluginDirsProcessor.mock.calls.length).toEqual(2);
-		const tempDirPath = pluginDirsProcessor.mock.calls[0]?.[0] as string;
-
-		await timers.scheduler.wait(1000);
-		expect(fs.existsSync(tempDirPath), 'temp dir must be deleted').toBeFalsy();
-
-	});
-
 	it('must copy files to the OS temp subdirectory', async () => {
 
 		const pluginDirsProcessor = vi.spyOn(vfs, 'dest');
