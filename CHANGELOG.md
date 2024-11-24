@@ -1,3 +1,21 @@
+## [3.0.0](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v2.1.0...v3.0.0) (2024-11-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **plugin:** 
+
+### Features
+
+* **plugin:** move `intermediate` to separate entrypoint ([6ded533](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/6ded533db1efdc8bcd8601aa46860b44b65e03c0)), closes [#29](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/29)
+
+
+### Other Updates
+
+* **github-actions:** add manual running ability for deployment workflow ([bfa136e](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/bfa136e4600eb3fcbf0345d583f464bb81ea280c))
+* simplify module path in tests ([a5ccb9d](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/a5ccb9d958134f8ae52afdf5d0daf94212b160b1)), closes [#28](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/28)
+* simplify package path in tests and examples ([fc01db8](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/fc01db8830bffba51fab77a84ed1ed0794ff7b11)), closes [#28](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/28)
+
 ## [2.1.0](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v2.0.0...v2.1.0) (2024-11-23)
 
 
