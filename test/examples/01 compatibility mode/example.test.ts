@@ -1,10 +1,10 @@
-import { describe, expect, it, beforeEach, beforeAll, afterAll } from "vitest";
-import { promisify } from "node:util";
-import path from "node:path";
-import fs from "node:fs";
-import gulp from "gulp";
-import * as testLib from "../../lib";
-import "./gulpfile";
+import { describe, expect, it, beforeEach, beforeAll, afterAll } from 'vitest';
+import { promisify } from 'node:util';
+import path from 'node:path';
+import fs from 'node:fs';
+import gulp from 'gulp';
+import * as testLib from '../../lib';
+import './gulpfile';
 
 const testSrcFilesPath: string = path.join(__dirname, 'test-files');
 const testDestFilesPath: string = path.join(__dirname, 'output');

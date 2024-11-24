@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-deprecated */
 
-import { describe, it } from "vitest";
-import { expectDeprecated } from "vite-plugin-vitest-typescript-assert/tsd";
-import { intermediate } from "../src";
+import { describe, it } from 'vitest';
+import { expectDeprecated } from 'vite-plugin-vitest-typescript-assert/tsd';
+import { intermediate } from '../src';
 
 describe('intermediate', () => {
 

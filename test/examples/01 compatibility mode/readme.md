@@ -6,42 +6,43 @@ but deprecated.
 ```typescript file=./gulpfile.ts
 /* eslint-disable @typescript-eslint/no-deprecated */
 
-import { intermediate } from "../../../src";
+import { intermediate } from '../../../src';
 // import { intermediate } from "gulp-intermediate2";
-import * as gulp from "gulp";
-import path from "node:path";
-import fs from "node:fs";
+import * as gulp from 'gulp';
+import path from 'node:path';
+import fs from 'node:fs';
 
 function task1() {
-	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
-		.pipe(intermediate.intermediate(
-			{ output: 'out-sub-dir-in-temp' },
-			function (tempDir: string, callback): void {
-				// Files processing...
-				// For example, copy sources files to output directory
-				fs.copyFile(
-					path.join(tempDir, 'testfile1.txt'),
-					path.join(tempDir, 'out-sub-dir-in-temp/testfile1.txt'),
-					callback
-				);
-			}))
-		.pipe(gulp.dest('output', { cwd: __dirname }))
+  return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+    .pipe(intermediate.intermediate(
+      { output: 'out-sub-dir-in-temp' },
+      function (tempDir: string, callback): void {
+        // Files processing...
+        // For example, copy sources files to output directory
+        fs.copyFile(
+          path.join(tempDir, 'testfile1.txt'),
+          path.join(tempDir, 'out-sub-dir-in-temp/testfile1.txt'),
+          callback
+        );
+      }))
+    .pipe(gulp.dest('output', { cwd: __dirname }));
 };
 task1.description = 'Test gulp task which uses old gulp-intermediate interface';
 task1.flags = {
-	'--test': 'Test task option'
+  '--test': 'Test task option'
 };
 gulp.task(task1);
 
 function task2() {
-	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
-		.pipe(intermediate.intermediate(
-			function (tempDir: string, callback): void {
-				// Files processing on place
-				callback();
-			}))
-		.pipe(gulp.dest(path.join(__dirname, 'output')))
+  return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+    .pipe(intermediate.intermediate(
+      function (tempDir: string, callback): void {
+        // Files processing on place
+        callback();
+      }))
+    .pipe(gulp.dest(path.join(__dirname, 'output')));
 };
 task2.description = 'Second test task';
 gulp.task(task2);
+
 ```
