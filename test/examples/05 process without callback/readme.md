@@ -3,11 +3,10 @@
 In this example `intermediate2` uses async process
 without callback.
 Supported all process functions result types,
-supported by `async-done` module.
+supported by [`async-done`](https://www.npmjs.com/package/async-done) module.
 
 ```typescript file=./gulpfile.ts
-import { intermediate2 } from '../../../src';
-// import { intermediate2 } from "gulp-intermediate2";
+import { intermediate2 } from '#gulp-intermediate2';
 import * as gulp from 'gulp';
 import path from 'node:path';
 import fs from 'node:fs';

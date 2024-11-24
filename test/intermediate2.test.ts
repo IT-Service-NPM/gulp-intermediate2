@@ -3,7 +3,7 @@
 'use strict';
 
 import { vi, describe, expect, it, beforeEach } from 'vitest';
-import * as plugin from '../src';
+import * as plugin from '#gulp-intermediate2';
 import path from 'node:path';
 import streams from 'node:stream/promises';
 import fs from 'node:fs';

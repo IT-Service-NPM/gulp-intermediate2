@@ -30,23 +30,25 @@ Use `gulp-intermediate2` only if other (better) options aren’t available.
 
 ## Contents
 
-* [Install](#install)
-* [Examples](#examples)
-  * [Using old `intermediate` interface](#using-old-intermediate-interface)
-  * [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
-  * [Copy binary files](#copy-binary-files)
-  * [Streaming mode support](#streaming-mode-support)
-  * [Process without callback](#process-without-callback)
-* [API](#api)
-  * [intermediate2(\[process\], \[options\])](#intermediate2process-options)
-    * [options](#options)
-      * [destOptions](#destoptions)
-      * [srcOptions](#srcoptions)
-      * [output](#output)
-      * [container](#container)
-    * [process(srcDirPath, destDirPath, cb)](#processsrcdirpath-destdirpath-cb)
-    * [Notes](#notes)
-* [License](#license)
+- [gulp-intermediate2](#gulp-intermediate2)
+  - [Contents](#contents)
+  - [Install](#install)
+  - [Examples](#examples)
+    - [Using old `intermediate` interface](#using-old-intermediate-interface)
+    - [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
+    - [Copy binary files](#copy-binary-files)
+    - [Streaming mode support](#streaming-mode-support)
+    - [Process without callback](#process-without-callback)
+  - [API](#api)
+    - [intermediate2(\[process\], \[options\])](#intermediate2process-options)
+      - [options](#options)
+        - [destOptions](#destoptions)
+        - [srcOptions](#srcoptions)
+        - [output](#output)
+        - [container](#container)
+      - [process(srcDirPath, destDirPath, cb)](#processsrcdirpath-destdirpath-cb)
+      - [Notes](#notes)
+  - [License](#license)
 
 ## Install
 
@@ -68,8 +70,7 @@ And options must be second parameter, not first
 ```typescript file=test/examples/01\ compatibility\ mode/gulpfile.ts
 /* eslint-disable @typescript-eslint/no-deprecated */
 
-import { intermediate } from '../../../src';
-// import { intermediate } from "gulp-intermediate2";
+import { intermediate } from '#gulp-intermediate2';
 import * as gulp from 'gulp';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -117,9 +118,8 @@ and put UTF-8 files from output temp directory
 to files pipe.
 
 ```typescript file=test/examples/02\ copy\ files/gulpfile.ts
-import { intermediate2 } from '../../../src';
-import type { ProcessCallback } from '../../../src';
-// import { intermediate2 } from "gulp-intermediate2";
+import { intermediate2 } from '#gulp-intermediate2';
+import type { ProcessCallback } from '#gulp-intermediate2';
 import * as gulp from 'gulp';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -148,9 +148,8 @@ and put all files from output temp directory
 to files pipe.
 
 ```typescript file=test/examples/03\ copy\ binary\ files/gulpfile.ts
-import { intermediate2 } from '../../../src';
-import type { ProcessCallback } from '../../../src';
-// import { intermediate2 } from "gulp-intermediate2";
+import { intermediate2 } from '#gulp-intermediate2';
+import type { ProcessCallback } from '#gulp-intermediate2';
 import * as gulp from 'gulp';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -181,9 +180,8 @@ In this example `intermediate2` copy binary files to
 container temp directory in streaming mode.
 
 ```typescript file=test/examples/04\ streaming\ mode/gulpfile.ts
-import { intermediate2 } from '../../../src';
-import type { ProcessCallback } from '../../../src';
-// import { intermediate2 } from "gulp-intermediate2";
+import { intermediate2 } from '#gulp-intermediate2';
+import type { ProcessCallback } from '#gulp-intermediate2';
 import * as gulp from 'gulp';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -222,11 +220,10 @@ gulp.task(task1);
 In this example `intermediate2` uses async process
 without callback.
 Supported all process functions result types,
-supported by `async-done` module.
+supported by [`async-done`](https://www.npmjs.com/package/async-done) module.
 
 ```typescript file=test/examples/05\ process\ without\ callback/gulpfile.ts
-import { intermediate2 } from '../../../src';
-// import { intermediate2 } from "gulp-intermediate2";
+import { intermediate2 } from '#gulp-intermediate2';
 import * as gulp from 'gulp';
 import path from 'node:path';
 import fs from 'node:fs';

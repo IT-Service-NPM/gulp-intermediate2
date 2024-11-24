@@ -4,9 +4,8 @@ In this example `intermediate2` copy binary files to
 container temp directory in streaming mode.
 
 ```typescript file=./gulpfile.ts
-import { intermediate2 } from '../../../src';
-import type { ProcessCallback } from '../../../src';
-// import { intermediate2 } from "gulp-intermediate2";
+import { intermediate2 } from '#gulp-intermediate2';
+import type { ProcessCallback } from '#gulp-intermediate2';
 import * as gulp from 'gulp';
 import path from 'node:path';
 import fs from 'node:fs';
