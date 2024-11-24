@@ -106,7 +106,6 @@ function task2() {
 };
 task2.description = 'Second test task';
 gulp.task(task2);
-
 ```
 
 ### Copy UTF-8 files without options
@@ -137,7 +136,6 @@ function task1() {
 };
 task1.description = 'Copy utf-8 files without options';
 gulp.task(task1);
-
 ```
 
 ### Copy binary files
@@ -172,7 +170,6 @@ function task1() {
 };
 task1.description = 'Copy utf-8 and binary files';
 gulp.task(task1);
-
 ```
 
 ### Streaming mode support
@@ -214,7 +211,6 @@ function task1() {
 };
 task1.description = 'Copy utf-8 and binary files';
 gulp.task(task1);
-
 ```
 
 ### Process without callback
@@ -259,7 +255,6 @@ function task1() {
 };
 task1.description = 'Copy utf-8 and binary files';
 gulp.task(task1);
-
 ```
 
 ## API
