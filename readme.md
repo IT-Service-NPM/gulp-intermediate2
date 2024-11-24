@@ -30,25 +30,23 @@ Use `gulp-intermediate2` only if other (better) options aren’t available.
 
 ## Contents
 
-- [gulp-intermediate2](#gulp-intermediate2)
-  - [Contents](#contents)
-  - [Install](#install)
-  - [Examples](#examples)
-    - [Using old `intermediate` interface](#using-old-intermediate-interface)
-    - [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
-    - [Copy binary files](#copy-binary-files)
-    - [Streaming mode support](#streaming-mode-support)
-    - [Process without callback](#process-without-callback)
-  - [API](#api)
-    - [intermediate2(\[process\], \[options\])](#intermediate2process-options)
-      - [options](#options)
-        - [destOptions](#destoptions)
-        - [srcOptions](#srcoptions)
-        - [output](#output)
-        - [container](#container)
-      - [process(srcDirPath, destDirPath, cb)](#processsrcdirpath-destdirpath-cb)
-      - [Notes](#notes)
-  - [License](#license)
+* [Install](#install)
+* [Examples](#examples)
+  * [Using old `intermediate` interface](#using-old-intermediate-interface)
+  * [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
+  * [Copy binary files](#copy-binary-files)
+  * [Streaming mode support](#streaming-mode-support)
+  * [Process without callback](#process-without-callback)
+* [API](#api)
+  * [intermediate2(\[process\], \[options\])](#intermediate2process-options)
+    * [options](#options)
+      * [destOptions](#destoptions)
+      * [srcOptions](#srcoptions)
+      * [output](#output)
+      * [container](#container)
+    * [process(srcDirPath, destDirPath, cb)](#processsrcdirpath-destdirpath-cb)
+    * [Notes](#notes)
+* [License](#license)
 
 ## Install
 
@@ -107,7 +105,6 @@ function task2() {
 };
 task2.description = 'Second test task';
 gulp.task(task2);
-
 ```
 
 ### Copy UTF-8 files without options
@@ -137,7 +134,6 @@ function task1() {
 };
 task1.description = 'Copy utf-8 files without options';
 gulp.task(task1);
-
 ```
 
 ### Copy binary files
@@ -171,7 +167,6 @@ function task1() {
 };
 task1.description = 'Copy utf-8 and binary files';
 gulp.task(task1);
-
 ```
 
 ### Streaming mode support
@@ -212,7 +207,6 @@ function task1() {
 };
 task1.description = 'Copy utf-8 and binary files';
 gulp.task(task1);
-
 ```
 
 ### Process without callback
@@ -256,7 +250,6 @@ function task1() {
 };
 task1.description = 'Copy utf-8 and binary files';
 gulp.task(task1);
-
 ```
 
 ## API
