@@ -2,7 +2,7 @@
 'use strict';
 
 import * as streams from 'node:stream';
-import * as intermediate2 from './intermediate2.ts';
+import * as intermediate2 from '#gulp-intermediate2';
 import * as path from 'node:path';
 import PluginError from 'plugin-error';
 

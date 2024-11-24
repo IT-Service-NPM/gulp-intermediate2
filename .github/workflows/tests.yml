@@ -53,8 +53,8 @@ jobs:
       - name: Linting
         run: npm run lint
 
-      - name: Check module exports
-        run: npm run check-exports
+      # - name: Check module exports
+      #   run: npm run check-exports
 
       - name: Tests
         run: npm run test

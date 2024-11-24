@@ -10,7 +10,7 @@ function task1() {
     buffer: false
   })
     .pipe(intermediate2(
-      function (srcDirPath: string, destDirPath: string) {
+      function (srcDirPath, destDirPath) {
         // For example, copy sources files to output directory
         // or
         // return spawn('a_command', ['--dest', '_site'], {cwd: tempDir});

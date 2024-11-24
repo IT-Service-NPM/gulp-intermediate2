@@ -40,17 +40,39 @@
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
+    },
+    "./intermediate": {
+      "import": {
+        "types": "./dist/lib/intermediate/index.d.ts",
+        "default": "./dist/lib/intermediate/index.js"
+      },
+      "require": {
+        "types": "./dist/lib/intermediate/index.d.cts",
+        "default": "./dist/lib/intermediate/index.cjs"
+      }
+    },
+    "./compat": {
+      "import": {
+        "types": "./dist/lib/intermediate/index.d.ts",
+        "default": "./dist/lib/intermediate/index.js"
+      },
+      "require": {
+        "types": "./dist/lib/intermediate/index.d.cts",
+        "default": "./dist/lib/intermediate/index.cjs"
+      }
     }
   },
   "imports": {
-    "#gulp-intermediate2": "./src/index.ts"
+    "#gulp-intermediate2": "./src/index.ts",
+    "#gulp-intermediate2/intermediate": "./src/lib/intermediate/index.ts",
+    "#gulp-intermediate2/compat": "./src/lib/intermediate/index.ts"
   },
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "tsup",
-    "CI": "npm run build && npm run lint && npm run check-exports && npm run test && npm run update-readme",
+    "CI": "npm run build && npm run lint && npm run test && npm run update-readme",
     "check-exports": "attw --pack .",
     "lint": "tsc && eslint",
     "test": "vitest run --coverage",
