@@ -1,3 +1,8 @@
+### Process without callback in ECMAScript gulpfile.mjs
+
+Just example.
+
+```javascript file=./gulpfile.mjs
 import { intermediate2 } from '#gulp-intermediate2';
 import GulpClient from 'gulp';
 import path from 'node:path';
@@ -10,7 +15,7 @@ function task1() {
     buffer: false
   })
     .pipe(intermediate2(
-      function (srcDirPath: string, destDirPath: string) {
+      function (srcDirPath, destDirPath) {
         // For example, copy sources files to output directory
         // or
         // return spawn('a_command', ['--dest', '_site'], {cwd: tempDir});
@@ -31,3 +36,5 @@ function task1() {
 };
 task1.description = 'Copy utf-8 and binary files';
 GulpClient.task(task1);
+
+```

@@ -4,14 +4,14 @@ import path from 'node:path';
 import fs from 'node:fs';
 import gulp from 'gulp';
 import * as testLib from '../../lib/index.ts';
-import './gulpfile.ts';
+import './gulpfile.mjs';
 
 const testSrcFilesPath: string = path.join(__dirname, 'test-files');
 const testDestFilesPath: string = path.join(__dirname, 'output');
 
 let testSrcFiles: string[];
 
-describe('intermediate2', () => {
+describe('intermediate', () => {
 
   beforeAll(async () => {
     testSrcFiles = await testLib.getFilesRelativePath(testSrcFilesPath);
@@ -25,7 +25,7 @@ describe('intermediate2', () => {
     await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
   });
 
-  it('must be copies all utf-8 files without options', () => {
+  it('must be copies all utf-8 files to out-sub-dir-in-temp with options', () => {
     void (async () => {
       /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
       await promisify(gulp.series('task1'))();

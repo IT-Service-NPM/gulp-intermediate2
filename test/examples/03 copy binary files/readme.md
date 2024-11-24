@@ -8,12 +8,12 @@ to files pipe.
 ```typescript file=./gulpfile.ts
 import { intermediate2 } from '#gulp-intermediate2';
 import type { ProcessCallback } from '#gulp-intermediate2';
-import * as gulp from 'gulp';
+import GulpClient from 'gulp';
 import path from 'node:path';
 import fs from 'node:fs';
 
 function task1() {
-  return gulp.src('**/*', {
+  return GulpClient.src('**/*', {
     cwd: path.resolve(__dirname, 'test-files'),
     encoding: false
   })
@@ -25,9 +25,9 @@ function task1() {
       { srcOptions: { encoding: false } }
     ))
     // processing output files in gulp style
-    .pipe(gulp.dest('output', { cwd: __dirname }));
+    .pipe(GulpClient.dest('output', { cwd: __dirname }));
 };
 task1.description = 'Copy utf-8 and binary files';
-gulp.task(task1);
+GulpClient.task(task1);
 
 ```

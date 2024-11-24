@@ -6,12 +6,12 @@ container temp directory in streaming mode.
 ```typescript file=./gulpfile.ts
 import { intermediate2 } from '#gulp-intermediate2';
 import type { ProcessCallback } from '#gulp-intermediate2';
-import * as gulp from 'gulp';
+import GulpClient from 'gulp';
 import path from 'node:path';
 import fs from 'node:fs';
 
 function task1() {
-  return gulp.src('**/*', {
+  return GulpClient.src('**/*', {
     cwd: path.resolve(__dirname, 'test-files'),
     encoding: false,
     buffer: false
@@ -29,12 +29,12 @@ function task1() {
       }
     ))
     // processing output files in gulp style
-    .pipe(gulp.dest('output', {
+    .pipe(GulpClient.dest('output', {
       cwd: __dirname,
       encoding: false
     }));
 };
 task1.description = 'Copy utf-8 and binary files';
-gulp.task(task1);
+GulpClient.task(task1);
 
 ```
