@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-deprecated */
 
-import { intermediate } from '../../../src';
-// import { intermediate } from "gulp-intermediate2";
+import { intermediate } from '#gulp-intermediate2';
 import * as gulp from 'gulp';
 import path from 'node:path';
 import fs from 'node:fs';

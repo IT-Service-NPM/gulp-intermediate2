@@ -6,9 +6,8 @@ and put UTF-8 files from output temp directory
 to files pipe.
 
 ```typescript file=./gulpfile.ts
-import { intermediate2 } from '../../../src';
-import type { ProcessCallback } from '../../../src';
-// import { intermediate2 } from "gulp-intermediate2";
+import { intermediate2 } from '#gulp-intermediate2';
+import type { ProcessCallback } from '#gulp-intermediate2';
 import * as gulp from 'gulp';
 import path from 'node:path';
 import fs from 'node:fs';
