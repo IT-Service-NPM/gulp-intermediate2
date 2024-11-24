@@ -2,8 +2,10 @@ name: Deployment
 
 on:
   push:
-    branches:
-      - main
+      branches:
+        - main
+
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
