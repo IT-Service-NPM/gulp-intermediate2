@@ -24,9 +24,9 @@ indent_style = space
 indent_size = 2
 end_of_line = lf
 
-[*.{json,js,mjs,cjs,ts}]
-indent_style = tab
-indent_size = 2
-
-[{package-lock,package}.json]
+[*.{json,js,mjs,cjs,ts,tsx}]
+insert_final_newline = true
+trim_trailing_whitespace = true
 end_of_line = lf
+indent_style = space
+indent_size = 2

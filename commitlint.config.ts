@@ -8,7 +8,7 @@ const Configuration: UserConfig = {
 
 	extends: ['@commitlint/config-angular'],
 	rules: {
-		"type-enum": [RuleConfigSeverity.Error, 'always', [
+		'type-enum': [RuleConfigSeverity.Error, 'always', [
 			'build',
 			'ci',
 			'docs',
@@ -22,18 +22,18 @@ const Configuration: UserConfig = {
 			// additional types
 			'chore'
 		]],
-		"scope-enum": [RuleConfigSeverity.Error, 'always', [
-			"plugin",
-			"vscode",
-			"git",
-			"github",
-			"github-actions",
-			"deps",
-			"devtools",
-			"readme",
-			"release"
+		'scope-enum': [RuleConfigSeverity.Error, 'always', [
+			'plugin',
+			'vscode',
+			'git',
+			'github',
+			'github-actions',
+			'deps',
+			'devtools',
+			'readme',
+			'release'
 		]],
-		"scope-empty": [RuleConfigSeverity.Disabled]
+		'scope-empty': [RuleConfigSeverity.Disabled]
 	},
 	// ...
 };

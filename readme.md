@@ -68,44 +68,45 @@ And options must be second parameter, not first
 ```typescript file=test/examples/01\ compatibility\ mode/gulpfile.ts
 /* eslint-disable @typescript-eslint/no-deprecated */
 
-import { intermediate } from "../../../src";
+import { intermediate } from '../../../src';
 // import { intermediate } from "gulp-intermediate2";
-import * as gulp from "gulp";
-import path from "node:path";
-import fs from "node:fs";
+import * as gulp from 'gulp';
+import path from 'node:path';
+import fs from 'node:fs';
 
 function task1() {
-	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
-		.pipe(intermediate.intermediate(
-			{ output: 'out-sub-dir-in-temp' },
-			function (tempDir: string, callback): void {
-				// Files processing...
-				// For example, copy sources files to output directory
-				fs.copyFile(
-					path.join(tempDir, 'testfile1.txt'),
-					path.join(tempDir, 'out-sub-dir-in-temp/testfile1.txt'),
-					callback
-				);
-			}))
-		.pipe(gulp.dest('output', { cwd: __dirname }))
+  return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+    .pipe(intermediate.intermediate(
+      { output: 'out-sub-dir-in-temp' },
+      function (tempDir: string, callback): void {
+        // Files processing...
+        // For example, copy sources files to output directory
+        fs.copyFile(
+          path.join(tempDir, 'testfile1.txt'),
+          path.join(tempDir, 'out-sub-dir-in-temp/testfile1.txt'),
+          callback
+        );
+      }))
+    .pipe(gulp.dest('output', { cwd: __dirname }));
 };
 task1.description = 'Test gulp task which uses old gulp-intermediate interface';
 task1.flags = {
-	'--test': 'Test task option'
+  '--test': 'Test task option'
 };
 gulp.task(task1);
 
 function task2() {
-	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
-		.pipe(intermediate.intermediate(
-			function (tempDir: string, callback): void {
-				// Files processing on place
-				callback();
-			}))
-		.pipe(gulp.dest(path.join(__dirname, 'output')))
+  return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+    .pipe(intermediate.intermediate(
+      function (tempDir: string, callback): void {
+        // Files processing on place
+        callback();
+      }))
+    .pipe(gulp.dest(path.join(__dirname, 'output')));
 };
 task2.description = 'Second test task';
 gulp.task(task2);
+
 ```
 
 ### Copy UTF-8 files without options
@@ -116,26 +117,27 @@ and put UTF-8 files from output temp directory
 to files pipe.
 
 ```typescript file=test/examples/02\ copy\ files/gulpfile.ts
-import { intermediate2 } from "../../../src";
-import type { ProcessCallback } from "../../../src";
+import { intermediate2 } from '../../../src';
+import type { ProcessCallback } from '../../../src';
 // import { intermediate2 } from "gulp-intermediate2";
-import * as gulp from "gulp";
-import path from "node:path";
-import fs from "node:fs";
+import * as gulp from 'gulp';
+import path from 'node:path';
+import fs from 'node:fs';
 
 function task1() {
-	return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
-		.pipe(intermediate2(
-			function (srcDirPath: string, destDirPath: string, callback: ProcessCallback): void {
-				// Files processing...
-				// For example, copy sources files to output directory
-				fs.cp(srcDirPath, destDirPath, { recursive: true }, callback);
-			}
-		))
-		.pipe(gulp.dest('output', { cwd: __dirname }))
+  return gulp.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+    .pipe(intermediate2(
+      function (srcDirPath: string, destDirPath: string, callback: ProcessCallback): void {
+        // Files processing...
+        // For example, copy sources files to output directory
+        fs.cp(srcDirPath, destDirPath, { recursive: true }, callback);
+      }
+    ))
+    .pipe(gulp.dest('output', { cwd: __dirname }));
 };
 task1.description = 'Copy utf-8 files without options';
 gulp.task(task1);
+
 ```
 
 ### Copy binary files
@@ -146,30 +148,31 @@ and put all files from output temp directory
 to files pipe.
 
 ```typescript file=test/examples/03\ copy\ binary\ files/gulpfile.ts
-import { intermediate2 } from "../../../src";
-import type { ProcessCallback } from "../../../src";
+import { intermediate2 } from '../../../src';
+import type { ProcessCallback } from '../../../src';
 // import { intermediate2 } from "gulp-intermediate2";
-import * as gulp from "gulp";
-import path from "node:path";
-import fs from "node:fs";
+import * as gulp from 'gulp';
+import path from 'node:path';
+import fs from 'node:fs';
 
 function task1() {
-	return gulp.src('**/*', {
-		cwd: path.resolve(__dirname, 'test-files'),
-		encoding: false
-	})
-		.pipe(intermediate2(
-			function (srcDirPath: string, destDirPath: string, callback: ProcessCallback): void {
-				// For example, copy sources files to output directory
-				fs.cp(srcDirPath, destDirPath, { recursive: true }, callback);
-			},
-			{ srcOptions: { encoding: false } }
-		))
-		// processing output files in gulp style
-		.pipe(gulp.dest('output', { cwd: __dirname }))
+  return gulp.src('**/*', {
+    cwd: path.resolve(__dirname, 'test-files'),
+    encoding: false
+  })
+    .pipe(intermediate2(
+      function (srcDirPath: string, destDirPath: string, callback: ProcessCallback): void {
+        // For example, copy sources files to output directory
+        fs.cp(srcDirPath, destDirPath, { recursive: true }, callback);
+      },
+      { srcOptions: { encoding: false } }
+    ))
+    // processing output files in gulp style
+    .pipe(gulp.dest('output', { cwd: __dirname }));
 };
 task1.description = 'Copy utf-8 and binary files';
 gulp.task(task1);
+
 ```
 
 ### Streaming mode support
@@ -178,82 +181,85 @@ In this example `intermediate2` copy binary files to
 container temp directory in streaming mode.
 
 ```typescript file=test/examples/04\ streaming\ mode/gulpfile.ts
-import { intermediate2 } from "../../../src";
-import type { ProcessCallback } from "../../../src";
+import { intermediate2 } from '../../../src';
+import type { ProcessCallback } from '../../../src';
 // import { intermediate2 } from "gulp-intermediate2";
-import * as gulp from "gulp";
-import path from "node:path";
-import fs from "node:fs";
+import * as gulp from 'gulp';
+import path from 'node:path';
+import fs from 'node:fs';
 
 function task1() {
-	return gulp.src('**/*', {
-		cwd: path.resolve(__dirname, 'test-files'),
-		encoding: false,
-		buffer: false
-	})
-		.pipe(intermediate2(
-			function (srcDirPath: string, destDirPath: string, callback: ProcessCallback): void {
-				// For example, copy sources files to output directory
-				fs.cp(srcDirPath, destDirPath, { recursive: true }, callback);
-			},
-			{
-				destOptions: { encoding: false },
-				srcOptions: { encoding: false, buffer: false },
-				container: 'test-container',
-				output: 'test-output'
-			}
-		))
-		// processing output files in gulp style
-		.pipe(gulp.dest('output', {
-			cwd: __dirname,
-			encoding: false
-		}))
+  return gulp.src('**/*', {
+    cwd: path.resolve(__dirname, 'test-files'),
+    encoding: false,
+    buffer: false
+  })
+    .pipe(intermediate2(
+      function (srcDirPath: string, destDirPath: string, callback: ProcessCallback): void {
+        // For example, copy sources files to output directory
+        fs.cp(srcDirPath, destDirPath, { recursive: true }, callback);
+      },
+      {
+        destOptions: { encoding: false },
+        srcOptions: { encoding: false, buffer: false },
+        container: 'test-container',
+        output: 'test-output'
+      }
+    ))
+    // processing output files in gulp style
+    .pipe(gulp.dest('output', {
+      cwd: __dirname,
+      encoding: false
+    }));
 };
 task1.description = 'Copy utf-8 and binary files';
 gulp.task(task1);
+
 ```
 
 ### Process without callback
 
 In this example `intermediate2` uses async process
 without callback.
-Supported all process type, supported by `async-done` module.
+Supported all process functions result types,
+supported by `async-done` module.
 
 ```typescript file=test/examples/05\ process\ without\ callback/gulpfile.ts
-import { intermediate2 } from "../../../src";
+import { intermediate2 } from '../../../src';
 // import { intermediate2 } from "gulp-intermediate2";
-import * as gulp from "gulp";
-import path from "node:path";
-import fs from "node:fs";
+import * as gulp from 'gulp';
+import path from 'node:path';
+import fs from 'node:fs';
 
 function task1() {
-	return gulp.src('**/*', {
-		cwd: path.resolve(__dirname, 'test-files'),
-		encoding: false,
-		buffer: false
-	})
-		.pipe(intermediate2(
-			function (srcDirPath: string, destDirPath: string) {
-				// For example, copy sources files to output directory
-				// or
-				// return spawn('a_command', ['--dest', '_site'], {cwd: tempDir});
-				return fs.promises.cp(srcDirPath, destDirPath, { recursive: true });
-			},
-			{
-				destOptions: { encoding: false },
-				srcOptions: { encoding: false, buffer: false },
-				container: 'test-container',
-				output: 'test-output'
-			}
-		))
-		// processing output files in gulp style
-		.pipe(gulp.dest('output', {
-			cwd: __dirname,
-			encoding: false
-		}))
+  return gulp.src('**/*', {
+    cwd: path.resolve(__dirname, 'test-files'),
+    encoding: false,
+    buffer: false
+  })
+    .pipe(intermediate2(
+      function (srcDirPath: string, destDirPath: string) {
+        // For example, copy sources files to output directory
+        // or
+        // return spawn('a_command', ['--dest', '_site'], {cwd: tempDir});
+        return fs.promises.cp(srcDirPath, destDirPath, { recursive: true });
+      },
+      {
+        destOptions: { encoding: false },
+        srcOptions: { encoding: false, buffer: false },
+        container: 'test-container',
+        output: 'test-output'
+      }
+    ))
+    // processing output files in gulp style
+    .pipe(gulp.dest('output', {
+      cwd: __dirname,
+      encoding: false
+    }));
 };
 task1.description = 'Copy utf-8 and binary files';
 gulp.task(task1);
+
 ```
 
 ## API
