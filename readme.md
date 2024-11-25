@@ -2,6 +2,7 @@
 
 [![Tests Status](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml)
 [![Tests Results](https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a/raw/tests.svg)](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml)
+[![Coverage](https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a/raw/coverage.svg)](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml)
 
 [![GitHub release](https://img.shields.io/github/v/release/IT-Service-NPM/gulp-intermediate2.svg?sort=semver&logo=github)](https://github.com/IT-Service-NPM/gulp-intermediate2/releases)
 [![NPM release](https://img.shields.io/npm/v/gulp-intermediate2.svg?logo=npm)](https://www.npmjs.com/package/gulp-intermediate2)
