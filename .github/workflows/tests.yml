@@ -14,6 +14,7 @@ on:
       - 'test/**'
       - 'vitest.config.ts'
       - 'eslint.config.mjs'
+      - '.github/workflows/tests.yml'
 
   workflow_dispatch:
 
@@ -70,6 +71,13 @@ jobs:
         with:
           name: Test Results (OS ${{ matrix.os }} - Node.js ${{ matrix.node-version }})
           path: test/results/junit-report.xml
+
+      - name: Upload Test Coverage
+        if: matrix.os=='ubuntu' && matrix.node-version=='latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Coverage
+          path: coverage/coverage-summary.json
 
       - name: Report Coverage
         # if: always()
@@ -132,11 +140,40 @@ jobs:
           path: tests.svg
 
       - name: Upload badge to Gist
-        # if: >
-        #   github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'master' ||
-        #   github.event_name != 'workflow_run' && github.ref == 'refs/heads/master'
+        if: >
+          github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main' ||
+          github.event_name != 'workflow_run' && github.ref == 'refs/heads/main'
         uses: andymckay/append-gist-action@6e8d64427fe47cbacf4ab6b890411f1d67c07f3e
         with:
           token: ${{ secrets.GIST_TOKEN }}
           gistURL: https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a
           file: tests.svg
+
+  publish-test-coverage:
+    name: "Coverage publishing"
+    needs: tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    if: always()
+
+    steps:
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: Coverage
+          path: coverage
+
+      - name: Publish Results Coverage
+        uses: wjervis7/vitest-badge-action@v1.0.0
+        if: success() || failure() # run whether steps succeed or not
+        with:
+          badge-text: Coverage
+          result-type: lines
+          badge-path: coverage.svg
+          gist-token: ${{ secrets.GIST_TOKEN }} # if you want to upload badge to gist
+          gist-url: https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a
+          upload-badge: >
+            github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main' ||
+            github.event_name != 'workflow_run' && github.ref == 'refs/heads/main'
