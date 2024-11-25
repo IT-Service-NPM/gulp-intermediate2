@@ -1,8 +1,9 @@
 # gulp-intermediate2
 
-[![Build and Test Status](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml)
+[![Tests Status](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml)
+[![Tests Results](https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a/raw/tests.svg)](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml)
 
-[![GitHub release](https://img.shields.io/github/v/release/IT-Service-NPM/gulp-intermediate2.svg?sort=semver\&logo=github)](https://github.com/IT-Service-NPM/gulp-intermediate2/releases)
+[![GitHub release](https://img.shields.io/github/v/release/IT-Service-NPM/gulp-intermediate2.svg?sort=semver&logo=github)](https://github.com/IT-Service-NPM/gulp-intermediate2/releases)
 [![NPM release](https://img.shields.io/npm/v/gulp-intermediate2.svg?logo=npm)](https://www.npmjs.com/package/gulp-intermediate2)
 
 [![Semantic Versioning](https://img.shields.io/badge/Semantic%20Versioning-v2.0.0-green.svg?logo=semver)](https://semver.org/lang/ru/spec/v2.0.0.html)
@@ -30,23 +31,25 @@ Use `gulp-intermediate2` only if other (better) options aren’t available.
 
 ## Contents
 
-* [Install](#install)
-* [Examples](#examples)
-  * [Using old `intermediate` interface](#using-old-intermediate-interface)
-  * [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
-  * [Copy binary files](#copy-binary-files)
-  * [Streaming mode support](#streaming-mode-support)
-  * [Process without callback](#process-without-callback)
-* [API](#api)
-  * [intermediate2(\[process\], \[options\])](#intermediate2process-options)
-    * [options](#options)
-      * [destOptions](#destoptions)
-      * [srcOptions](#srcoptions)
-      * [output](#output)
-      * [container](#container)
-    * [process(srcDirPath, destDirPath, cb)](#processsrcdirpath-destdirpath-cb)
-    * [Notes](#notes)
-* [License](#license)
+- [gulp-intermediate2](#gulp-intermediate2)
+  - [Contents](#contents)
+  - [Install](#install)
+  - [Examples](#examples)
+    - [Using old `intermediate` interface](#using-old-intermediate-interface)
+    - [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
+    - [Copy binary files](#copy-binary-files)
+    - [Streaming mode support](#streaming-mode-support)
+    - [Process without callback](#process-without-callback)
+  - [API](#api)
+    - [intermediate2(\[process\], \[options\])](#intermediate2process-options)
+      - [options](#options)
+        - [destOptions](#destoptions)
+        - [srcOptions](#srcoptions)
+        - [output](#output)
+        - [container](#container)
+      - [process(srcDirPath, destDirPath, cb)](#processsrcdirpath-destdirpath-cb)
+      - [Notes](#notes)
+  - [License](#license)
 
 ## Install
 

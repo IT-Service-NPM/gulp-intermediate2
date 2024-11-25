@@ -1,4 +1,4 @@
-name: Build and tests
+name: Tests
 
 on:
 
@@ -15,17 +15,22 @@ on:
       - 'vitest.config.ts'
       - 'eslint.config.mjs'
 
+  workflow_dispatch:
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
+  contents: read
   actions: read
-  issues: write # to be able to comment on released issues
-  pull-requests: write # to be able to comment on released pull requests
+  issues: write
+  pull-requests: write
+  checks: write
 
 jobs:
   tests:
+    name: "Testing"
 
     strategy:
       matrix:
@@ -59,8 +64,79 @@ jobs:
       - name: Tests
         run: npm run test
 
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test Results (OS ${{ matrix.os }} - Node.js ${{ matrix.node-version }})
+          path: test/results/junit-report.xml
+
       - name: Report Coverage
         # if: always()
         uses:  davelosert/vitest-coverage-report-action@v2
         with:
           file-coverage-mode: all
+
+  publish-test-results:
+    name: "Results publishing"
+    needs: tests
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      # only needed unless run with comment_mode: off
+      pull-requests: write
+      # only needed for private repository
+      contents: read
+      # only needed for private repository
+      issues: read
+    if: always()
+
+    env:
+      BADGE_COLOR: 696969
+
+    steps:
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: test/results
+
+      - name: Publish tests results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        id: test-results
+        with:
+          files: "test/results/**/*.xml"
+
+      - name: Set badge color
+        shell: bash
+        run: |
+          case ${{ fromJSON( steps.test-results.outputs.json ).conclusion }} in
+            success)
+              echo "BADGE_COLOR=31c653" >> $GITHUB_ENV
+              ;;
+            failure)
+              echo "BADGE_COLOR=800000" >> $GITHUB_ENV
+              ;;
+            neutral)
+              echo "BADGE_COLOR=696969" >> $GITHUB_ENV
+              ;;
+          esac
+
+      - name: Create badge
+        uses: emibcn/badge-action@v2.0.3
+        with:
+          label: Tests
+          status: '${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.tests }} tests, ${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.runs }} runs: ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}'
+          color: ${{ env.BADGE_COLOR }}
+          icon: data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+PGcgZmlsbD0ibm9uZSI+PHJlY3Qgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIGZpbGw9IiMyNDI5MzgiIHJ4PSI2MCIvPjxwYXRoIGZpbGw9IiNmY2M3MmIiIGQ9Im0xNzguMDkgOTIuMzE5bC00Ny44MTMgNjkuMTMxYTQuMTE4IDQuMTE4IDAgMCAxLTYuNzc4LS4wMWE0LjA4IDQuMDggMCAwIDEtLjcwNi0yLjUwMmwxLjkxNC0zOC4xNjhsLTMwLjg5Mi02LjU1MWE0LjEgNC4xIDAgMCAxLTIuOTU2LTIuNDg0YTQuMDcgNC4wNyAwIDAgMSAuNDM1LTMuODNsNDcuODE0LTY5LjEzMWE0LjEyIDQuMTIgMCAwIDEgNC42OTktMS41NmE0LjEgNC4xIDAgMCAxIDIuMDc5IDEuNTcxYTQuMDcgNC4wNyAwIDAgMSAuNzA1IDIuNTAybC0xLjkxNCAzOC4xNjhsMzAuODkyIDYuNTVhNC4xIDQuMSAwIDAgMSAxLjc5Mi44NzRhNC4wNyA0LjA3IDAgMCAxIC43MjkgNS40NCIvPjxwYXRoIGZpbGw9IiM3MjliMWIiIGQ9Ik0xMjguMDE5IDIxOS40NTFhOS43IDkuNyAwIDAgMS0zLjcwNi0uNzM0YTkuNyA5LjcgMCAwIDEtMy4xNC0yLjEwMWwtNDUuMTc4LTQ1LjE3NWE5LjY4IDkuNjggMCAwIDEgNi44NS0xNi41MDhhOS42OCA5LjY4IDAgMCAxIDYuODQgMi44MTdsMzguMzM0IDM4LjMyOWw4My41MS04My41MDZhOS42ODMgOS42ODMgMCAwIDEgMTMuNjM0LjA1NWE5LjcgOS43IDAgMCAxIDIuODM3IDYuODA3YTkuNyA5LjcgMCAwIDEtMi43ODEgNi44MjhsLTkwLjM1NiA5MC4zNTNhOS42MyA5LjYzIDAgMCAxLTYuODQ0IDIuODM1Ii8+PHBhdGggZmlsbD0iIzcyOWIxYiIgZmlsbC1vcGFjaXR5PSIwLjUiIGQ9Ik0xMjcuOTggMjE5LjQ1MWE5LjcgOS43IDAgMCAwIDMuNzA2LS43MzRhOS43IDkuNyAwIDAgMCAzLjE0LTIuMTAxbDQ1LjE3OC00NS4xNzVhOS42OCA5LjY4IDAgMCAwLTEzLjY5MS0xMy42OTFsLTM4LjMzMyAzOC4zMjlsLTgzLjUxLTgzLjUwNmE5LjY4MyA5LjY4MyAwIDAgMC0xMy42MzQuMDU1YTkuNjgzIDkuNjgzIDAgMCAwLS4wNTYgMTMuNjM1bDkwLjM1NiA5MC4zNTNhOS42NSA5LjY1IDAgMCAwIDYuODQ0IDIuODM1Ii8+PC9nPjwvc3ZnPg==
+          path: tests.svg
+
+      - name: Upload badge to Gist
+        # if: >
+        #   github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'master' ||
+        #   github.event_name != 'workflow_run' && github.ref == 'refs/heads/master'
+        uses: andymckay/append-gist-action@6e8d64427fe47cbacf4ab6b890411f1d67c07f3e
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gistURL: https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a
+          file: tests.svg
