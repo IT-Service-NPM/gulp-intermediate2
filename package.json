@@ -1,7 +1,7 @@
 {
   "name": "gulp-intermediate2",
   "type": "module",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A gulp helper for tools that need files on disk.",
   "keywords": [
     "gulpplugin",

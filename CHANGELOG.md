@@ -1,3 +1,21 @@
+## [3.0.1](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.0...v3.0.1) (2024-11-26)
+
+
+### Bug Fixes
+
+* add API manual generator ([4120420](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/41204203fa89a02c9578b26356a938301ebdafe6)), closes [#17](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/17)
+
+
+### Other Updates
+
+* add API docs updating to GitHub workflow ([b7d8e12](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/b7d8e127d10443d2559fe76b1da16bd070197e50)), closes [#17](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/17)
+* **deps:** bump @arethetypeswrong/cli from 0.16.4 to 0.17.0 ([2b5d645](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/2b5d6457a6bd749834a6911b507874b14d47ce42))
+* **deps:** bump eslint-plugin-tsdoc from 0.3.0 to 0.4.0 ([88f3361](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/88f3361bbabf034b37c6e8e388b2a3f9e135dbe5))
+* **deps:** restore Dependabot ([28122b1](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/28122b145659afb0e7aca80823ed14aed406ab1a))
+* **github-actions:** publish coverage info ([1470bde](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/1470bdeda14486d6337bee2cb3268b3002e32e59)), closes [#34](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/34)
+* **github-actions:** publish tests resuls to GitHub ([099c3da](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/099c3da4a8a219f69b87ef9219737a0917a7155a)), closes [#33](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/33)
+* **github-actions:** restore deployment workflow autorun ([b62122e](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/b62122eebd133d245a91d6686eee5c18ec18a869))
+
 ## [3.0.0](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v2.1.0...v3.0.0) (2024-11-24)
 
 
