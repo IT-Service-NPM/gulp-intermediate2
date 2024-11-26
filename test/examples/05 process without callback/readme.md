@@ -39,5 +39,4 @@ function task1() {
 };
 task1.description = 'Copy utf-8 and binary files';
 GulpClient.task(task1);
-
 ```

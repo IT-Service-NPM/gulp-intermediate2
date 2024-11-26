@@ -25,5 +25,4 @@ function task1() {
 };
 task1.description = 'Copy utf-8 files without options';
 GulpClient.task(task1);
-
 ```

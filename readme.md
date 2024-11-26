@@ -32,17 +32,15 @@ Use `gulp-intermediate2` only if other (better) options aren’t available.
 
 ## Contents
 
-- [gulp-intermediate2](#gulp-intermediate2)
-  - [Contents](#contents)
-  - [Install](#install)
-  - [Examples](#examples)
-    - [Using old `intermediate` interface](#using-old-intermediate-interface)
-    - [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
-    - [Copy binary files](#copy-binary-files)
-    - [Streaming mode support](#streaming-mode-support)
-    - [Process without callback](#process-without-callback)
-  - [API](#api)
-  - [License](#license)
+* [Install](#install)
+* [Examples](#examples)
+  * [Using old `intermediate` interface](#using-old-intermediate-interface)
+  * [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
+  * [Copy binary files](#copy-binary-files)
+  * [Streaming mode support](#streaming-mode-support)
+  * [Process without callback](#process-without-callback)
+* [API](#api)
+* [License](#license)
 
 ## Install
 

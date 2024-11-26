@@ -44,5 +44,4 @@ function task2() {
 };
 task2.description = 'Second test task';
 GulpClient.task(task2);
-
 ```
