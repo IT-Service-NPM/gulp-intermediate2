@@ -32,23 +32,17 @@ Use `gulp-intermediate2` only if other (better) options aren’t available.
 
 ## Contents
 
-* [Install](#install)
-* [Examples](#examples)
-  * [Using old `intermediate` interface](#using-old-intermediate-interface)
-  * [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
-  * [Copy binary files](#copy-binary-files)
-  * [Streaming mode support](#streaming-mode-support)
-  * [Process without callback](#process-without-callback)
-* [API](#api)
-  * [intermediate2(\[process\], \[options\])](#intermediate2process-options)
-    * [options](#options)
-      * [destOptions](#destoptions)
-      * [srcOptions](#srcoptions)
-      * [output](#output)
-      * [container](#container)
-    * [process(srcDirPath, destDirPath, cb)](#processsrcdirpath-destdirpath-cb)
-    * [Notes](#notes)
-* [License](#license)
+- [gulp-intermediate2](#gulp-intermediate2)
+  - [Contents](#contents)
+  - [Install](#install)
+  - [Examples](#examples)
+    - [Using old `intermediate` interface](#using-old-intermediate-interface)
+    - [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
+    - [Copy binary files](#copy-binary-files)
+    - [Streaming mode support](#streaming-mode-support)
+    - [Process without callback](#process-without-callback)
+  - [API](#api)
+  - [License](#license)
 
 ## Install
 
@@ -257,70 +251,7 @@ GulpClient.task(task1);
 
 ## API
 
-<!-- TSDOC_START -->
-
-<!-- TSDOC_END -->
-
-### intermediate2(\[process], \[options])
-
-#### options
-
-Type: `object`
-Optional
-
-##### destOptions
-
-Type: `object`
-Optional
-
-All options, supported by `gulp.dest`.
-Options for writing input Vinyl files to temp directory.
-
-##### srcOptions
-
-Type: `object`
-Optional
-
-All options, supported by `gulp.src`.
-Options for reading output files from the temp output directory
-after the process is completed.
-
-##### output
-
-Type: `string`
-Default: `'.'`
-
-The directory read back into the stream when processing is finished.
-Relative to `tempDir\<uniqueID>`.
-
-##### container
-
-Type: `string`
-Default: random uuid
-
-The directory that input files are written to.
-Relative to `tempDir\<uniqueID>`.
-
-The container is emptied before every run.
-
-#### process(srcDirPath, destDirPath, cb)
-
-Type: `function`
-
-Run your commands.
-`process` comes with three arguments:
-
-* `srcDirPath`: The absolute path to the directory
-  containing your input temporary files.
-* `destDirPath`: The absolute path to the directory
-  containing your output temporary files.
-* `cb`: A callback function to call when the processing is finished.
-  It pushes the output files (from destDirPath) back into the gulp stream.
-
-#### Notes
-
-The files are written to `tempDir` using the vinyl file object’s relative path,
-with `gulp.dest()`.
+Please, read the [API reference](/docs/index.md).
 
 ## License
 

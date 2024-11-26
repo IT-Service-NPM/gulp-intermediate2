@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-deprecated */
-'use strict';
 
 import * as streams from 'node:stream';
-import * as intermediate2 from '#gulp-intermediate2';
+import * as intermediate2 from '../intermediate2/index.ts';
 import * as path from 'node:path';
 import PluginError from 'plugin-error';
 
@@ -11,13 +10,12 @@ const PLUGIN_NAME = 'gulp-intermediate2';
 /**
  * gulp-intermediate plugin options
  *
- * @remarks
+ * @see {@link intermediate2.Intermediate2Options| Intermediate2Options} for more details.
  *
- * See {@link intermediate2.Intermediate2Options| Intermediate2Options} for more details.
- *
- * @internal
  * @public
  * @deprecated
+ *
+ * @remarks
  *
  * Use new {@link intermediate2.intermediate2| intermediate2} interface.
  */
@@ -26,12 +24,8 @@ export interface IntermediateOptions {
   /**
    * Process output dir relative path
    *
-   * @remarks
-   *
    * The directory read back into the stream when processing is finished.
    * Relative to tempDir.
-   *
-   * See new {@link intermediate2.intermediate2| intermediate2} interface.
    *
    * @defaultValue `'.'`
    */
@@ -40,15 +34,11 @@ export interface IntermediateOptions {
   /**
    * Process input temp directory relative path
    *
-   * @remarks
-   *
    * The directory that files are written to,
    * relative to the operating system's temporary directory.
    * The container is emptied before every run.
    *
-   * See new {@link intermediate2.intermediate2| intermediate2} interface.
-   *
-   * @defaultValue `''`
+   * @defaultValue `'.'`
    */
   container?: string;
 };
@@ -56,7 +46,6 @@ export interface IntermediateOptions {
 /**
  * Old `intermediate` Process callback function type
  *
- * @internal
  * @public
  * @deprecated
  *
@@ -70,7 +59,6 @@ export type ProcessCallback = intermediate2.ProcessCallback;
 /**
  * Old `intermediate` Process function type
  *
- * @internal
  * @public
  * @deprecated
  *
@@ -101,7 +89,6 @@ function assertIsProcess(process: unknown): asserts process is Process {
 /**
  * Old `intermediate` plugin function
  *
- * @internal
  * @public
  * @deprecated
  *
@@ -116,7 +103,6 @@ export function intermediate(options: IntermediateOptions, process: Process): st
 /**
  * Old `intermediate` plugin function
  *
- * @internal
  * @public
  * @deprecated
  *
@@ -131,7 +117,6 @@ export function intermediate(process: Process): streams.Duplex;
 /**
  * Old `intermediate` plugin function
  *
- * @internal
  * @public
  * @deprecated
  *
