@@ -26,5 +26,4 @@ function task1() {
 };
 task1.description = 'Simple copy task in ESM';
 GulpClient.task(task1);
-
 ```
