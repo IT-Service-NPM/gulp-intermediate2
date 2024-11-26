@@ -1,4 +1,4 @@
-name: Preparing readme
+name: Updating API and other documentation
 
 on:
 
@@ -7,9 +7,14 @@ on:
       - main
   push:
     paths:
+      - 'src/**'
+      - 'package.json'
+      - 'tsconfig.json'
+      - 'api-extractor.json'
       - 'test/examples/**/gulpfile.ts'
+      - 'test/examples/**/readme.md'
       - 'readme.md'
-      - '.github/workflows/readme.yml'
+      - '.github/workflows/docs.yml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,7 +25,7 @@ permissions:
   contents: write
 
 jobs:
-  prepare-readme:
+  update-docs:
 
     runs-on: ubuntu-latest
 
@@ -35,11 +40,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build
+        run: npm run build
+
+      - name: Update API documentation
+        run: npm run update-readme-API
+
       - name: Update readme.md
         run: npm run update-readme
 
-      - name: Commit readme.md
+      - name: Commit documentation
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "docs(readme): update examples and API description [skip ci]"
-          file_pattern: 'readme.md'
+          commit_message: "docs: update API description and examples [skip ci]"
+          file_pattern: 'docs/*.md readme.md test/examples/**/readme.md'
