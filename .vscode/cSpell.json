@@ -45,6 +45,7 @@
 		"tsup",
 		"typecheck",
 		"vitest",
+		"wagoid",
 		"winget",
 		"wjervis"
 	],
