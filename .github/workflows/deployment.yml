@@ -2,13 +2,12 @@ name: Deployment
 
 on:
   push:
-      branches:
-        - main
-
-  # workflow_dispatch:
+    branches:
+      - main
+  workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}
   cancel-in-progress: false
 
 permissions:
@@ -22,8 +21,8 @@ permissions:
 
 jobs:
   deployment:
+    environment: npm
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
