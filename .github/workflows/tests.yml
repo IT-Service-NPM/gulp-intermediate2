@@ -5,6 +5,15 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'src/**'
+      - 'package.json'
+      - 'tsconfig.json'
+      - 'tsup.config.ts'
+      - 'test/**'
+      - 'vitest.config.ts'
+      - 'eslint.config.mjs'
+      - '.github/workflows/tests.yml'
   push:
     paths:
       - 'src/**'
@@ -115,6 +124,14 @@ jobs:
         with:
           files: "test/results/**/*.xml"
 
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: Coverage
+          path: coverage
+
+
       - name: Set badge color
         shell: bash
         run: |
@@ -130,7 +147,7 @@ jobs:
               ;;
           esac
 
-      - name: Create badge
+      - name: Create tests results badge
         uses: emibcn/badge-action@v2.0.3
         with:
           label: Tests
@@ -139,7 +156,28 @@ jobs:
           icon: data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+PGcgZmlsbD0ibm9uZSI+PHJlY3Qgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIGZpbGw9IiMyNDI5MzgiIHJ4PSI2MCIvPjxwYXRoIGZpbGw9IiNmY2M3MmIiIGQ9Im0xNzguMDkgOTIuMzE5bC00Ny44MTMgNjkuMTMxYTQuMTE4IDQuMTE4IDAgMCAxLTYuNzc4LS4wMWE0LjA4IDQuMDggMCAwIDEtLjcwNi0yLjUwMmwxLjkxNC0zOC4xNjhsLTMwLjg5Mi02LjU1MWE0LjEgNC4xIDAgMCAxLTIuOTU2LTIuNDg0YTQuMDcgNC4wNyAwIDAgMSAuNDM1LTMuODNsNDcuODE0LTY5LjEzMWE0LjEyIDQuMTIgMCAwIDEgNC42OTktMS41NmE0LjEgNC4xIDAgMCAxIDIuMDc5IDEuNTcxYTQuMDcgNC4wNyAwIDAgMSAuNzA1IDIuNTAybC0xLjkxNCAzOC4xNjhsMzAuODkyIDYuNTVhNC4xIDQuMSAwIDAgMSAxLjc5Mi44NzRhNC4wNyA0LjA3IDAgMCAxIC43MjkgNS40NCIvPjxwYXRoIGZpbGw9IiM3MjliMWIiIGQ9Ik0xMjguMDE5IDIxOS40NTFhOS43IDkuNyAwIDAgMS0zLjcwNi0uNzM0YTkuNyA5LjcgMCAwIDEtMy4xNC0yLjEwMWwtNDUuMTc4LTQ1LjE3NWE5LjY4IDkuNjggMCAwIDEgNi44NS0xNi41MDhhOS42OCA5LjY4IDAgMCAxIDYuODQgMi44MTdsMzguMzM0IDM4LjMyOWw4My41MS04My41MDZhOS42ODMgOS42ODMgMCAwIDEgMTMuNjM0LjA1NWE5LjcgOS43IDAgMCAxIDIuODM3IDYuODA3YTkuNyA5LjcgMCAwIDEtMi43ODEgNi44MjhsLTkwLjM1NiA5MC4zNTNhOS42MyA5LjYzIDAgMCAxLTYuODQ0IDIuODM1Ii8+PHBhdGggZmlsbD0iIzcyOWIxYiIgZmlsbC1vcGFjaXR5PSIwLjUiIGQ9Ik0xMjcuOTggMjE5LjQ1MWE5LjcgOS43IDAgMCAwIDMuNzA2LS43MzRhOS43IDkuNyAwIDAgMCAzLjE0LTIuMTAxbDQ1LjE3OC00NS4xNzVhOS42OCA5LjY4IDAgMCAwLTEzLjY5MS0xMy42OTFsLTM4LjMzMyAzOC4zMjlsLTgzLjUxLTgzLjUwNmE5LjY4MyA5LjY4MyAwIDAgMC0xMy42MzQuMDU1YTkuNjgzIDkuNjgzIDAgMCAwLS4wNTYgMTMuNjM1bDkwLjM1NiA5MC4zNTNhOS42NSA5LjY1IDAgMCAwIDYuODQ0IDIuODM1Ii8+PC9nPjwvc3ZnPg==
           path: tests.svg
 
-      - name: Upload badge to Gist
+      - name: Create tests coverage badge
+        uses: wjervis7/vitest-badge-action@v1.0.0
+        with:
+          badge-text: Coverage
+          result-type: lines
+          badge-path: coverage.svg
+          upload-badge: false
+
+
+      - name: Upload Test Results Badge
+        uses: actions/upload-artifact@v4
+        with:
+          name: tests.svg
+          path: tests.svg
+
+      - name: Upload Test Coverage Badge
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage.svg
+          path: coverage.svg
+
+      - name: Upload Test Results Badge to Gist
         if: >
           github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main' ||
           github.event_name != 'workflow_run' && github.ref == 'refs/heads/main'
@@ -149,31 +187,12 @@ jobs:
           gistURL: https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a
           file: tests.svg
 
-  publish-test-coverage:
-    name: "Coverage publishing"
-    needs: tests
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    if: always()
-
-    steps:
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
+      - name: Upload Test Coverage Badge to Gist
+        if: >
+          github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main' ||
+          github.event_name != 'workflow_run' && github.ref == 'refs/heads/main'
+        uses: andymckay/append-gist-action@6e8d64427fe47cbacf4ab6b890411f1d67c07f3e
         with:
-          name: Coverage
-          path: coverage
-
-      - name: Publish Results Coverage
-        uses: wjervis7/vitest-badge-action@v1.0.0
-        if: success() || failure() # run whether steps succeed or not
-        with:
-          badge-text: Coverage
-          result-type: lines
-          badge-path: coverage.svg
-          gist-token: ${{ secrets.GIST_TOKEN }} # if you want to upload badge to gist
-          gist-url: https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a
-          upload-badge: >
-            github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main' ||
-            github.event_name != 'workflow_run' && github.ref == 'refs/heads/main'
+          token: ${{ secrets.GIST_TOKEN }}
+          gistURL: https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a
+          file: coverage.svg
