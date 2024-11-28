@@ -1,0 +1,27 @@
+name: Check changes in dependencies
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'package.json'
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+
+jobs:
+  check_dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for new and updated dependencies
+        uses: rknj/dependencies-updates-action@v1.3.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          show_dev_dependencies: 'false'
