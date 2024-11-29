@@ -4,8 +4,8 @@
 [![NPM release](https://img.shields.io/npm/v/gulp-intermediate2.svg?logo=npm)](https://www.npmjs.com/package/gulp-intermediate2)
 
 [![CI Status](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/ci.yml)
-[![Tests Results](https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a/raw/tests.svg)](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml)
-[![Coverage](https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a/raw/coverage.svg)](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/tests.yml)
+[![Tests Results](https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a/raw/tests.svg)](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/ci.yml)
+[![Coverage](https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a/raw/coverage.svg)](https://github.com/IT-Service-NPM/gulp-intermediate2/actions/workflows/ci.yml)
 
 [![Semantic Versioning](https://img.shields.io/badge/Semantic%20Versioning-v2.0.0-green.svg?logo=semver)](https://semver.org/lang/ru/spec/v2.0.0.html)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-v1.0.0-yellow.svg?logo=git)](https://conventionalcommits.org)
@@ -33,15 +33,17 @@ Use `gulp-intermediate2` only if other (better) options aren’t available.
 
 ## Contents
 
-* [Install](#install)
-* [Examples](#examples)
-  * [Using old `intermediate` interface](#using-old-intermediate-interface)
-  * [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
-  * [Copy binary files](#copy-binary-files)
-  * [Streaming mode support](#streaming-mode-support)
-  * [Process without callback](#process-without-callback)
-* [API](#api)
-* [License](#license)
+- [gulp-intermediate2](#gulp-intermediate2)
+  - [Contents](#contents)
+  - [Install](#install)
+  - [Examples](#examples)
+    - [Using old `intermediate` interface](#using-old-intermediate-interface)
+    - [Copy UTF-8 files without options](#copy-utf-8-files-withoutoptions)
+    - [Copy binary files](#copy-binary-files)
+    - [Streaming mode support](#streaming-mode-support)
+    - [Process without callback](#process-without-callback)
+  - [API](#api)
+  - [License](#license)
 
 ## Install
 
