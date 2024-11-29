@@ -1,4 +1,4 @@
-name: Tests
+name: Continuous integration
 
 on:
 
@@ -13,7 +13,9 @@ on:
       - 'test/**'
       - 'vitest.config.ts'
       - 'eslint.config.mjs'
-      - '.github/workflows/tests.yml'
+      - 'api-extractor.json'
+      - 'readme.md'
+      - '.github/workflows/ci.yml'
   push:
     paths:
       - 'src/**'
@@ -23,7 +25,9 @@ on:
       - 'test/**'
       - 'vitest.config.ts'
       - 'eslint.config.mjs'
-      - '.github/workflows/tests.yml'
+      - 'api-extractor.json'
+      - 'readme.md'
+      - '.github/workflows/ci.yml'
 
   workflow_dispatch:
 
@@ -275,3 +279,222 @@ jobs:
           token: ${{ secrets.GIST_TOKEN }}
           gistURL: https://gist.githubusercontent.com/sergey-s-betke/d70e4de09a490afc9fb7a737363b231a
           file: coverage.svg
+
+  deploy-to-GitHub-Releases:
+    outputs:
+      new-release-published: ${{steps.release-to-GitHub.outputs.new-release-published}}
+      version: ${{steps.release-to-GitHub.outputs.release-version}}
+    environment: GitHub-Releases
+    needs:
+      - build
+      - tests
+    if: >
+      github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main' ||
+      github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      deployments: write
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Setup NodeJS latest
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: OS:ubuntu-latest:Node:latest:package.json:${{hashFiles('package.json')}}
+
+      - name: Install dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: Cache package dist
+        id: cache-dist
+        uses: actions/cache@v4
+        with:
+          path: dist
+          key: package-dist-${{github.run_id}}
+
+      - name: Build
+        if: steps.cache-dist.outputs.cache-hit != 'true'
+        run: npm run build
+
+      - name: Update API documentation
+        run: npm run update-readme-API
+
+      - name: Cache readme.md
+        id: cache-readme
+        uses: actions/cache@v4
+        with:
+          path: readme.md
+          key: package-readme-${{github.run_id}}
+
+      - name: Cache package.json
+        id: cache-package-json
+        uses: actions/cache@v4
+        with:
+          path: package.json
+          key: package.json-${{github.run_id}}
+
+      - name: Update readme.md
+        run: npm run update-readme
+
+      # - name: Commit documentation
+      #   uses: stefanzweifel/git-auto-commit-action@v5
+      #   with:
+      #     commit_message: "docs: update API description and examples [skip ci]"
+      #     file_pattern: 'docs/*.md readme.md test/examples/**/readme.md'
+
+      - uses: codfish/semantic-release-action@v3
+        id: release-to-GitHub
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branches: main
+          # preset: "angular"
+          # https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular
+          # https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit-message-footer
+          additional-packages: |
+            [ '@semantic-release/git', '@semantic-release/changelog' ]
+          plugins: |
+            [
+              ["@semantic-release/commit-analyzer", {
+                "preset": "angular"
+              }],
+              [
+                "@semantic-release/release-notes-generator",
+                {
+                  "preset": "conventionalcommits",
+                  "presetConfig": {
+                    "types": [
+                      { type: 'feat', section: 'Features', hidden: false },
+                      { type: 'fix', section: 'Bug Fixes', hidden: false },
+                      { type: 'perf', section: 'Performance Improvements', hidden: false },
+                      { type: 'revert', section: 'Reverts', hidden: false },
+                      { type: 'docs', section: 'Other Updates', hidden: true },
+                      { type: 'style', section: 'Other Updates', hidden: true },
+                      { type: 'chore', section: 'Other Updates', hidden: true },
+                      { type: 'refactor', section: 'Other Updates', hidden: false },
+                      { type: 'test', section: 'Other Updates', hidden: false },
+                      { type: 'build', section: 'Other Updates', hidden: false },
+                      { type: 'ci', section: 'Other Updates', hidden: false }
+                    ]
+                  }
+                }
+              ],
+              "@semantic-release/changelog",
+              [
+                "@semantic-release/npm",
+                {
+                  "npmPublish": false
+                }
+              ],
+              "@semantic-release/github",
+              ["@semantic-release/git", {
+                "assets": [
+                  "package.json",
+                  "CHANGELOG.md",
+                  "docs/*.md",
+                  "readme.md",
+                  "test/examples/**/readme.md"
+                ],
+                "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+              }]
+            ]
+
+  deploy-to-npmJS:
+    environment: npm
+    needs:
+      - build
+      - tests
+      - deploy-to-GitHub-Releases
+    if: needs.deploy-to-GitHub-Releases.outputs.new-release-published == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      deployments: write
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Setup NodeJS latest
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: OS:ubuntu-latest:Node:latest:package.json:${{hashFiles('package.json')}}
+
+      - name: Install dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: Cache package dist
+        id: cache-dist
+        uses: actions/cache@v4
+        with:
+          path: dist
+          key: package-dist-${{github.run_id}}
+
+      - name: Build
+        if: steps.cache-dist.outputs.cache-hit != 'true'
+        run: npm run build
+
+      - name: Cache readme.md
+        id: cache-readme
+        uses: actions/cache@v4
+        with:
+          path: readme.md
+          key: package-readme-${{github.run_id}}
+
+      - name: Update readme.md
+        if: steps.cache-readme.outputs.cache-hit != 'true'
+        run: npm run update-readme
+
+      - name: Cache package.json
+        id: cache-package-json
+        uses: actions/cache@v4
+        with:
+          path: package.json
+          key: package.json-${{github.run_id}}
+
+      - uses: codfish/semantic-release-action@v3
+        if: steps.cache-package-json.outputs.cache-hit != 'true'
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        with:
+          branches: main
+          # preset: "angular"
+          # https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular
+          # https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit-message-footer
+          plugins: |
+            [
+              ["@semantic-release/commit-analyzer", {
+                "preset": "angular"
+              }]
+            ]
+
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
