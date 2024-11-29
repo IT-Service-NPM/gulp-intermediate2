@@ -43,9 +43,14 @@ jobs:
     name: "Testing"
 
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu, macos, windows]
         node-version: ['20.x', '21.x', '22.x', 'latest']
+        include:
+          - os: ubuntu
+            node-version: 'latest'
+            main-test-environment: true
 
     runs-on: ${{ matrix.os }}-latest
 
@@ -66,6 +71,7 @@ jobs:
         run: npm run build
 
       - name: Linting
+        if: ${{matrix.main-test-environment}}
         run: npm run lint
 
       # - name: Check module exports
@@ -82,7 +88,7 @@ jobs:
           path: test/results/junit-report.xml
 
       - name: Upload Test Coverage
-        if: matrix.os=='ubuntu' && matrix.node-version=='latest'
+        if: ${{matrix.main-test-environment}}
         uses: actions/upload-artifact@v4
         with:
           name: Coverage
@@ -100,11 +106,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       checks: write
-      # only needed unless run with comment_mode: off
       pull-requests: write
-      # only needed for private repository
       contents: read
-      # only needed for private repository
       issues: read
     if: always()
 
