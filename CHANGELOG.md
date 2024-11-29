@@ -1,3 +1,22 @@
+## [3.0.2](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.1...v3.0.2) (2024-11-29)
+
+
+### Performance Improvements
+
+* **github-actions:** refactor CI workflow ([8f4911a](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/8f4911a44bdefa6b3ad4064d438259b50a16aa12))
+
+
+### Other Updates
+
+* **github-actions:** check changes in npm dependencies on PR ([2b9daab](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/2b9daab0f3c85c524af587b73b67ce8c409c61bf))
+* **github-actions:** disable `fail-fast` for test job matirx ([d1f39af](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/d1f39af612ebfbce3d68b1f38c2cc344a0cfeb5f))
+* **github-actions:** optimize commitlint workflow ([1a8aa68](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/1a8aa68b6cb899a329acb8b6579a05fe1a57da01))
+* **github-actions:** optimize tests workflow - use cache for dist ([864c677](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/864c67756c0e992c4662dfc9959112bb9f7ab4d3))
+* **github-actions:** optimize tests workflow speed by cache ([6bc550a](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/6bc550a7d8218095da3765d187af1787d4469fb4))
+* **github-actions:** refactor tests workflow ([1509f5e](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/1509f5e03567508e68670b6b1736c420ba724da3))
+* **github-actions:** refactor tests workflow for one build - multiple tests ([10c6753](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/10c6753cf809920a4a67a1f725c919b1136b6170))
+* **github-actions:** set NPM environment for deployment workflow ([423d9cc](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/423d9ccc95bd6235ab913a32e9b4eb8a2a04ce61))
+
 ## [3.0.1](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.0...v3.0.1) (2024-11-26)
 
 
