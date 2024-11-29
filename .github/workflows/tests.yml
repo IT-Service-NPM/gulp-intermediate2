@@ -65,6 +65,13 @@ jobs:
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: npm install
 
+      - name: Cache package dist
+        id: cache-dist
+        uses: actions/cache@v4
+        with:
+          path: dist
+          key: package-dist-${{github.run_id}}
+
       - name: Build
         run: npm run build
 
@@ -80,12 +87,6 @@ jobs:
               core.error("Error while reading package.json");
               core.setFailed(err);
             }
-
-      - name: Upload package dist
-        uses: actions/upload-artifact@v4
-        with:
-          name: Package dist
-          path: dist
 
       - name: Pack
         run: npm pack
@@ -134,20 +135,16 @@ jobs:
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: npm install
 
-      # - name: Download package tarball
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: Package tarball
-      #     path: .
-
-      # - name: Install package
-      #   run: npm install ${{fromJson(needs.build.outputs.package-json).name}}-${{fromJson(needs.build.outputs.package-json).version}}.tgz
-
-      - name: Download package dist
-        uses: actions/download-artifact@v4
+      - name: Cache package dist
+        id: cache-dist
+        uses: actions/cache@v4
         with:
-          name: Package dist
           path: dist
+          key: package-dist-${{github.run_id}}
+
+      - name: Build
+        if: steps.cache-dist.outputs.cache-hit != 'true'
+        run: npm run build
 
       - name: Linting
         if: matrix.main-test-environment
