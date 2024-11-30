@@ -18,12 +18,17 @@ const testDestFilesPath: string = path.join(cwd, 'output');
 
 describe('intermediate2', () => {
 
-  function copyAllFilesTestProcess(srcDirPath: string, destDirPath: string, callback: plugin.ProcessCallback): void {
+  function copyAllFilesTestProcess(
+    srcDirPath: string,
+    destDirPath: string,
+    callback: plugin.ProcessCallback): void {
     fs.cp(srcDirPath, destDirPath, { recursive: true }, callback);
   };
 
   it('must be defined named plugin export intermediate2', () => {
-    expect(plugin.intermediate2, 'named plugin export intermediate2').toBeDefined();
+    expect(plugin.intermediate2,
+      'named plugin export intermediate2'
+    ).toBeDefined();
   });
 
   beforeEach(async () => {
@@ -36,7 +41,11 @@ describe('intermediate2', () => {
 
     try {
       await streams.finished(
-        vfs.src('**/*', { cwd: testSrcFilesPath, encoding: false, buffer: false })
+        vfs.src('**/*', {
+          cwd: testSrcFilesPath,
+          encoding: false,
+          buffer: false
+        })
           .pipe(plugin.intermediate2(
             copyAllFilesTestProcess,
             {
@@ -66,7 +75,10 @@ describe('intermediate2', () => {
     const pluginDirsProcessor = vi.spyOn(vfs, 'dest');
     const testErrorMessage = 'test error message';
 
-    function errorTestProcess(srcDirPath: string, destDirPath: string, callback: plugin.ProcessCallback): void {
+    function errorTestProcess(
+      srcDirPath: string,
+      destDirPath: string,
+      callback: plugin.ProcessCallback): void {
       callback(new Error(testErrorMessage));
     };
 
@@ -88,7 +100,9 @@ describe('intermediate2', () => {
         });
     });
     expect(err).toBeInstanceOf(PluginError);
-    expect((err as PluginError).message).toEqual(`exception in temp files processing handler: Error: ${testErrorMessage}`);
+    expect((err as PluginError).message).toEqual(
+      `exception in temp files processing handler: Error: ${testErrorMessage}`
+    );
 
     expect(pluginDirsProcessor.mock.calls.length).toEqual(2);
     const tempDirPath = pluginDirsProcessor.mock.calls[0]?.[0] as string;
