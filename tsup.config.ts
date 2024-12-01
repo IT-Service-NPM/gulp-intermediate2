@@ -6,6 +6,8 @@ export default defineConfig({
     'src/lib/intermediate/index.ts'
   ],
   format: ['cjs', 'esm'],
+  bundle: true,
+  treeshake: true,
   splitting: false,
   dts: true,
   outDir: 'dist',

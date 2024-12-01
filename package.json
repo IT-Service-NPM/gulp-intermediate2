@@ -71,7 +71,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup-node",
     "CI": "npm run build && npm run lint && npm run test && npm run update-readme-API && npm run update-readme",
     "check-exports": "attw --pack .",
     "lint": "tsc && eslint",
