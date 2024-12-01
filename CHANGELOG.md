@@ -1,3 +1,15 @@
+## [3.0.3](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.2...v3.0.3) (2024-12-01)
+
+
+### Bug Fixes
+
+* fix tsup bundle options for excluding NodeJS modules ([f7998d9](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/f7998d9ff2b98434eeb448842062a63c95b7e27e))
+
+
+### Other Updates
+
+* fix tests (async test functions) ([7380762](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/7380762fcc33d043bac13bfb763ede61ccb61a6e))
+
 ## [3.0.2](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.1...v3.0.2) (2024-11-29)
 
 
