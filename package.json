@@ -111,7 +111,7 @@
     "@types/vinyl-fs": "^3.0.5",
     "@typescript-eslint/eslint-plugin": "^8.12.2",
     "@typescript-eslint/parser": "^8.12.2",
-    "@vitest/coverage-istanbul": "^2.1.4",
+    "@vitest/coverage-istanbul": "^3.0.8",
     "@vitest/eslint-plugin": "^1.1.10",
     "conventional-changelog-cli": "^5.0.0",
     "eslint": "^9.14.0",
