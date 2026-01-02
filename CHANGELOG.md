@@ -1,3 +1,10 @@
+## [3.0.5](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.4...v3.0.5) (2026-01-02)
+
+
+### Bug Fixes
+
+* fix CI action ([16a7f13](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/16a7f135b48b9b95014d5c6184ba218ecde5f59f))
+
 ## [3.0.4](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.3...v3.0.4) (2026-01-02)
 
 
