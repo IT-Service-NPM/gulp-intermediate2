@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-deprecated */
 
-import * as streams from 'node:stream';
+// import * as streams from 'node:stream';
+// import * as streamx from 'streamx';
 import * as intermediate2 from '../intermediate2/index.ts';
 import * as path from 'node:path';
 import PluginError from 'plugin-error';
@@ -98,7 +99,7 @@ function assertIsProcess(process: unknown): asserts process is Process {
  * In new {@link intermediate2.intermediate2| intermediate2} interface
  * {@link intermediate2.Process| process} has 3 parameters!
  */
-export function intermediate(options: IntermediateOptions, process: Process): streams.Duplex;
+export function intermediate(options: IntermediateOptions, process: Process): NodeJS.ReadWriteStream;
 
 /**
  * Old `intermediate` plugin function
@@ -112,7 +113,7 @@ export function intermediate(options: IntermediateOptions, process: Process): st
  * In new {@link intermediate2.intermediate2| intermediate2} interface
  * {@link intermediate2.Process| process} has 3 parameters!
  */
-export function intermediate(process: Process): streams.Duplex;
+export function intermediate(process: Process): NodeJS.ReadWriteStream;
 
 /**
  * Old `intermediate` plugin function
@@ -126,7 +127,7 @@ export function intermediate(process: Process): streams.Duplex;
  * In new {@link intermediate2.intermediate2| intermediate2} interface
  * {@link intermediate2.Process| process} has 3 parameters!
  */
-export function intermediate(optionsOrProcess: IntermediateOptions | Process, process?: Process): streams.Duplex {
+export function intermediate(optionsOrProcess: IntermediateOptions | Process, process?: Process): NodeJS.ReadWriteStream {
   let _options: IntermediateOptions;
   let _process: Process;
 

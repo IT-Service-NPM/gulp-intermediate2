@@ -13,6 +13,7 @@
 import { promisify } from 'node:util';
 import * as streams from 'node:stream';
 import type { EventEmitter } from 'node:stream';
+import * as streamx from 'streamx';
 import * as path from 'node:path';
 import * as fs from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -193,7 +194,7 @@ export type Process<R = any> =
  * @param pluginOptions - contains the {@link Intermediate2Options| options} for gulp plugin.
  * @public
  */
-export function intermediate2(process: Process, pluginOptions?: Intermediate2Options): streams.Duplex {
+export function intermediate2(process: Process, pluginOptions?: Intermediate2Options): NodeJS.ReadWriteStream {
 
   const optionsDefaults: Required<Intermediate2Options> = {
     destOptions: {},
@@ -219,17 +220,13 @@ export function intermediate2(process: Process, pluginOptions?: Intermediate2Opt
   gulplog.debug(`plugin ${PLUGIN_NAME} used temp directory ${tempDirectoryPath}`);
 
   const srcFilesStreamsFinishes: Promise<void>[] = [];
-  const readable: streams.Duplex = new streams.PassThrough({ objectMode: true, emitClose: true });
+  const readable: NodeJS.ReadWriteStream = new streamx.PassThrough() as unknown as NodeJS.ReadWriteStream;
   const writable: NodeJS.WritableStream = vfs.dest(containerDirectoryPath, _options.destOptions);
 
-  // workaround for streamx streams
-  // https://github.com/mafintosh/streamx/issues/92
-  // TODO: remove this workaround after streamx fixing
-  if (!('writableObjectMode' in writable) && !('objectMode' in writable)) {
-    Object.defineProperty(writable, 'writableObjectMode', { enumerable: true, configurable: true, value: true });
-  };
-
-  const pluginStream = streams.Duplex.from({ writable, readable });
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports
+  const Composer = require('stream-composer');
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+  const pluginStream: streamx.Duplex = Composer.duplexer(writable, readable);
 
   writable
     .on('close', () => {
@@ -265,7 +262,12 @@ export function intermediate2(process: Process, pluginOptions?: Intermediate2Opt
           await streams.promises.finished(outputTempFilesStream);
           await Promise.all(srcFilesStreamsFinishes);
         } catch (error: unknown) {
-          pluginStream.destroy(
+          // pluginStream.destroy(
+          //   error instanceof PluginError ? error as PluginError :
+          //     error instanceof Error ? new PluginError(PLUGIN_NAME, error) :
+          //       new PluginError(PLUGIN_NAME, error as string)
+          // );
+          pluginStream.emit('error',
             error instanceof PluginError ? error as PluginError :
               error instanceof Error ? new PluginError(PLUGIN_NAME, error) :
                 new PluginError(PLUGIN_NAME, error as string)
@@ -277,5 +279,5 @@ export function intermediate2(process: Process, pluginOptions?: Intermediate2Opt
       })();
     });
 
-  return pluginStream;
+  return pluginStream as unknown as NodeJS.ReadWriteStream;
 };
