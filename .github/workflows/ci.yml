@@ -261,9 +261,7 @@ jobs:
           path: coverage.svg
 
       - name: Upload Test Results Badge to Gist
-        if: >
-          github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main' ||
-          github.event_name != 'workflow_run' && github.ref == 'refs/heads/main'
+        if: github.ref_name == 'main'
         uses: andymckay/append-gist-action@ab30bf28df67017c7ad696500b218558c7c04db3
         with:
           token: ${{ secrets.GIST_TOKEN }}
@@ -271,9 +269,7 @@ jobs:
           file: tests.svg
 
       - name: Upload Test Coverage Badge to Gist
-        if: >
-          github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main' ||
-          github.event_name != 'workflow_run' && github.ref == 'refs/heads/main'
+        if: github.ref_name == 'main'
         uses: andymckay/append-gist-action@ab30bf28df67017c7ad696500b218558c7c04db3
         with:
           token: ${{ secrets.GIST_TOKEN }}
@@ -289,7 +285,7 @@ jobs:
       - build
       - tests
     if: >
-      github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main' ||
+      github.event_name == 'workflow_run' && github.ref_name == 'main' ||
       github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
