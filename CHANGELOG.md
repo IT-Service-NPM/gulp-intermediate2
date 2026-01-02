@@ -1,3 +1,17 @@
+## [3.0.4](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.3...v3.0.4) (2026-01-02)
+
+
+### Bug Fixes
+
+* **plugin:** Fix compatibility error with Node v24 ([7342381](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/73423818a5b063da6db4ef53656313b343eecc2e))
+
+
+### Other Updates
+
+* **deps:** bump andymckay/append-gist-action from 0.2 to 0.3 ([86bf39f](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/86bf39fa99447751e790d37729f0a221ce73fbc2))
+* **deps:** bump tsdoc-markdown from 0.6.3 to 1.0.0 ([04cc335](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/04cc335342c258ae93843f518373a455dcc7e2ae))
+* **deps:** update modules ([7fb592f](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/7fb592f1dda9e8f9b1a59f2f69b5e42c5e847dab))
+
 ## [3.0.3](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.2...v3.0.3) (2024-12-01)
 
 

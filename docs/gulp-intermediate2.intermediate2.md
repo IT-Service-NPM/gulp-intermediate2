@@ -23,7 +23,7 @@ After that `intermediate2` will read files (with `gulp.src()`<!-- -->) from [plu
 **Signature:**
 
 ```typescript
-declare function intermediate2(process: Process, pluginOptions?: Intermediate2Options): streams.Duplex;
+declare function intermediate2(process: Process, pluginOptions?: Intermediate2Options): NodeJS.ReadWriteStream;
 ```
 
 ## Parameters
@@ -77,7 +77,8 @@ _(Optional)_ contains the [options](./gulp-intermediate2.intermediate2options.md
 
 </td></tr>
 </tbody></table>
+
 **Returns:**
 
-streams.Duplex
+NodeJS.ReadWriteStream
 
