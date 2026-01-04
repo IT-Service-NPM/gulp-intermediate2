@@ -1,4 +1,16 @@
-## <small>3.0.7 (2026-01-04)</small>
+<!-- markdownlint-configure-file
+{
+  "default": true,
+  "line-length": false,
+  "no-duplicate-heading": false
+}
+-->
+# 📓 Changelog
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [3.0.7](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.6...v3.0.7) (2026-01-04)
 
 * fix(plugin): dynamic require is not supported ([604cbd9](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/604cbd9))
 * Merge branch 'main' of github.com:IT-Service-NPM/gulp-intermediate2 ([be4d849](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/be4d849))
@@ -6,13 +18,11 @@
 
 ## [3.0.6](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.5...v3.0.6) (2026-01-02)
 
-
 ### Bug Fixes
 
 * fix CI for manual run ([570e446](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/570e44624cc5d8d94a08118be7c52ebfba3784a7))
 
 ## [3.0.5](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.4...v3.0.5) (2026-01-02)
-
 
 ### Bug Fixes
 
@@ -20,11 +30,9 @@
 
 ## [3.0.4](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.3...v3.0.4) (2026-01-02)
 
-
 ### Bug Fixes
 
 * **plugin:** Fix compatibility error with Node v24 ([7342381](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/73423818a5b063da6db4ef53656313b343eecc2e))
-
 
 ### Other Updates
 
@@ -34,11 +42,9 @@
 
 ## [3.0.3](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.2...v3.0.3) (2024-12-01)
 
-
 ### Bug Fixes
 
 * fix tsup bundle options for excluding NodeJS modules ([f7998d9](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/f7998d9ff2b98434eeb448842062a63c95b7e27e))
-
 
 ### Other Updates
 
@@ -46,11 +52,9 @@
 
 ## [3.0.2](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.1...v3.0.2) (2024-11-29)
 
-
 ### Performance Improvements
 
 * **github-actions:** refactor CI workflow ([8f4911a](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/8f4911a44bdefa6b3ad4064d438259b50a16aa12))
-
 
 ### Other Updates
 
@@ -65,11 +69,9 @@
 
 ## [3.0.1](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.0...v3.0.1) (2024-11-26)
 
-
 ### Bug Fixes
 
 * add API manual generator ([4120420](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/41204203fa89a02c9578b26356a938301ebdafe6)), closes [#17](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/17)
-
 
 ### Other Updates
 
@@ -83,15 +85,13 @@
 
 ## [3.0.0](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v2.1.0...v3.0.0) (2024-11-24)
 
-
 ### ⚠ BREAKING CHANGES
 
-* **plugin:** 
+* **plugin:**
 
 ### Features
 
 * **plugin:** move `intermediate` to separate entrypoint ([6ded533](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/6ded533db1efdc8bcd8601aa46860b44b65e03c0)), closes [#29](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/29)
-
 
 ### Other Updates
 
@@ -101,13 +101,11 @@
 
 ## [2.1.0](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v2.0.0...v2.1.0) (2024-11-23)
 
-
 ### Features
 
 * **plugin:** add support for PromiseLike process ([386d905](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/386d90502bd71de8f10f32056b407ec12443dd86)), closes [#22](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/22)
 
 ## [2.0.0](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v1.0.3...v2.0.0) (2024-11-23)
-
 
 ### ⚠ BREAKING CHANGES
 
@@ -119,12 +117,10 @@
 * **plugin:** add `intermediate` old interface ([d65df3c](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/d65df3c1d3f93d29cb4d9defd60adcb389a6df6f))
 * **plugin:** move deprecated interface to intermediate namespace ([711b1be](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/711b1be4a5284bcc9262965f33fa697bd2b8ab2c))
 
-
 ### Bug Fixes
 
 * **plugin:** fix eslint config, errors and warnings ([0096f46](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/0096f46bbc78609690335cc9ef76d8061d9d4461))
 * **plugin:** fix gulp-intermediate incompatibility ([953bd43](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/953bd43587b0b4bf982913fafe0884b4463d5ea6)), closes [#21](https://github.com/IT-Service-NPM/gulp-intermediate2/issues/21)
-
 
 ### Other Updates
 
@@ -150,13 +146,11 @@
 
 ## [1.0.3](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v1.0.2...v1.0.3) (2024-11-05)
 
-
 ### Bug Fixes
 
 * **plugin:** fix package repository links and readme ([600171b](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/600171b813c70013e1ab0ec3d259109cdcd4b9b7))
 
 ## [1.0.2](https://github.com/IT-Service/gulp-intermediate2/compare/v1.0.1...v1.0.2) (2024-11-05)
-
 
 ### Bug Fixes
 
@@ -164,17 +158,14 @@
 
 ## 1.0.0 (2024-11-05)
 
-
 ### Features
 
 * **plugin:** :sparkles: Refactor gulp-intermediate for fully support vinyl-fs src options ([865d86f](https://github.com/IT-Service/gulp-intermediate2/commit/865d86f67d5af0402cf7455b43fea0e0cac40cf4)), closes [#3](https://github.com/IT-Service/gulp-intermediate2/issues/3)
-
 
 ### Bug Fixes
 
 * **plugin:** :bug: remove temp dir even if streaming mode used ([d54276b](https://github.com/IT-Service/gulp-intermediate2/commit/d54276b130f886d194e3b2f6cde3330d1b97ed35)), closes [#3](https://github.com/IT-Service/gulp-intermediate2/issues/3)
 * **plugin:** :bug: temp dir must be deleted even if process failed ([277c6ea](https://github.com/IT-Service/gulp-intermediate2/commit/277c6ea14fd284e2e0023355e94be3664b1d2328))
-
 
 ### Other Updates
 
