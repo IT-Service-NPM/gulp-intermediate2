@@ -1,3 +1,9 @@
+## <small>3.0.7 (2026-01-04)</small>
+
+* fix(plugin): dynamic require is not supported ([604cbd9](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/604cbd9))
+* Merge branch 'main' of github.com:IT-Service-NPM/gulp-intermediate2 ([be4d849](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/be4d849))
+* build(deps): update modules and GitHub actions ([898b002](https://github.com/IT-Service-NPM/gulp-intermediate2/commit/898b002))
+
 ## [3.0.6](https://github.com/IT-Service-NPM/gulp-intermediate2/compare/v3.0.5...v3.0.6) (2026-01-02)
 
 
