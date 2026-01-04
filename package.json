@@ -110,6 +110,7 @@
     "@semantic-release/release-notes-generator": "^14.0.1",
     "@types/gulp": "^4.0.17",
     "@types/streamx": "^2.9.5",
+    "@types/stream-composer": "file:src/types/stream-composer",
     "@types/vinyl-fs": "^3.0.5",
     "@typescript-eslint/eslint-plugin": "^8.12.2",
     "@typescript-eslint/parser": "^8.12.2",

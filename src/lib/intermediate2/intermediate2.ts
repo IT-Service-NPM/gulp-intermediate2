@@ -14,6 +14,7 @@ import { promisify } from 'node:util';
 import * as streams from 'node:stream';
 import type { EventEmitter } from 'node:stream';
 import * as streamx from 'streamx';
+import Composer from 'stream-composer/index.js';
 import * as path from 'node:path';
 import * as fs from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -220,13 +221,15 @@ export function intermediate2(process: Process, pluginOptions?: Intermediate2Opt
   gulplog.debug(`plugin ${PLUGIN_NAME} used temp directory ${tempDirectoryPath}`);
 
   const srcFilesStreamsFinishes: Promise<void>[] = [];
-  const readable: NodeJS.ReadWriteStream = new streamx.PassThrough() as unknown as NodeJS.ReadWriteStream;
-  const writable: NodeJS.WritableStream = vfs.dest(containerDirectoryPath, _options.destOptions);
+  const readable = new streamx.PassThrough();
+  const writable: streamx.Writable =
+    vfs.dest(containerDirectoryPath, _options.destOptions) as unknown as streamx.Writable;
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports
-  const Composer = require('stream-composer');
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  const pluginStream: streamx.Duplex = Composer.duplexer(writable, readable);
+  const pluginStream: streamx.Duplex = Composer.duplexer(
+    writable,
+    readable as unknown as streamx.Readable
+  );
 
   writable
     .on('close', () => {
@@ -258,7 +261,7 @@ export function intermediate2(process: Process, pluginOptions?: Intermediate2Opt
                 }));
               };
             })
-            .pipe(readable);
+            .pipe(readable as unknown as NodeJS.WritableStream);
           await streams.promises.finished(outputTempFilesStream);
           await Promise.all(srcFilesStreamsFinishes);
         } catch (error: unknown) {
