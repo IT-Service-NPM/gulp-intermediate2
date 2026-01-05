@@ -97,7 +97,7 @@
     "@commitlint/cli": "^20.3.0",
     "@commitlint/config-angular": "^20.3.0",
     "@commitlint/config-conventional": "^20.3.0",
-    "@commitlint/types": "^19.5.0",
+    "@commitlint/types": "^20.2.0",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
     "@microsoft/api-documenter": "^7.26.0",
