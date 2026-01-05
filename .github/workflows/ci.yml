@@ -96,7 +96,7 @@ jobs:
         run: npm pack
 
       - name: Upload package tarball
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Package tarball
           path: ${{fromJson(steps.read-package-json.outputs.result).name}}-${{fromJson(steps.read-package-json.outputs.result).version}}.tgz
@@ -163,14 +163,14 @@ jobs:
 
       - name: Upload Test Results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Test Results (OS ${{ matrix.os }} - Node.js ${{ matrix.node-version }})
           path: test/results/junit-report.xml
 
       - name: Upload Test Coverage
         if: matrix.main-test-environment
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Coverage
           path: coverage/coverage-summary.json
@@ -253,13 +253,13 @@ jobs:
 
 
       - name: Upload Test Results Badge
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: tests.svg
           path: tests.svg
 
       - name: Upload Test Coverage Badge
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: coverage.svg
           path: coverage.svg
