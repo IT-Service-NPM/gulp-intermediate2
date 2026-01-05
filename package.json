@@ -134,7 +134,7 @@
     "remark-preset-lint-recommended": "^7.0.0",
     "remark-toc": "^9.0.0",
     "remark-typography": "^0.6.21",
-    "remark-usage": "^10.0.1",
+    "remark-usage": "^11.0.1",
     "remark-validate-links": "^13.0.2",
     "semantic-release": "^25.0.2",
     "ts-node": "^10.9.2",
