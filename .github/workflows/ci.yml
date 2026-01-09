@@ -49,7 +49,7 @@ jobs:
     outputs:
       package-json: ${{ steps.read-package-json.outputs.result }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
 
@@ -96,7 +96,7 @@ jobs:
         run: npm pack
 
       - name: Upload package tarball
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Package tarball
           path: ${{fromJson(steps.read-package-json.outputs.result).name}}-${{fromJson(steps.read-package-json.outputs.result).version}}.tgz
@@ -118,7 +118,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
 
@@ -163,14 +163,14 @@ jobs:
 
       - name: Upload Test Results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Test Results (OS ${{ matrix.os }} - Node.js ${{ matrix.node-version }})
           path: test/results/junit-report.xml
 
       - name: Upload Test Coverage
         if: matrix.main-test-environment
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Coverage
           path: coverage/coverage-summary.json
@@ -194,12 +194,12 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
 
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           path: test/results
 
@@ -211,7 +211,7 @@ jobs:
 
 
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: Coverage
           path: coverage
@@ -253,13 +253,13 @@ jobs:
 
 
       - name: Upload Test Results Badge
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: tests.svg
           path: tests.svg
 
       - name: Upload Test Coverage Badge
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: coverage.svg
           path: coverage.svg
@@ -301,7 +301,7 @@ jobs:
       id-token: write
     steps:
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup NodeJS latest
         id: setup-node
@@ -379,7 +379,7 @@ jobs:
       id-token: write
     steps:
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup NodeJS latest
         id: setup-node
