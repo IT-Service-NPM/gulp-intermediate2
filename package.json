@@ -133,7 +133,7 @@
     "remark-preset-lint-consistent": "^6.0.0",
     "remark-preset-lint-recommended": "^7.0.0",
     "remark-toc": "^9.0.0",
-    "remark-typography": "^0.6.21",
+    "remark-typography": "^0.7.0",
     "remark-usage": "^11.0.1",
     "remark-validate-links": "^13.0.2",
     "semantic-release": "^25.0.2",
