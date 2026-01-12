@@ -93,7 +93,7 @@
     "vinyl-fs": "^4.0.0"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.17.0",
+    "@arethetypeswrong/cli": "^0.18.2",
     "@commitlint/cli": "^20.3.0",
     "@commitlint/config-angular": "^20.3.0",
     "@commitlint/config-conventional": "^20.3.0",
