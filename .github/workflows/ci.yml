@@ -429,8 +429,6 @@ jobs:
 
       - uses: codfish/semantic-release-action@v4
         if: steps.cache-package-json.outputs.cache-hit != 'true'
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         with:
           branches: main
           plugins: |
@@ -441,5 +439,3 @@ jobs:
             ]
 
       - uses: JS-DevTools/npm-publish@v4
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
