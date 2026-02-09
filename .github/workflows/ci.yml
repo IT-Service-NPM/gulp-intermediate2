@@ -357,7 +357,7 @@ jobs:
       #     commit_message: "docs: update API description and examples [skip ci]"
       #     file_pattern: 'docs/*.md readme.md test/examples/**/readme.md'
 
-      - uses: codfish/semantic-release-action@v4
+      - uses: codfish/semantic-release-action@v5
         id: release-to-GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -427,7 +427,7 @@ jobs:
           path: package.json
           key: package.json-${{github.run_id}}
 
-      - uses: codfish/semantic-release-action@v4
+      - uses: codfish/semantic-release-action@v5
         if: steps.cache-package-json.outputs.cache-hit != 'true'
         with:
           branches: main
