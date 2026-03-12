@@ -1,11 +1,13 @@
 /**
  * A gulp helper for tools that need files on disk
  *
- * Some tools require access to files on disk instead of working with `stdin` and `stdout`
+ * Some tools require access to files on disk
+ * instead of working with `stdin` and `stdout`
  * (e.g., [Jekyll](http://jekyllrb.com/), [Ruby Sass](http://sass-lang.com/)).
  * `gulp-intermediate2` is a convenience plugin
  * that writes the current vinyl stream to a temporary directory,
- * lets you run commands on the file system, and pushes the results back into the pipe.
+ * lets you run commands on the file system,
+ * and pushes the results back into the pipe.
  *
  * @packageDocumentation
  */
@@ -14,15 +16,15 @@ import { promisify } from 'node:util';
 import * as streams from 'node:stream';
 import type { EventEmitter } from 'node:stream';
 import * as streamx from 'streamx';
-import Composer from 'stream-composer/index.js';
-import * as path from 'node:path';
+import Composer from 'stream-composer';
+import path from 'node:path';
 import * as fs from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { ChildProcess } from 'node:child_process';
 import { nanoid } from 'nanoid';
 import PluginError from 'plugin-error';
 import vfs from 'vinyl-fs';
-import GulpFile from 'vinyl';
+import type GulpFile from 'vinyl';
 import asyncDone from 'async-done';
 import gulplog from 'gulplog';
 
@@ -42,7 +44,7 @@ export interface Intermediate2Options {
   /**
    * Process output dir relative path.
    * The directory read back into the stream when processing is finished.
-   * Relative to tempDir.
+   * Relative to temporaryDirectory.
    *
    * @defaultValue `'.'`
    *
@@ -86,7 +88,9 @@ export interface Intermediate2Options {
   /**
    * Process output files glob.
    * Glob for `gulp.src`
-   * for reading files from {@link Intermediate2Options.output| output} temp directory after processing.
+   * for reading files from
+   * {@link Intermediate2Options.output| output}
+   * temp directory after processing.
    *
    * @defaultValue `'**\*'`
    *
@@ -101,7 +105,9 @@ export interface Intermediate2Options {
   /**
    * `gulp.src` options for process output files.
    * Options for `gulp.src`
-   * for reading files from {@link Intermediate2Options.output| output} temp directory after processing.
+   * for reading files from
+   * {@link Intermediate2Options.output| output}
+   * temp directory after processing.
    *
    * @remarks
    *
@@ -129,10 +135,11 @@ export type ProcessCallback = (Error?: Error | null) => void;
  * {@link intermediate2} Process function.
  *
  * Process started after input files written to
- * `srcDirPath` directory
- * ({@link Intermediate2Options.container| pluginOptions.container} temp directory).
+ * `sourceDirectoryPath` directory
+ * ({@link Intermediate2Options.container| pluginOptions.container}
+ * temp directory).
  *
- * Process must write output files to `destDirPath`
+ * Process must write output files to `destinationDirectoryPath`
  * ({@link Intermediate2Options.output| pluginOptions.output} temp directory).
  *
  * After the process is completed, it need to call a callback.
@@ -142,8 +149,12 @@ export type ProcessCallback = (Error?: Error | null) => void;
  *
  * After process finished, result files pushed to output stream.
  *
- * @param srcDirPath - {@link Intermediate2Options.container| pluginOptions.container} temp directory path
- * @param destDirPath - {@link Intermediate2Options.output| pluginOptions.output} temp directory path
+ * @param sourceDirectoryPath -
+ *   {@link Intermediate2Options.container| pluginOptions.container}
+ *   temp directory path
+ * @param destinationDirectoryPath -
+ *   {@link Intermediate2Options.output| pluginOptions.output}
+ *   temp directory path
  * @param callback - process first-error {@link ProcessCallback| callback}
  *
  * @remarks
@@ -153,8 +164,15 @@ export type ProcessCallback = (Error?: Error | null) => void;
  * @public
  */
 export type Process<R = any> =
-  ((srcDirPath: string, destDirPath: string, callback: ProcessCallback) => void) |
-  ((srcDirPath: string, destDirPath: string) =>
+  ((
+    sourceDirectoryPath: string,
+    destinationDirectoryPath: string,
+    callback: ProcessCallback
+  ) => void) |
+  ((
+    sourceDirectoryPath: string,
+    destinationDirectoryPath: string
+  ) =>
     ChildProcess |
     EventEmitter |
     asyncDone.Observable<R> |
@@ -167,24 +185,29 @@ export type Process<R = any> =
  *
  * A gulp helper for tools that need files on disk.
  *
- * Some tools require access to files on disk instead of working with `stdin` and `stdout`
- * (e.g., {@link http://jekyllrb.com/| Jekyll}, {@link http://sass-lang.com/| Ruby Sass}).
+ * Some tools require access to files on disk
+ * instead of working with `stdin` and `stdout`
+ * (e.g., {@link http://jekyllrb.com/| Jekyll},
+ * {@link http://sass-lang.com/| Ruby Sass}).
  * `gulp-intermediate2` is a convenience plugin
  * that writes the current `Vinyl` stream to a temporary directory,
- * lets You run commands on the file system, and pushes the results back into the pipe.
+ * lets You run commands on the file system,
+ * and pushes the results back into the pipe.
  *
  * Returns Gulp stream.
  *
  * `intermediate2` writes (with `gulp.dest()`) input `Vinyl` file objects to
- * {@link Intermediate2Options.container| container} subdirectory in temporary directory
+ * {@link Intermediate2Options.container| container}
+ * subdirectory in temporary directory
  * under system `Temp`.
  *
  * After all files are written, `intermediate2` run {@link Process| process}
  * and wait for it finish.
  *
- * {@link Process} must be read files from `srcDirPath` directory
- * ({@link Intermediate2Options.container| pluginOptions.container} temp directory),
- * and write output files to `destDirPath`
+ * {@link Process} must be read files from `sourceDirectoryPath` directory
+ * ({@link Intermediate2Options.container| pluginOptions.container}
+ * temp directory),
+ * and write output files to `destinationDirectoryPath`
  * ({@link Intermediate2Options.output| pluginOptions.output} temp directory).
  *
  * After that `intermediate2` will read files (with `gulp.src()`) from
@@ -192,10 +215,15 @@ export type Process<R = any> =
  * and will push they to gulp stream.
  *
  * @param process - contains the {@link Process| process} for files processing
- * @param pluginOptions - contains the {@link Intermediate2Options| options} for gulp plugin.
+ * @param pluginOptions - contains the
+ *   {@link Intermediate2Options| options} for gulp plugin.
  * @public
  */
-export function intermediate2(process: Process, pluginOptions?: Intermediate2Options): NodeJS.ReadWriteStream {
+// eslint-disable-next-line max-statements
+export function intermediate2(
+  process: Process,
+  pluginOptions?: Intermediate2Options
+): NodeJS.ReadWriteStream {
 
   const optionsDefaults: Required<Intermediate2Options> = {
     destOptions: {},
@@ -204,28 +232,32 @@ export function intermediate2(process: Process, pluginOptions?: Intermediate2Opt
     output: 'dest',
     container: 'src'
   };
-  const _options: Required<Intermediate2Options> = { ...optionsDefaults, ...pluginOptions };
+  const _options: Required<Intermediate2Options> = {
+    ...optionsDefaults,
+    ...pluginOptions
+  };
   const _process: Process = process;
 
-  const tempDirectoryPath: string = path.join(tmpdir(), nanoid());
+  const temporaryDirectoryPath: string = path.join(tmpdir(), nanoid());
   const containerDirectoryPath: string = (_options.container) ?
-    path.join(tempDirectoryPath, _options.container) :
-    tempDirectoryPath;
+    path.join(temporaryDirectoryPath, _options.container) :
+    temporaryDirectoryPath;
   const outputDirectoryPath: string = (_options.output) ?
-    path.join(tempDirectoryPath, _options.output) :
-    tempDirectoryPath;
+    path.join(temporaryDirectoryPath, _options.output) :
+    temporaryDirectoryPath;
   if (!_options.srcOptions.cwd?.length) {
     _options.srcOptions.cwd = outputDirectoryPath;
   };
 
-  gulplog.debug(`plugin ${PLUGIN_NAME} used temp directory ${tempDirectoryPath}`);
+  // eslint-disable-next-line max-len
+  gulplog.debug(`plugin ${PLUGIN_NAME} used temp directory ${temporaryDirectoryPath}`);
 
-  const srcFilesStreamsFinishes: Promise<void>[] = [];
+  const sourceFilesStreamsFinishes: Promise<void>[] = [];
   const readable = new streamx.PassThrough();
-  const writable: streamx.Writable =
-    vfs.dest(containerDirectoryPath, _options.destOptions) as unknown as streamx.Writable;
+  const writable: streamx.Writable = vfs.dest(
+    containerDirectoryPath, _options.destOptions
+  ) as unknown as streamx.Writable;
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
   const pluginStream: streamx.Duplex = Composer.duplexer(
     writable,
     readable as unknown as streamx.Readable
@@ -242,42 +274,47 @@ export function intermediate2(process: Process, pluginOptions?: Intermediate2Opt
           })
             .catch((error: unknown) => {
               throw (error instanceof PluginError ? (error) :
+                // eslint-disable-next-line max-len
                 new PluginError(PLUGIN_NAME, `exception in temp files processing handler: ${error as string}`));
             });
 
-          const outputTempFilesStream = vfs.src(_options.srcGlobs, _options.srcOptions)
-            .on('error', (err) => {
+          const outputTemporaryFilesStream = vfs.src(
+            _options.srcGlobs, _options.srcOptions
+          )
+            .on('error', (_error) => {
               return;
             })
             .on('data', (file: GulpFile) => {
               if (file.isStream()) {
                 // streamx doesn't emit 'close' event. Use 'end' event.
-                // srcFilesStreamsFinishes.push(streams.promises.finished(file.contents));
-                srcFilesStreamsFinishes.push(new Promise<void>((resolve, reject) => {
-                  file.contents
-                    .on('close', resolve)
-                    .on('end', resolve)
-                    .on('error', reject);
-                }));
+                // sourceFilesStreamsFinishes.push(
+                //   streams.promises.finished(file.contents)
+                // );
+                sourceFilesStreamsFinishes.push(
+                  // eslint-disable-next-line sonarjs/no-nested-functions
+                  new Promise<void>((resolve, reject) => {
+                    file.contents
+                      .on('close', resolve)
+                      .on('end', resolve)
+                      .on('error', reject);
+                  })
+                );
               };
             })
             .pipe(readable as unknown as NodeJS.WritableStream);
-          await streams.promises.finished(outputTempFilesStream);
-          await Promise.all(srcFilesStreamsFinishes);
+          await streams.promises.finished(outputTemporaryFilesStream);
+          await Promise.all(sourceFilesStreamsFinishes);
         } catch (error: unknown) {
-          // pluginStream.destroy(
-          //   error instanceof PluginError ? error as PluginError :
-          //     error instanceof Error ? new PluginError(PLUGIN_NAME, error) :
-          //       new PluginError(PLUGIN_NAME, error as string)
-          // );
           pluginStream.emit('error',
             error instanceof PluginError ? error as PluginError :
+              // eslint-disable-next-line sonarjs/no-nested-conditional
               error instanceof Error ? new PluginError(PLUGIN_NAME, error) :
                 new PluginError(PLUGIN_NAME, error as string)
           );
         } finally {
-          gulplog.debug(`plugin ${PLUGIN_NAME} deleted ${tempDirectoryPath}`);
-          await fs.rm(tempDirectoryPath, { force: true, recursive: true });
+          // eslint-disable-next-line max-len
+          gulplog.debug(`plugin ${PLUGIN_NAME} deleted ${temporaryDirectoryPath}`);
+          await fs.rm(temporaryDirectoryPath, { force: true, recursive: true });
         };
       })();
     });

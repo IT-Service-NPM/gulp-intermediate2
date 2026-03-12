@@ -1,4 +1,4 @@
-### Using old `intermediate` interface in ECMAScript gulpfile.mjs
+# Using old `intermediate` interface in ECMAScript gulpfile.mjs
 
 Just example.
 
@@ -11,19 +11,20 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 function task1() {
-  return GulpClient.src('**/*', { cwd: path.resolve(__dirname, 'test-files') })
+  return GulpClient.src('**/*', { cwd: path.resolve(import.meta.dirname, 'test-files') })
     .pipe(intermediate(
       { output: 'out-sub-dir-in-temp' },
-      function (tempDir, callback) {
+      function (temporaryDirectory, callback) {
         // For example, copy sources files to output directory
         fs.copyFile(
-          path.join(tempDir, 'testfile1.txt'),
-          path.join(tempDir, 'out-sub-dir-in-temp/testfile1.txt'),
+          path.join(temporaryDirectory, 'testfile1.txt'),
+          path.join(temporaryDirectory, 'out-sub-dir-in-temp/testfile1.txt'),
           callback
         );
       }))
-    .pipe(GulpClient.dest('output', { cwd: __dirname }));
+    .pipe(GulpClient.dest('output', { cwd: import.meta.dirname }));
 };
 task1.description = 'Simple copy task in ESM';
 GulpClient.task(task1);
+
 ```

@@ -1,29 +1,13 @@
-import type { UserConfig } from '@commitlint/types';
-import { RuleConfigSeverity } from '@commitlint/types';
+import { type UserConfig, RuleConfigSeverity } from '@commitlint/types';
 
 // eslint-disable-next-line max-len
-// https://github.com/conventional-changelog/commitlint/blob/master/%40commitlint/config-angular/README.md
-// https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit
+// https://github.com/conventional-changelog/commitlint/blob/master/%40commitlint/config-conventional
 // https://commitlint.js.org/reference/configuration.html
 
 const Configuration: UserConfig = {
 
-  extends: ['@commitlint/config-angular'],
+  extends: ['@commitlint/config-conventional'],
   rules: {
-    'type-enum': [RuleConfigSeverity.Error, 'always', [
-      'build',
-      'ci',
-      'docs',
-      'feat',
-      'fix',
-      'perf',
-      'refactor',
-      'revert',
-      'style',
-      'test',
-      // additional types
-      'chore'
-    ]],
     'scope-enum': [RuleConfigSeverity.Error, 'always', [
       'plugin',
       'vscode',
@@ -31,16 +15,14 @@ const Configuration: UserConfig = {
       'github',
       'github-actions',
       'deps',
-      'devtools',
       'readme',
-      'release'
-    ]],
-    'scope-empty': [RuleConfigSeverity.Disabled],
+      'changelog'
+    ]]
   },
   defaultIgnores: true,
   ignores: [
-    (commit) => commit.startsWith('build(deps): bump'),
-    (commit) => commit.startsWith('ci(deps): bump')
+    (commit: string) => commit.startsWith('build(deps): bump'),
+    (commit: string) => commit.startsWith('ci(deps): bump')
   ],
 };
 

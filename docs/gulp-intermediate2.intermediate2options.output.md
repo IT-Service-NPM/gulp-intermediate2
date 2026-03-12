@@ -4,7 +4,7 @@
 
 ## Intermediate2Options.output property
 
-Process output dir relative path. The directory read back into the stream when processing is finished. Relative to tempDir.
+Process output dir relative path. The directory read back into the stream when processing is finished. Relative to temporaryDirectory.
 
 **Signature:**
 

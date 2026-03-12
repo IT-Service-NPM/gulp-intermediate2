@@ -1,1 +1,1 @@
-export * from './intermediate2.ts';
+export * from './intermediate2.js';

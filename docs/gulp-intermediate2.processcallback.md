@@ -9,7 +9,7 @@
 **Signature:**
 
 ```typescript
-type ProcessCallback = (Error?: Error | null) => void;
+export type ProcessCallback = (Error?: Error | null) => void;
 ```
 
 ## Remarks

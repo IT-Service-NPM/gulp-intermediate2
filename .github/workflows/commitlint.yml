@@ -1,3 +1,4 @@
+---
 name: Checking commit messages
 
 on:
@@ -10,9 +11,5 @@ permissions:
 
 jobs:
   commitlint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v6
+    uses: IT-Service-NPM/.github/.github/workflows/commitlint.yml@main
+    secrets: inherit

@@ -40,6 +40,7 @@
 		"PACKAGEJSON",
 		"rknj",
 		"sergey",
+		"sonarjs",
 		"stefanzweifel",
 		"streamx",
 		"szum",
@@ -48,7 +49,6 @@
 		"tssert",
 		"tsup",
 		"typecheck",
-		"vitest",
 		"wagoid",
 		"winget",
 		"wjervis"

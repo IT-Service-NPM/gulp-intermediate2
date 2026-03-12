@@ -6,9 +6,9 @@
 
 [intermediate2()](./gulp-intermediate2.intermediate2.md) Process function.
 
-Process started after input files written to `srcDirPath` directory ([pluginOptions.container](./gulp-intermediate2.intermediate2options.container.md) temp directory).
+Process started after input files written to `sourceDirectoryPath` directory ([pluginOptions.container](./gulp-intermediate2.intermediate2options.container.md) temp directory).
 
-Process must write output files to `destDirPath` ([pluginOptions.output](./gulp-intermediate2.intermediate2options.output.md) temp directory).
+Process must write output files to `destinationDirectoryPath` ([pluginOptions.output](./gulp-intermediate2.intermediate2options.output.md) temp directory).
 
 After the process is completed, it need to call a callback. Or process function can return `ChildProcess`<!-- -->, `EventEmitter`<!-- -->, `Observable<R>`<!-- -->, `PromiseLike<R>`<!-- -->, `Stream` object. `intermediate2` await processes, represented by returned object.
 
@@ -17,7 +17,7 @@ After process finished, result files pushed to output stream.
 **Signature:**
 
 ```typescript
-type Process<R = any> = ((srcDirPath: string, destDirPath: string, callback: ProcessCallback) => void) | ((srcDirPath: string, destDirPath: string) => ChildProcess | EventEmitter | asyncDone.Observable<R> | PromiseLike<R> | streams.Stream);
+export type Process<R = any> = ((sourceDirectoryPath: string, destinationDirectoryPath: string, callback: ProcessCallback) => void) | ((sourceDirectoryPath: string, destinationDirectoryPath: string) => ChildProcess | EventEmitter | asyncDone.Observable<R> | PromiseLike<R> | streams.Stream);
 ```
 **References:** [ProcessCallback](./gulp-intermediate2.processcallback.md)
 

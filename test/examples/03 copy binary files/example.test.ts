@@ -1,49 +1,70 @@
-import { describe, expect, it, beforeEach, beforeAll, afterAll } from 'vitest';
+/* eslint-disable unicorn/no-null */
+import {
+  describe, it, beforeEach, before, after,
+  type TestContext
+} from 'node:test';
 import { promisify } from 'node:util';
 import path from 'node:path';
 import fs from 'node:fs';
 import gulp from 'gulp';
-import * as testLib from '../../lib/index.ts';
+import * as testLibrary from '../../lib/index.ts';
 import './gulpfile.ts';
 
-const testSrcFilesPath: string = path.join(__dirname, 'test-files');
-const testDestFilesPath: string = path.join(__dirname, 'output');
+const testSourceFilesPath: string = path.join(
+  import.meta.dirname,
+  'test-files'
+);
+const testDestinationFilesPath: string = path.join(
+  import.meta.dirname,
+  'output'
+);
 
-let testSrcFiles: string[];
+let testSourceFiles: string[];
 
-describe('intermediate2', () => {
+async function cleanDestinationFilesPath() {
+  return fs.promises.rm(
+    testDestinationFilesPath,
+    { force: true, recursive: true }
+  );
+}
 
-  beforeAll(async () => {
-    testSrcFiles = await testLib.getFilesRelativePath(testSrcFilesPath);
+await describe('intermediate2', async () => {
+
+  before(async () => {
+    testSourceFiles = await testLibrary.getFilesRelativePath(
+      testSourceFilesPath
+    );
   });
+  beforeEach(cleanDestinationFilesPath);
+  after(cleanDestinationFilesPath);
 
-  beforeEach(async () => {
-    await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
-  });
+  await it('must be copies all utf-8 and binary files with options',
+    async (t: TestContext) => {
+      /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
+      await promisify(gulp.series('task1'))();
 
-  afterAll(async () => {
-    await fs.promises.rm(testDestFilesPath, { force: true, recursive: true });
-  });
+      t.assert.ok(
+        fs.existsSync(testDestinationFilesPath),
+        'output dir must be exists'
+      );
 
-  it('must be copies all utf-8 and binary files with options', async () => {
-    /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
-    await promisify(gulp.series('task1'))();
+      const testDestinationFiles =
+        await testLibrary.getFilesRelativePath(testDestinationFilesPath);
 
-    expect(fs.existsSync(testDestFilesPath),
-      'output dir must be exists').toBeTruthy();
+      t.assert.deepEqual(testDestinationFiles, testSourceFiles);
 
-    const testDestFiles = await testLib.getFilesRelativePath(testDestFilesPath);
-
-    expect(testDestFiles).toEqual(testSrcFiles);
-
-    for (const testFilePath of testDestFiles) {
-      const srcContent = await fs.promises.readFile(
-        path.join(testSrcFilesPath, testFilePath), { encoding: null });
-      const destContent = await fs.promises.readFile(
-        path.join(testDestFilesPath, testFilePath), { encoding: null });
-      expect(destContent.equals(srcContent),
-        `content of ${testFilePath} test file must be the same as content of source file`
-      ).toBeTruthy();
-    };
-  });
+      for (const testFilePath of testDestinationFiles) {
+        const sourceContent = await fs.promises.readFile(
+          path.join(testSourceFilesPath, testFilePath), { encoding: null });
+        const destinationContent = await fs.promises.readFile(
+          path.join(testDestinationFilesPath, testFilePath),
+          { encoding: null }
+        );
+        t.assert.deepEqual(destinationContent, sourceContent,
+          // eslint-disable-next-line max-len
+          `content of ${testFilePath} test file must be the same as content of source file`
+        );
+      };
+    }
+  );
 });

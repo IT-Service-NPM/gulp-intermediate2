@@ -1,4 +1,4 @@
-### Process without callback
+# Process without callback
 
 In this example `intermediate2` uses async process
 without callback.
@@ -6,23 +6,29 @@ Supported all process functions result types,
 supported by [`async-done`](https://www.npmjs.com/package/async-done) module.
 
 ```typescript file=./gulpfile.ts
-import { intermediate2 } from '#gulp-intermediate2';
+import { intermediate2 } from 'gulp-intermediate2';
 import GulpClient from 'gulp';
 import path from 'node:path';
 import fs from 'node:fs';
 
 function task1() {
   return GulpClient.src('**/*', {
-    cwd: path.resolve(__dirname, 'test-files'),
+    cwd: path.resolve(import.meta.dirname, 'test-files'),
     encoding: false,
     buffer: false
   })
     .pipe(intermediate2(
-      function (srcDirPath: string, destDirPath: string) {
+      function (sourceDirectoryPath: string, destinationDirectoryPath: string) {
         // For example, copy sources files to output directory
         // or
-        // return spawn('a_command', ['--dest', '_site'], {cwd: tempDir});
-        return fs.promises.cp(srcDirPath, destDirPath, { recursive: true });
+        // return spawn(
+        //   'a_command', ['--dest', '_site'],
+        //   {cwd: temporaryDirectory}
+        // );
+        return fs.promises.cp(
+          sourceDirectoryPath, destinationDirectoryPath,
+          { recursive: true }
+        );
       },
       {
         destOptions: { encoding: false },
@@ -33,10 +39,11 @@ function task1() {
     ))
     // processing output files in gulp style
     .pipe(GulpClient.dest('output', {
-      cwd: __dirname,
+      cwd: import.meta.dirname,
       encoding: false
     }));
 };
 task1.description = 'Copy utf-8 and binary files';
 GulpClient.task(task1);
+
 ```

@@ -9,7 +9,7 @@ gulp-intermediate2 plugin options
 **Signature:**
 
 ```typescript
-interface Intermediate2Options 
+export interface Intermediate2Options 
 ```
 
 ## Remarks
@@ -91,7 +91,7 @@ string
 
 </td><td>
 
-_(Optional)_ Process output dir relative path. The directory read back into the stream when processing is finished. Relative to tempDir.
+_(Optional)_ Process output dir relative path. The directory read back into the stream when processing is finished. Relative to temporaryDirectory.
 
 
 </td></tr>

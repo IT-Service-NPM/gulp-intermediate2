@@ -16,14 +16,14 @@ Returns Gulp stream.
 
 After all files are written, `intermediate2` run [process](./gulp-intermediate2.process.md) and wait for it finish.
 
-[Process](./gulp-intermediate2.process.md) must be read files from `srcDirPath` directory ([pluginOptions.container](./gulp-intermediate2.intermediate2options.container.md) temp directory), and write output files to `destDirPath` ([pluginOptions.output](./gulp-intermediate2.intermediate2options.output.md) temp directory).
+[Process](./gulp-intermediate2.process.md) must be read files from `sourceDirectoryPath` directory ([pluginOptions.container](./gulp-intermediate2.intermediate2options.container.md) temp directory), and write output files to `destinationDirectoryPath` ([pluginOptions.output](./gulp-intermediate2.intermediate2options.output.md) temp directory).
 
 After that `intermediate2` will read files (with `gulp.src()`<!-- -->) from [pluginOptions.output](./gulp-intermediate2.intermediate2options.output.md) directory and will push they to gulp stream.
 
 **Signature:**
 
 ```typescript
-declare function intermediate2(process: Process, pluginOptions?: Intermediate2Options): NodeJS.ReadWriteStream;
+export declare function intermediate2(process: Process, pluginOptions?: Intermediate2Options): NodeJS.ReadWriteStream;
 ```
 
 ## Parameters

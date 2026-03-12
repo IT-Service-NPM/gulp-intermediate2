@@ -1,149 +1,126 @@
 {
-  "name": "gulp-intermediate2",
-  "type": "module",
-  "version": "3.0.7",
-  "description": "A gulp helper for tools that need files on disk.",
-  "keywords": [
-    "gulpplugin",
-    "gulp",
-    "intermediate",
-    "filesystem"
-  ],
-  "author": {
-    "name": "Sergei S. Betke",
-    "email": "Sergey.S.Betke@yandex.ru",
-    "url": "https://github.com/sergey-s-betke"
-  },
-  "homepage": "https://github.com/IT-Service-NPM/gulp-intermediate2",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/IT-Service-NPM/gulp-intermediate2.git"
-  },
-  "bugs": {
-    "url": "https://github.com/IT-Service-NPM/gulp-intermediate2/issues"
-  },
-  "license": "MIT",
-  "engines": {
-    "node": ">=20.0"
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
-    },
-    "./intermediate": {
-      "import": {
-        "types": "./dist/lib/intermediate/index.d.ts",
-        "default": "./dist/lib/intermediate/index.js"
-      },
-      "require": {
-        "types": "./dist/lib/intermediate/index.d.cts",
-        "default": "./dist/lib/intermediate/index.cjs"
-      }
-    },
-    "./compat": {
-      "import": {
-        "types": "./dist/lib/intermediate/index.d.ts",
-        "default": "./dist/lib/intermediate/index.js"
-      },
-      "require": {
-        "types": "./dist/lib/intermediate/index.d.cts",
-        "default": "./dist/lib/intermediate/index.cjs"
-      }
-    }
-  },
-  "imports": {
-    "#gulp-intermediate2": "./src/index.ts",
-    "#gulp-intermediate2/intermediate": "./src/lib/intermediate/index.ts",
-    "#gulp-intermediate2/compat": "./src/lib/intermediate/index.ts"
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsup-node",
-    "CI": "npm run build && npm run lint && npm run test && npm run update-readme-API && npm run update-readme",
-    "check-exports": "attw --pack .",
-    "lint": "tsc && eslint",
-    "test": "vitest run --coverage",
-    "update-readme-API": "npx api-extractor run --local && npx api-documenter markdown -i ./temp -o ./docs",
-    "update-examples-readme": "remark test/examples/*/readme.md --output",
-    "update-main-readme": "remark readme.md --output",
-    "update-readme": "npm run update-examples-readme && npm run update-main-readme",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
-  },
-  "dependencies": {
-    "async-done": "^2.0.0",
-    "gulplog": "^2.2.0",
-    "nanoid": "^5.0.8",
-    "plugin-error": "^2.0.1",
-    "stream": "^0.0.3",
-    "stream-composer": "^1.0.2",
-    "vinyl": "^3.0.0",
-    "vinyl-fs": "^4.0.0"
-  },
-  "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.2",
-    "@commitlint/cli": "^20.3.0",
-    "@commitlint/config-angular": "^20.3.0",
-    "@commitlint/config-conventional": "^20.3.0",
-    "@commitlint/types": "^20.2.0",
-    "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "^9.13.0",
-    "@microsoft/api-documenter": "^7.26.0",
-    "@microsoft/api-extractor": "^7.48.0",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^13.0.0",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^12.0.2",
-    "@semantic-release/npm": "^13.1.3",
-    "@semantic-release/release-notes-generator": "^14.0.1",
-    "@szum-tech/semantic-release-config": "^2.3.5",
-    "@types/gulp": "^4.0.17",
-    "@types/stream-composer": "file:src/types/stream-composer",
-    "@types/streamx": "^2.9.5",
-    "@types/vinyl-fs": "^3.0.5",
-    "@typescript-eslint/eslint-plugin": "^8.12.2",
-    "@typescript-eslint/parser": "^8.12.2",
-    "@vitest/coverage-istanbul": "^4.0.16",
-    "@vitest/eslint-plugin": "^1.1.10",
-    "conventional-changelog-cli": "^5.0.0",
-    "eslint": "^9.14.0",
-    "eslint-plugin-tsdoc": "^0.5.0",
-    "gulp": "^5.0.0",
-    "gulp-cli": "^3.0.0",
-    "gulp-intermediate2": "file:",
-    "remark-alerts": "^0.0.1",
-    "remark-cli": "^12.0.1",
-    "remark-code-import": "^1.2.0",
-    "remark-gfm": "^4.0.0",
-    "remark-github-blockquote-alert": "^2.0.1",
-    "remark-license": "^6.1.0",
-    "remark-lint-code-block-style": "^4.0.0",
-    "remark-preset-lint-consistent": "^6.0.0",
-    "remark-preset-lint-recommended": "^7.0.0",
-    "remark-toc": "^9.0.0",
-    "remark-typography": "^0.7.0",
-    "remark-usage": "^11.0.1",
-    "remark-validate-links": "^13.0.2",
-    "semantic-release": "^25.0.2",
-    "ts-node": "^10.9.2",
-    "tsdoc-markdown": "^1.0.0",
-    "tsup": "^8.3.5",
-    "tsx": "^4.19.2",
-    "typescript": "^5.6.3",
-    "typescript-eslint": "^8.15.0",
-    "vite-plugin-vitest-typescript-assert": "^1.1.4",
-    "vitest": "^4.0.16"
-  }
+	"name": "gulp-intermediate2",
+	"type": "module",
+	"version": "3.0.7",
+	"description": "A gulp helper for tools that need files on disk",
+	"keywords": [
+		"gulpplugin",
+		"gulp",
+		"intermediate",
+		"filesystem"
+	],
+	"author": {
+		"name": "Sergei S. Betke",
+		"email": "Sergey.S.Betke@yandex.ru",
+		"url": "https://github.com/sergey-s-betke"
+	},
+	"homepage": "https://github.com/IT-Service-NPM/gulp-intermediate2",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/IT-Service-NPM/gulp-intermediate2.git"
+	},
+	"bugs": {
+		"url": "https://github.com/IT-Service-NPM/gulp-intermediate2/issues"
+	},
+	"license": "MIT",
+	"engines": {
+		"node": ">=22.17"
+	},
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		"./package.json": "./package.json",
+		".": "./dist/index.js",
+		"./intermediate": {
+			"import": {
+				"types": "./dist/lib/intermediate/index.d.ts",
+				"default": "./dist/lib/intermediate/index.js"
+			}
+		},
+		"./compat": {
+			"import": {
+				"types": "./dist/lib/intermediate/index.d.ts",
+				"default": "./dist/lib/intermediate/index.js"
+			}
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc --build --clean && tsc --build",
+		"CI": "pnpm run build && pnpm run lint && pnpm run test && pnpm run build:readme:API && pnpm run build:readme",
+		"check-exports": "attw --pack .",
+		"lint": "tsc && eslint",
+		"test": "node --import tsx --experimental-transform-types --experimental-test-module-mocks --experimental-test-coverage --test-reporter=spec --test-reporter=junit --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=test/results/junit-report.xml --test-reporter-destination=coverage/lcov.info --test",
+		"test:snapshots": "node --import tsx --experimental-transform-types --experimental-test-module-mocks --test-update-snapshots --test",
+		"build:readme:API": "npx api-extractor run --local && npx api-documenter markdown -i temp -o docs",
+		"build:readme:examples": "remark test/examples/*/readme.md --output",
+		"build:readme:main": "remark .readme.md --output README.md",
+		"build:readme": "pnpm run build:readme:examples && pnpm run build:readme:main",
+		"build:changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+	},
+	"packageManager": "pnpm@10.32.1",
+	"dependencies": {
+		"async-done": "^2.0.0",
+		"gulplog": "^2.2.0",
+		"nanoid": "^5.1.6",
+		"plugin-error": "^2.0.1",
+		"stream": "^0.0.3",
+		"stream-composer": "^1.0.2",
+		"streamx": "^2.23.0",
+		"vinyl-fs": "^4.0.2"
+	},
+	"devDependencies": {
+		"@arethetypeswrong/cli": "^0.18.2",
+		"@commitlint/cli": "^20.4.4",
+		"@commitlint/config-angular": "^20.4.4",
+		"@commitlint/config-conventional": "^20.4.4",
+		"@commitlint/types": "^20.4.4",
+		"@eslint/eslintrc": "^3.3.5",
+		"@eslint/js": "^9.39.4",
+		"@it-service-npm/remark-gfm-admonition": "^2.0.0",
+		"@it-service-npm/remark-include": "^5.0.1",
+		"@microsoft/api-documenter": "^7.29.7",
+		"@microsoft/api-extractor": "^7.57.7",
+		"@types/gulp": "^4.0.18",
+		"@types/gulp-plumber": "^0.0.37",
+		"@types/stream-composer": "file:src\\types\\stream-composer",
+		"@types/streamx": "^2.9.5",
+		"@types/vinyl": "^2.0.12",
+		"@types/vinyl-fs": "^3.0.7",
+		"@typescript-eslint/eslint-plugin": "^8.57.0",
+		"@typescript-eslint/parser": "^8.57.0",
+		"conventional-changelog": "4.0.0",
+		"eslint": "^9.39.4",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-n": "^17.24.0",
+		"eslint-plugin-prettier": "^5.5.5",
+		"eslint-plugin-sonarjs": "^4.0.2",
+		"eslint-plugin-tsdoc": "^0.5.2",
+		"eslint-plugin-unicorn": "^63.0.0",
+		"gulp": "^5.0.1",
+		"gulp-cli": "^3.1.0",
+		"gulp-plumber": "^1.2.1",
+		"remark-alerts": "^0.0.1",
+		"remark-cli": "^12.0.1",
+		"remark-code-import": "^1.2.0",
+		"remark-gfm": "^4.0.1",
+		"remark-github-blockquote-alert": "^2.0.1",
+		"remark-license": "^6.1.0",
+		"remark-lint-code-block-style": "^4.0.1",
+		"remark-preset-lint-consistent": "^6.0.1",
+		"remark-preset-lint-recommended": "^7.0.1",
+		"remark-remove-comments": "^1.1.1",
+		"remark-toc": "^9.0.0",
+		"remark-typography": "^0.7.3",
+		"remark-usage": "^11.0.1",
+		"remark-validate-links": "^13.1.0",
+		"tsd": "^0.33.0",
+		"tsdoc-markdown": "^1.4.1",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.57.0"
+	}
 }

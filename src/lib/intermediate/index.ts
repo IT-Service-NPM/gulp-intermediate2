@@ -1,1 +1,1 @@
-export * from './deprecated.ts';
+export * from './deprecated.js';

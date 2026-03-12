@@ -6,25 +6,30 @@ import remarkPresetLintRecommended from 'remark-preset-lint-recommended';
 import remarkLicense from 'remark-license';
 import remarkTypography from 'remark-typography';
 import remarkValidateLinks from 'remark-validate-links';
-import { remarkAlert } from 'remark-github-blockquote-alert';
 import remarkLintCodeBlockStyle from 'remark-lint-code-block-style';
 import codeImport from 'remark-code-import';
+import { remarkIncludePreset } from '@it-service-npm/remark-include';
+import { remarkGithubAdmonitions } from '@it-service-npm/remark-gfm-admonition';
 import remarkToc from 'remark-toc';
+import removeComments from 'remark-remove-comments';
 
 export default {
-	plugins: [
-		codeImport,
-		remarkToc,
-		remarkLicense,
-		remarkGfm,
-		remarkAlert,
-		remarkValidateLinks,
-		remarkTypography,
-		remarkPresetLintConsistent,
-		remarkPresetLintRecommended,
-		remarkLintCodeBlockStyle,
-	],
-	settings: {
-		bullet: '*'
-	}
+  plugins: [
+    remarkGithubAdmonitions,
+    codeImport,
+    remarkIncludePreset,
+    remarkToc,
+    remarkLicense,
+    remarkGfm,
+    remarkValidateLinks,
+    remarkTypography,
+    remarkPresetLintConsistent,
+    remarkPresetLintRecommended,
+    remarkLintCodeBlockStyle,
+    removeComments
+  ],
+  settings: {
+    bullet: '-',
+    topHeadingDepth: 1
+  }
 }

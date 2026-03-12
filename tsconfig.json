@@ -1,35 +1,38 @@
 {
-  "compilerOptions": {
-    "noEmit": true,
-    /* Base Options: */
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "target": "ES2022",
-    "lib": [
-      "ES2022"
-    ],
-    "allowJs": false,
-    "checkJs": false,
-    "resolveJsonModule": true,
-    "moduleDetection": "auto",
-    "module": "NodeNext",
-    // "moduleResolution": "node16",
-    // "module": "Preserve",
-    "isolatedModules": true,
-    "verbatimModuleSyntax": true,
-    /* Strictness */
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
-    /* If transpiling with TypeScript: */
-    // "outDir": "dist",
-    // "rootDir": "src",
-    "sourceMap": true,
-    /* AND if you're building for a library: */
-    "declaration": true,
-    "declarationMap": true,
-    // "emitDeclarationOnly": true,
-    // "exactOptionalPropertyTypes": true,
-    "allowImportingTsExtensions": true,
-  }
+	"files": [],
+	"include": [
+		"./test",
+		"./*.config.ts"
+	],
+	"references": [
+		{
+			"path": "./tsconfig.src.json"
+		}
+	],
+	"compilerOptions": {
+		"noEmit": true,
+		"allowImportingTsExtensions": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"target": "esnext",
+		"lib": [
+			"ESNext"
+		],
+		"allowJs": false,
+		"checkJs": false,
+		"resolveJsonModule": true,
+		"moduleDetection": "auto",
+		"module": "NodeNext",
+		"moduleResolution": "nodenext",
+		"isolatedModules": false,
+		"verbatimModuleSyntax": true,
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"noEmitOnError": true,
+		"sourceMap": true,
+		"declaration": true,
+		"declarationMap": true
+	}
 }

@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-deprecated */
 
-// import * as streams from 'node:stream';
-// import * as streamx from 'streamx';
-import * as intermediate2 from '../intermediate2/index.ts';
-import * as path from 'node:path';
+import * as intermediate2 from '../intermediate2/index.js';
+import path from 'node:path';
 import PluginError from 'plugin-error';
 
 const PLUGIN_NAME = 'gulp-intermediate2';
@@ -11,7 +9,8 @@ const PLUGIN_NAME = 'gulp-intermediate2';
 /**
  * gulp-intermediate plugin options
  *
- * @see {@link intermediate2.Intermediate2Options| Intermediate2Options} for more details.
+ * @see {@link intermediate2.Intermediate2Options| Intermediate2Options}
+ * for more details.
  *
  * @public
  * @deprecated
@@ -26,7 +25,7 @@ export interface IntermediateOptions {
    * Process output dir relative path
    *
    * The directory read back into the stream when processing is finished.
-   * Relative to tempDir.
+   * Relative to temporaryDirectory.
    *
    * @defaultValue `'.'`
    */
@@ -69,7 +68,10 @@ export type ProcessCallback = intermediate2.ProcessCallback;
  * In new {@link intermediate2.intermediate2| intermediate2} interface
  * {@link intermediate2.Process| process} has 3 parameters!
  */
-export type Process = (tempDir: string, callback: ProcessCallback) => void;
+export type Process = (
+  temporaryDirectory: string,
+  callback: ProcessCallback
+) => void;
 
 /**
  * @internal
@@ -99,7 +101,10 @@ function assertIsProcess(process: unknown): asserts process is Process {
  * In new {@link intermediate2.intermediate2| intermediate2} interface
  * {@link intermediate2.Process| process} has 3 parameters!
  */
-export function intermediate(options: IntermediateOptions, process: Process): NodeJS.ReadWriteStream;
+export function intermediate(
+  options: IntermediateOptions,
+  process: Process
+): NodeJS.ReadWriteStream;
 
 /**
  * Old `intermediate` plugin function
@@ -127,7 +132,10 @@ export function intermediate(process: Process): NodeJS.ReadWriteStream;
  * In new {@link intermediate2.intermediate2| intermediate2} interface
  * {@link intermediate2.Process| process} has 3 parameters!
  */
-export function intermediate(optionsOrProcess: IntermediateOptions | Process, process?: Process): NodeJS.ReadWriteStream {
+export function intermediate(
+  optionsOrProcess: IntermediateOptions | Process,
+  process?: Process
+): NodeJS.ReadWriteStream {
   let _options: IntermediateOptions;
   let _process: Process;
 
@@ -142,11 +150,17 @@ export function intermediate(optionsOrProcess: IntermediateOptions | Process, pr
   const _container: string = _options.container ?? '';
   const _options2: intermediate2.Intermediate2Options = {
     container: _container,
-    output: _options.output ? path.join(_container, _options.output) : _container
+    output: _options.output ?
+      path.join(_container, _options.output) :
+      _container
   };
 
-  function proxy(srcDirPath: string, destDirPath: string, callback: intermediate2.ProcessCallback): void {
-    _process(srcDirPath, callback);
+  function proxy(
+    sourceDirectoryPath: string,
+    destinationDirectoryPath: string,
+    callback: intermediate2.ProcessCallback
+  ): void {
+    _process(sourceDirectoryPath, callback);
   };
 
   return intermediate2.intermediate2(proxy, _options2);

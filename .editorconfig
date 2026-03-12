@@ -11,23 +11,30 @@ charset = utf-8
 [*.{editorconfig,gitattributes,gitignore}]
 
 [*.yml]
+end_of_line = lf
 indent_style = space
 indent_size = 2
-end_of_line = lf
 
 [*.md]
 indent_style = space
 indent_size = 2
-end_of_line = crlf
+end_of_line = lf
+
+; fix linting error for generated files
+[docs/**/*.md]
+trim_trailing_whitespace = false
 
 [{LICENSE,NOTICE}]
 indent_style = space
 indent_size = 2
 end_of_line = lf
 
-[*.{json,js,mjs,cjs,ts,tsx}]
-insert_final_newline = true
-trim_trailing_whitespace = true
+[*.{js,mjs,cjs,ts,tsx}]
 end_of_line = lf
 indent_style = space
+indent_size = 2
+
+[*.json]
+end_of_line = lf
+indent_style = tab
 indent_size = 2

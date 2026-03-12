@@ -6,12 +6,12 @@
 
 import asyncDone from 'async-done';
 import { ChildProcess } from 'node:child_process';
-import { EventEmitter } from 'node:stream';
+import type { EventEmitter } from 'node:stream';
 import * as streams from 'node:stream';
 import vfs from 'vinyl-fs';
 
 // @public
-export function intermediate2(process: Process, pluginOptions?: Intermediate2Options): streams.Duplex;
+export function intermediate2(process: Process, pluginOptions?: Intermediate2Options): NodeJS.ReadWriteStream;
 
 // @public
 export interface Intermediate2Options {
@@ -23,7 +23,7 @@ export interface Intermediate2Options {
 }
 
 // @public
-export type Process<R = any> = ((srcDirPath: string, destDirPath: string, callback: ProcessCallback) => void) | ((srcDirPath: string, destDirPath: string) => ChildProcess | EventEmitter | asyncDone.Observable<R> | PromiseLike<R> | streams.Stream);
+export type Process<R = any> = ((sourceDirectoryPath: string, destinationDirectoryPath: string, callback: ProcessCallback) => void) | ((sourceDirectoryPath: string, destinationDirectoryPath: string) => ChildProcess | EventEmitter | asyncDone.Observable<R> | PromiseLike<R> | streams.Stream);
 
 // @public
 export type ProcessCallback = (Error?: Error | null) => void;
