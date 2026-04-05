@@ -44,7 +44,7 @@ importers:
         version: 20.5.0
       '@commitlint/config-conventional':
         specifier: ^20.4.4
-        version: 20.4.4
+        version: 20.5.0
       '@commitlint/types':
         specifier: ^20.4.4
         version: 20.5.0
@@ -282,8 +282,8 @@ packages:
     resolution: {integrity: sha512-AZ8foxHb8VBCpZywnIFxpXgrK6VMizZ957vlz8UEyaMZEzvP0F+RtQmTijHnVPaPVk/scS6EDp0/1sy1UszXoQ==}
     engines: {node: '>=v18'}
 
-  '@commitlint/config-conventional@20.4.4':
-    resolution: {integrity: sha512-Usg+XXbPNG2GtFWTgRURNWCge1iH1y6jQIvvklOdAbyn2t8ajfVwZCnf5t5X4gUsy17BOiY+myszGsSMIvhOVA==}
+  '@commitlint/config-conventional@20.5.0':
+    resolution: {integrity: sha512-t3Ni88rFw1XMa4nZHgOKJ8fIAT9M2j5TnKyTqJzsxea7FUetlNdYFus9dz+MhIRZmc16P0PPyEfh6X2d/qw8SA==}
     engines: {node: '>=v18'}
 
   '@commitlint/config-validator@20.5.0':
@@ -1482,8 +1482,8 @@ packages:
     resolution: {integrity: sha512-3cS3GEtR78zTfMzk0AizXKKIdN4OvSh7ibNz6/DPbhWWQu7LqE/8+/GqSodV+sywUR2gpJAdP/1JFf4XtN7Zpw==}
     engines: {node: '>=14'}
 
-  conventional-changelog-conventionalcommits@9.3.0:
-    resolution: {integrity: sha512-kYFx6gAyjSIMwNtASkI3ZE99U1fuVDJr0yTYgVy+I2QG46zNZfl2her+0+eoviG82c5WQvW1jMt1eOQTeJLodA==}
+  conventional-changelog-conventionalcommits@9.3.1:
+    resolution: {integrity: sha512-dTYtpIacRpcZgrvBYvBfArMmK2xvIpv2TaxM0/ZI5CBtNUzvF2x0t15HsbRABWprS6UPmvj+PzHVjSx4qAVKyw==}
     engines: {node: '>=18'}
 
   conventional-changelog-core@5.0.2:
@@ -3969,10 +3969,10 @@ snapshots:
     dependencies:
       '@commitlint/config-angular-type-enum': 20.0.0
 
-  '@commitlint/config-conventional@20.4.4':
+  '@commitlint/config-conventional@20.5.0':
     dependencies:
       '@commitlint/types': 20.5.0
-      conventional-changelog-conventionalcommits: 9.3.0
+      conventional-changelog-conventionalcommits: 9.3.1
 
   '@commitlint/config-validator@20.5.0':
     dependencies:
@@ -5206,7 +5206,7 @@ snapshots:
     dependencies:
       compare-func: 2.0.0
 
-  conventional-changelog-conventionalcommits@9.3.0:
+  conventional-changelog-conventionalcommits@9.3.1:
     dependencies:
       compare-func: 2.0.0
 
